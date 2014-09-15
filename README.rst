@@ -1,4 +1,4 @@
-go-jsbox-skeleton
+go-imali-yethu-js
 =================
 
 |travis|_
