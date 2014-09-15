@@ -1,25 +1,29 @@
 {
-  "name": "go-jsbox-skeleton",
-  "version": "0.2.0",
-  "description": "Skeleton for a vumi javascript sandbox app",
-  "main": "lib/app.js",
+  "name": "go-imali-yethu-js",
+  "version": "0.0.0a",
+  "description": "Vumi Go JS Sandbox App for the Imali Yethu Project",
+  "main": "go-app.js",
   "scripts": {
     "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/praekelt/go-jsbox-skeleton.git"
+    "url": "git://github.com/praekelt/go-imali-yethu-js.git"
   },
   "keywords": [
     "vumi",
-    "sandbox"
+    "go",
+    "javascript",
+    "sandbox",
+    "imali",
+    "yethu"
   ],
   "author": "Praekelt Foundation",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/praekelt/go-jsbox-skeleton/issues"
+    "url": "https://github.com/praekelt/go-imali-yethu-js/issues"
   },
-  "homepage": "https://github.com/praekelt/go-jsbox-skeleton",
+  "homepage": "https://github.com/praekelt/go-imali-yethu-js",
   "dependencies": {
     "vumigo_v02": "~0.2",
     "q": "~0.9",
