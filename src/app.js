@@ -5,6 +5,9 @@ go.app = function() {
     var EndState = vumigo.states.EndState;
     var LanguageChoice = vumigo.states.LanguageChoice;
     var FreeText = vumigo.states.FreeText;
+    var JsonApi = vumigo.http.api.JsonApi;
+    var ChoiceState = vumigo.states.ChoiceState;
+
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
@@ -41,16 +44,59 @@ go.app = function() {
                 question: $(['Please input the code for the toilet. e.g. MN34',
                 ' (You will find this on a sticker in the toilet)'].join('')),
 
-                next: 'states:end'
+                next: function(content) {
+                    return {
+                        name: 'states:query-toilet-api',
+                        creator_opts: content
+                    };
+                }
             });
         });
 
-        self.states.add('states:query-toilet-api', function(name) {
+        var process_response = function(resp) {
+            if(resp.data !== null) {
+                return resp.data.length > 1
+                    ? self.states.create('states:refine-response', resp.data)
+                    : self.states.create('states:select-fault', resp.data);
+            } else {
+                return self.states.create('states:error');
+            }
+        };
+
+        self.states.add('states:query-toilet-api', function(name, opts) {
         // Delegation state. This state will send a request to the toilet API
         // with the user's query. If there is more than one result, it will
         // ask the user to refine the selection. If there is just one result,
         // it will request the issue from the user.
-            
+            var url = self.im.config.toilet_api_url;
+            var http = new JsonApi(self.im);
+            return http.get(url, {
+                params: {
+                    q: opts,
+                    format: 'json'}
+                })
+                .then(function(resp){
+                    return process_response(resp);                    
+                });
+        });
+
+        self.states.add('states:refine-response', function(name, data) {
+        // This states requests that the user refine their request, as it
+        // didn't return an exact match.
+            choices = data.map(function(item, index) {
+                return new Choice(index, item.code);
+            });
+
+            choices.push(new Choice('ther', 'Not the code'));
+
+            return new ChoiceState(name, {
+                question: $(["Sorry your code doesn't match what is in our ",
+                    "database. Could it be one of these instead?"].join("")),
+
+                choices: choices,
+
+                next: 'states:end'
+            });
         });
 
         self.states.add('states:end', function(name) {

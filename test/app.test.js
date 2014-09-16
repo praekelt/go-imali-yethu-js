@@ -15,7 +15,8 @@ describe("App", function() {
 
         tester
             .setup.config.app({
-                name: 'test_app'
+                name: 'test_app',
+                toilet_api_url: 'http://toilet.info/api/'
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
@@ -81,12 +82,42 @@ describe("App", function() {
                 })
                 .run();
         });
+
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
                     .setup.user.lang(lang)
                     .start()
                     .check.interaction({char_limit: 129})
+                    .run();
+            });
+        });
+    });
+
+    describe("When a user enters a query with multiple results", function() {
+        it("should ask to refine the selection", function() {
+            return tester
+                .setup.user.lang('en')
+                .input("MN")
+                .check.interaction({
+                    state: 'states:refine-response',
+                    reply: ["Sorry your code doesn't match what is in our ",
+                        "database. Could it be one of these instead?",
+                        "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. Not the code"
+                        ].join(''),
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .input('MN')
+                    .check.interaction({
+                        char_limit: 139
+                    })
                     .run();
             });
         });

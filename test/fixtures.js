@@ -1,17 +1,57 @@
 module.exports = function() {
     return [{
         "request": {
-            "method": "POST",
-            "url": "http://example.com",
-            "data": {
-                "bar": "baz"
+            "method": "GET",
+            "url": "http://toilet.info/api/",
+            "params": {
+                "q": "MN34",
+                "format": "json"
             }
         },
         "response": {
             "code": 200,
-            "data": {
-                "ham": "spam"
+            "data": [
+                {
+                    "code": "MN34",
+                    "long": "3.14159",
+                    "lat": "2.71828"
+                }
+            ]
+        }
+    },
+    {
+        "request": {
+            "method": "GET",
+            "url": "http://toilet.info/api/",
+            "params": {
+                "q": "MN",
+                "format": "json"
             }
+        },
+        "response": {
+            "code": 200,
+            "data": [
+                {
+                    "code": "MN33",
+                    "long": "3.14159",
+                    "lat": "2.71828"
+                },
+                {
+                    "code": "MN34",
+                    "long": "2.71828",
+                    "lat": "3.14159"
+                },
+                {
+                    "code": "MN35",
+                    "long": "1.12358",
+                    "lat": "3.14159"
+                },
+                {
+                    "code": "MN36",
+                    "long": "2.71828",
+                    "lat": "1.12358"
+                }
+            ]
         }
     }];
 };
