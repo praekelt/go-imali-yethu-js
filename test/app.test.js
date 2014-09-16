@@ -149,6 +149,53 @@ describe("App", function() {
         });
     });
 
+    describe("When the user selects Not the code from list", function() {
+        it("should request the issue", function() {
+            return tester
+                .setup.user.lang('en')
+                .inputs('MN', '5')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Broken toilet',
+                        '2. Broken basin',
+                        '3. Category 3',
+                        '4. Category 4',
+                        '5. Category 5',
+                        '6. Category 6',
+                        '7. Category 7',
+                        '8. Other'].join('\n'),
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        it("should store an empty object for the toilet data", function() {
+            return tester
+                .setup.user.lang('en')
+                .inputs('MN', '5')
+                .check.user.state({
+                    creator_opts: {},
+                    metadata: {},
+                    name: 'states:report-issue'
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .inputs('MN', '5')
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });
+    });
+
     describe("When a user refines the selection", function() {
         it("should request the issue", function() {
             return tester
@@ -170,6 +217,7 @@ describe("App", function() {
                 })
                 .run();
         });
+
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester

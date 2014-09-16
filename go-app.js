@@ -106,7 +106,7 @@ go.app = function() {
                 next: function(choice) {
                     return choice.value === 'none'
                         ? {
-                            name: 'states:error',
+                            name: 'states:report-issue',
                             creator_opts: {}
                         }
                         : {
