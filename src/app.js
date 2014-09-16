@@ -4,6 +4,7 @@ go.app = function() {
     var Choice = vumigo.states.Choice;
     var ChoiceState = vumigo.states.ChoiceState;
     var EndState = vumigo.states.EndState;
+    var LanguageChoice = vumigo.states.LanguageChoice;
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
@@ -14,9 +15,24 @@ go.app = function() {
         // continue the interaction in that language. If it isn't, get the
         // desired language, and then continue the interaction in that
         // language.
-            return self.im.user.lang === undefined
-                ? self.states.create('states:start')
-                : self.states.create('states:end');
+            return ['en', 'xh'].indexOf(self.im.user.lang) === -1
+                ? self.states.create('states:select-language')
+                : self.states.create('states:start');
+        });
+
+        self.states.add('states:select-language', function(name) {
+        // Allows the user to select their language. This choice is displayed
+        // only once and the selection is used for all future interactions.
+            return new LanguageChoice(name, {
+                question: ['Welcome to Imali Yethu sanitation reporting',
+                    ' service. Please choose your language:'].join(''),
+
+                choices: [
+                    new Choice('en', 'English'),
+                    new Choice('xh', 'isiXhosa')],
+
+                next: 'states:start'
+            });
         });
 
         self.states.add('states:start', function(name) {
@@ -36,7 +52,7 @@ go.app = function() {
         self.states.add('states:end', function(name) {
             return new EndState(name, {
                 text: $('Thanks, cheers!'),
-                next: 'states:start'
+                next: 'states:detect-language'
             });
         });
     });
