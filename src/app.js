@@ -78,7 +78,7 @@ go.app = function() {
                     format: 'json'}
                 })
                 .then(function(resp){
-                    return process_response(resp);                    
+                    return process_response(resp);
                 });
         });
 
@@ -165,7 +165,7 @@ go.app = function() {
                     "Cape Town of your issue and inform you of any updates ",
                     "via SMS or Call. Imali Yethu"].join('')),
                 next: 'states:detect-language'
-            });     
+            });
         };
 
         self.states.add('states:send-report', function(name, data) {
@@ -184,7 +184,7 @@ go.app = function() {
                 })
                 .then(function(resp){
                     return notify_success(name);
-                }); 
+                });
         });
     });
 

@@ -147,7 +147,6 @@ describe("App", function() {
                     .run();
             });
         });
-        
     });
 
     describe("When a user refines the selection", function() {
@@ -290,7 +289,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .setup.user.addr('+12345')
-                    .inputs('MN34', '1')  
+                    .inputs('MN34', '1')
                     .check.interaction({
                         char_limit: 139
                     })
@@ -373,7 +372,7 @@ describe("App", function() {
                     })
                     .run();
             });
-        });        
+        });
     });
 
 });

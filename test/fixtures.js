@@ -72,7 +72,7 @@ module.exports = function() {
             "code": 200,
             "data": {
                 "status": "OK"
-            }                
+            }
         }
     },
     {
@@ -93,7 +93,7 @@ module.exports = function() {
             "code": 200,
             "data": {
                 "status": "OK"
-            }                
+            }
         }
     }];
 };

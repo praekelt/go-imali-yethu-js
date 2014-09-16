@@ -13,7 +13,7 @@ This is the Vumi Go javascript sandbox app for the Imali Yethu project.
 Config parameters:
 
 ::
-    
+
     name:               Name of the app.
     toilet_api_url:     URL of the toilet data API.
     snappy_api_url:     URL of the snappy bridge API.
