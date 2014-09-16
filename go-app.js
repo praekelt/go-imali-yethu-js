@@ -63,10 +63,10 @@ go.app = function() {
         var process_response = function(resp) {
         // This function takes in the response from the toilet API and
         // determines what should be done next.
-            if(resp.data !== null && resp.data.length >= 1) {
-                return resp.data.length > 1
-                    ? self.states.create('states:refine-response', resp.data)
-                    : self.states.create('states:report-issue', resp.data[0]);
+            if(resp.data !== null) {
+                return resp.data.length === 1
+                    ? self.states.create('states:report-issue', resp.data[0])
+                    : self.states.create('states:refine-response', resp.data);
             } else {
                 return self.states.create('states:error');
             }
