@@ -57,7 +57,7 @@ go.app = function() {
             if(resp.data !== null) {
                 return resp.data.length > 1
                     ? self.states.create('states:refine-response', resp.data)
-                    : self.states.create('states:select-fault', resp.data);
+                    : self.states.create('states:report-issue', resp.data[0]);
             } else {
                 return self.states.create('states:error');
             }
@@ -87,15 +87,50 @@ go.app = function() {
                 return new Choice(index, item.code);
             });
 
-            choices.push(new Choice('ther', 'Not the code'));
-
+            choices.push(new Choice('none', 'Not the code'));
             return new ChoiceState(name, {
                 question: $(["Sorry your code doesn't match what is in our ",
                     "database. Could it be one of these instead?"].join("")),
 
                 choices: choices,
 
-                next: 'states:end'
+                next: function(choice) {
+                    return choice.value === 'none'
+                        // Placeholder
+                        // TODO: replace with proper reporting
+                        ? 'states:error'
+                        : {
+                            name: 'states:report-issue',
+                            creator_opts: data[choice.value]
+                        };
+                }
+            });
+        });
+
+        self.states.add('states:report-issue', function(name, data) {
+            var issues = self.im.config.issues;
+            var choices = issues.map(function(issue, index) {
+                return new Choice(index, $(issue));
+            });
+            choices.push(new Choice('other', $('Other')));
+
+            return new ChoiceState(name, {
+                question: $('What is the issue?'),
+
+                choices: choices,
+
+                next: function(choice) {
+                    return choice.value === 'other'
+                        // Placeholder
+                        // TODO: replace with proper next state
+                        ? 'states:error'
+                        : {
+                            name: 'states:send-report',
+                            creator_opts: {
+                                toilet: data,
+                                issue: issues[choice.value]}
+                        };
+                }
             });
         });
 

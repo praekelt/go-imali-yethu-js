@@ -16,7 +16,16 @@ describe("App", function() {
         tester
             .setup.config.app({
                 name: 'test_app',
-                toilet_api_url: 'http://toilet.info/api/'
+                toilet_api_url: 'http://toilet.info/api/',
+                issues: [
+                    'Broken toilet',
+                    'Broken basin',
+                    'Category 3',
+                    'Category 4',
+                    'Category 5',
+                    'Category 6',
+                    'Category 7',
+                ]
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
@@ -122,6 +131,75 @@ describe("App", function() {
             });
         });
         
+    });
+
+    describe("When a user refines the selection", function() {
+        it("should request the issue", function() {
+            return tester
+                .setup.user.lang('en')
+                .inputs('MN', '1')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Broken toilet',
+                        '2. Broken basin',
+                        '3. Category 3',
+                        '4. Category 4',
+                        '5. Category 5',
+                        '6. Category 6',
+                        '7. Category 7',
+                        '8. Other'].join('\n'),
+                    char_limit: 139
+                })
+                .run();
+        });
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .inputs('MN', '2')
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });
+    });
+
+    describe("When a user enters a query with one result", function() {
+        it("should request the issue", function() {
+            return tester
+                .setup.user.lang('en')
+                .inputs('MN34')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Broken toilet',
+                        '2. Broken basin',
+                        '3. Category 3',
+                        '4. Category 4',
+                        '5. Category 5',
+                        '6. Category 6',
+                        '7. Category 7',
+                        '8. Other'].join('\n'),
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .inputs('MN34')
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });
     });
 
 });
