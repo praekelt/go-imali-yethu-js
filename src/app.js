@@ -11,9 +11,9 @@ go.app = function() {
         var $ = self.$;
 
         self.states.add('states:detect-language', function(name) {
-        // Check if a language is registered for a contact. If it is,
-        // continue the interaction in that language. If it isn't, get the
-        // desired language, and then continue the interaction in that
+        // Delegation state, checks if a language is registered for a contact.
+        // If it is, continue the interaction in that language. If it isn't,
+        // get the desired language, and then continue the interaction in that
         // language.
             return ['en', 'xh'].indexOf(self.im.user.lang) === -1
                 ? self.states.create('states:select-language')
@@ -40,9 +40,17 @@ go.app = function() {
             return new FreeText(name, {
                 question: $(['Please input the code for the toilet. e.g. MN34',
                 ' (You will find this on a sticker in the toilet)'].join('')),
-                
+
                 next: 'states:end'
             });
+        });
+
+        self.states.add('states:query-toilet-api', function(name) {
+        // Delegation state. This state will send a request to the toilet API
+        // with the user's query. If there is more than one result, it will
+        // ask the user to refine the selection. If there is just one result,
+        // it will request the issue from the user.
+            
         });
 
         self.states.add('states:end', function(name) {
