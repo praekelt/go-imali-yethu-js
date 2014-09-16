@@ -9,9 +9,9 @@ go.app = function() {
     var vumigo = require('vumigo_v02');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
-    var ChoiceState = vumigo.states.ChoiceState;
     var EndState = vumigo.states.EndState;
     var LanguageChoice = vumigo.states.LanguageChoice;
+    var FreeText = vumigo.states.FreeText;
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
@@ -24,7 +24,7 @@ go.app = function() {
         // language.
             return ['en', 'xh'].indexOf(self.im.user.lang) === -1
                 ? self.states.create('states:select-language')
-                : self.states.create('states:start');
+                : self.states.create('states:input-toilet-code');
         });
 
         self.states.add('states:select-language', function(name) {
@@ -38,21 +38,17 @@ go.app = function() {
                     new Choice('en', 'English'),
                     new Choice('xh', 'isiXhosa')],
 
-                next: 'states:start'
+                next: 'states:input-toilet-code'
             });
         });
 
-        self.states.add('states:start', function(name) {
-            return new ChoiceState(name, {
-                question: $('Hi there! What do you want to do?'),
-
-                choices: [
-                    new Choice('states:start', $('Show this menu again')),
-                    new Choice('states:end', $('Exit'))],
-
-                next: function(choice) {
-                    return choice.value;
-                }
+        self.states.add('states:input-toilet-code', function(name) {
+        // This state allows the user to input the code for the toilet.
+            return new FreeText(name, {
+                question: $(['Please input the code for the toilet. e.g. MN34',
+                ' (You will find this on a sticker in the toilet)'].join('')),
+                
+                next: 'states:end'
             });
         });
 
