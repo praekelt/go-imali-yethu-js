@@ -13,15 +13,26 @@ go.app = function() {
     var EndState = vumigo.states.EndState;
 
     var GoApp = App.extend(function(self) {
-        App.call(self, 'states:start');
+        App.call(self, 'states:detect-language');
+        var $ = self.$;
+
+        self.states.add('states:detect-language', function(name) {
+        // Check if a language is registered for a contact. If it is,
+        // continue the interaction in that language. If it isn't, get the
+        // desired language, and then continue the interaction in that
+        // language.
+            return self.im.user.lang === undefined
+                ? self.states.create('states:start')
+                : self.states.create('states:end');
+        });
 
         self.states.add('states:start', function(name) {
             return new ChoiceState(name, {
-                question: 'Hi there! What do you want to do?',
+                question: $('Hi there! What do you want to do?'),
 
                 choices: [
-                    new Choice('states:start', 'Show this menu again'),
-                    new Choice('states:end', 'Exit')],
+                    new Choice('states:start', $('Show this menu again')),
+                    new Choice('states:end', $('Exit'))],
 
                 next: function(choice) {
                     return choice.value;
@@ -31,7 +42,7 @@ go.app = function() {
 
         self.states.add('states:end', function(name) {
             return new EndState(name, {
-                text: 'Thanks, cheers!',
+                text: $('Thanks, cheers!'),
                 next: 'states:start'
             });
         });
