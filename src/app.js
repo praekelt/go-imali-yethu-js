@@ -54,6 +54,8 @@ go.app = function() {
         });
 
         var process_response = function(resp) {
+        // This function takes in the response from the toilet API and
+        // determines what should be done next.
             if(resp.data !== null) {
                 return resp.data.length > 1
                     ? self.states.create('states:refine-response', resp.data)
@@ -81,13 +83,13 @@ go.app = function() {
         });
 
         self.states.add('states:refine-response', function(name, data) {
-        // This states requests that the user refine their request, as it
+        // This state requests that the user refine their request, as it
         // didn't return an exact match.
             choices = data.map(function(item, index) {
                 return new Choice(index, item.code);
             });
 
-            choices.push(new Choice('none', 'Not the code'));
+            choices.push(new Choice('none', $('Not the code')));
             return new ChoiceState(name, {
                 question: $(["Sorry your code doesn't match what is in our ",
                     "database. Could it be one of these instead?"].join("")),
@@ -96,9 +98,10 @@ go.app = function() {
 
                 next: function(choice) {
                     return choice.value === 'none'
-                        // Placeholder
-                        // TODO: replace with proper reporting
-                        ? 'states:error'
+                        ? {
+                            name: 'states:error',
+                            creator_opts: {}
+                        }
                         : {
                             name: 'states:report-issue',
                             creator_opts: data[choice.value]
@@ -108,6 +111,8 @@ go.app = function() {
         });
 
         self.states.add('states:report-issue', function(name, data) {
+        // This state gives the user a list of choices, as well as `other`,
+        // which allows the user to define a custom issue.
             var issues = self.im.config.issues;
             var choices = issues.map(function(issue, index) {
                 return new Choice(index, $(issue));
@@ -121,9 +126,10 @@ go.app = function() {
 
                 next: function(choice) {
                     return choice.value === 'other'
-                        // Placeholder
-                        // TODO: replace with proper next state
-                        ? 'states:error'
+                        ? {
+                            name: 'states:custom-issue',
+                            creator_opts: data
+                        }
                         : {
                             name: 'states:send-report',
                             creator_opts: {
@@ -134,11 +140,51 @@ go.app = function() {
             });
         });
 
-        self.states.add('states:end', function(name) {
-            return new EndState(name, {
-                text: $('Thanks, cheers!'),
-                next: 'states:detect-language'
+        self.states.add('states:custom-issue', function(name, data) {
+        // This state allows the user to define a custom issue using a text
+        // input.
+            return new FreeText(name, {
+                question: $("Please type the issue with the toilet."),
+
+                next: function(input) {
+                    return {
+                        name: 'states:send-report',
+                        creator_opts: {
+                            toilet: data,
+                            issue: input }
+                    };
+                }
             });
+        });
+
+        var notify_success = function(name) {
+        // This function will notify the user of a successfully transmitted
+        // report.
+            return new EndState(name, {
+                text: $(["Thanks for your report. We will notify the City of ",
+                    "Cape Town of your issue and inform you of any updates ",
+                    "via SMS or Call. Imali Yethu"].join('')),
+                next: 'states:detect-language'
+            });     
+        };
+
+        self.states.add('states:send-report', function(name, data) {
+        // This state sends the collected information to the Snappy Bridge API,
+        // and then reports the success back to the user.
+            var url = self.im.config.snappy_api_url;
+            var http = new JsonApi(self.im);
+
+            return http.post(url, {
+                data: {
+                    msisdn: self.im.user.addr,
+                    toilet: data.toilet,
+                    issue: data.issue,
+                    //datetime: Date.now()
+                    }
+                })
+                .then(function(resp){
+                    return notify_success(name);
+                }); 
         });
     });
 

@@ -1,6 +1,7 @@
 var vumigo = require('vumigo_v02');
 var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
+var assert = require('assert');
 
 languages = ['en', 'xh'];
 
@@ -17,6 +18,7 @@ describe("App", function() {
             .setup.config.app({
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
+                snappy_api_url: 'http://besnappy.com/api/',
                 issues: [
                     'Broken toilet',
                     'Broken basin',
@@ -119,6 +121,21 @@ describe("App", function() {
                 .run();
         });
 
+        it("should send the request to toilet API", function() {
+            return tester
+                .setup.user.lang('en')
+                .input("MN")
+                .check(function(api, im , app) {
+                    http_sent = api.http.requests[0];
+                    assert.equal(http_sent.url, 'http://toilet.info/api/');
+                    assert.deepEqual(http_sent.params, {
+                        "q": "MN",
+                        "format": "json"
+                    });
+                })
+                .run();
+        });
+
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -158,7 +175,7 @@ describe("App", function() {
             it("should limit the length of the response " + lang, function() {
                 return tester
                     .setup.user.lang(lang)
-                    .inputs('MN', '2')
+                    .inputs('MN', '1')
                     .check.interaction({
                         char_limit: 139
                     })
@@ -168,10 +185,27 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with one result", function() {
+        beforeEach(function() {
+            tester
+                .setup.user.lang('en')
+                .input('MN34');
+        });
+
+        it("should send the request to toilet API", function() {
+            return tester
+                .check(function(api, im , app) {
+                    http_sent = api.http.requests[0];
+                    assert.equal(http_sent.url, 'http://toilet.info/api/');
+                    assert.deepEqual(http_sent.params, {
+                        "q": "MN34",
+                        "format": "json"
+                    });
+                })
+                .run();
+        });
+
         it("should request the issue", function() {
             return tester
-                .setup.user.lang('en')
-                .inputs('MN34')
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
@@ -189,17 +223,157 @@ describe("App", function() {
                 .run();
         });
 
+        it("should send the toilet data in creator_opts", function() {
+            return tester
+                .check.user.state({
+                    creator_opts: {
+                        "code": "MN34",
+                        "lat": "2.71828",
+                        "long": "3.14159"
+                    },
+                    metadata: {},
+                    name: 'states:report-issue'
+                })
+                .run();
+        });
+
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
-                    .setup.user.lang(lang)
-                    .inputs('MN34')
                     .check.interaction({
                         char_limit: 139
                     })
                     .run();
             });
         });
+    });
+
+    describe("When a user selects an issue", function() {
+        it("should notify the user that the report has been sent", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check.interaction({
+                    state: 'states:send-report',
+                    reply: ["Thanks for your report. We will notify the City ",
+                        "of Cape Town of your issue and inform you of any ",
+                        "updates via SMS or Call. Imali Yethu"].join(''),
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        it("should send the information to snappy bridge", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api, im , app) {
+                    http_sent = api.http.requests[1];
+                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
+                    assert.deepEqual(http_sent.data, {
+                        "msisdn": "+12345",
+                        "toilet": {
+                            "code": "MN34",
+                            "long": "3.14159",
+                            "lat": "2.71828"
+                        },
+                        "issue": "Broken toilet"
+                    });
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .setup.user.addr('+12345')
+                    .inputs('MN34', '1')  
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });
+    });
+
+    describe("When the user selects other as issue", function() {
+        it("should request the user for the issue", function() {
+            return tester
+                .setup.user.lang('en')
+                .inputs('MN34', '8')
+                .check.interaction({
+                    state: 'states:custom-issue',
+                    reply: 'Please type the issue with the toilet.',
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .inputs('MN34', '8')
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });
+    });
+
+    describe("When the user types a custom issue", function() {
+        it("should acknowledge the report as sent", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "8", "Custom issue")
+                .check.interaction({
+                    state: 'states:send-report',
+                    reply: ["Thanks for your report. We will notify the City ",
+                        "of Cape Town of your issue and inform you of any ",
+                        "updates via SMS or Call. Imali Yethu"].join(''),
+                    char_limit: 139
+                })
+                .run();
+        });
+
+        it("should send the custom issue to snappy", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "8", "Custom issue")
+                .check(function(api, im , app) {
+                    http_sent = api.http.requests[1];
+                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
+                    assert.deepEqual(http_sent.data, {
+                        "msisdn": "+12345",
+                        "toilet": {
+                            "code": "MN34",
+                            "long": "3.14159",
+                            "lat": "2.71828"
+                        },
+                        "issue": "Custom issue"
+                    });
+                })
+                .run();
+        });
+
+        languages.map(function(lang) {
+            it("should limit the length of the response " + lang, function() {
+                return tester
+                    .setup.user.lang(lang)
+                    .setup.user.addr('+12345')
+                    .inputs('MN34', '8', 'Custom issue')
+                    .check.interaction({
+                        char_limit: 139
+                    })
+                    .run();
+            });
+        });        
     });
 
 });

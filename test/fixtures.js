@@ -53,5 +53,47 @@ module.exports = function() {
                 }
             ]
         }
+    },
+    {
+        "request": {
+            "method": "POST",
+            "url": "http://besnappy.com/api/",
+            "data": {
+                "msisdn": "+12345",
+                "issue": "Broken toilet",
+                "toilet": {
+                    "code": "MN34",
+                    "lat": "2.71828",
+                    "long": "3.14159"
+                }
+            }
+        },
+        "response": {
+            "code": 200,
+            "data": {
+                "status": "OK"
+            }                
+        }
+    },
+    {
+        "request": {
+            "method": "POST",
+            "url": "http://besnappy.com/api/",
+            "data": {
+                "msisdn": "+12345",
+                "issue": "Custom issue",
+                "toilet": {
+                    "code": "MN34",
+                    "lat": "2.71828",
+                    "long": "3.14159"
+                }
+            }
+        },
+        "response": {
+            "code": 200,
+            "data": {
+                "status": "OK"
+            }                
+        }
     }];
 };
