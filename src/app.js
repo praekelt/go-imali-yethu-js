@@ -53,13 +53,20 @@ go.app = function() {
             });
         });
 
-        var process_response = function(resp) {
+        var process_response = function(resp, query) {
         // This function takes in the response from the toilet API and
         // determines what should be done next.
             if(resp.data !== null) {
-                return resp.data.length === 1
-                    ? self.states.create('states:report-issue', resp.data[0])
-                    : self.states.create('states:refine-response', resp.data);
+                if(resp.data.length === 1) {
+                    return self.states.create(
+                        'states:report-issue', resp.data[0]);
+                } else if (resp.data.length > 1) {
+                    return self.states.create(
+                        'states:refine-response', resp.data);
+                } else {
+                    return self.states.create(
+                        'states:report-issue', {'code': query});
+                }
             } else {
                 return self.states.create('states:error');
             }
@@ -78,7 +85,7 @@ go.app = function() {
                     format: 'json'}
                 })
                 .then(function(resp){
-                    return process_response(resp);
+                    return process_response(resp, opts);
                 });
         });
 

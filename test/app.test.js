@@ -149,6 +149,41 @@ describe("App", function() {
         });
     });
 
+    describe("When a user enters a query with zero results", function() {
+        it("should forward the user result", function() {
+            return tester
+                .setup.user.lang('en')
+                .input('MN31')
+                .check.user.state({
+                    creator_opts: {'code': 'MN31'},
+                    metadata: {},
+                    name: 'states:report-issue'
+                })
+                .run();
+        });
+
+        it("should ask the user for the issue", function() {
+            return tester
+                .setup.user.lang('en')
+                .input('MN31')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Broken toilet',
+                        '2. Broken basin',
+                        '3. Category 3',
+                        '4. Category 4',
+                        '5. Category 5',
+                        '6. Category 6',
+                        '7. Category 7',
+                        '8. Other'].join('\n'),
+                    char_limit: 139
+                })
+                .run();
+        });
+    });
+
     describe("When the user selects Not the code from list", function() {
         it("should request the issue", function() {
             return tester
@@ -188,9 +223,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .inputs('MN', '5')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit(139)
                     .run();
             });
         });

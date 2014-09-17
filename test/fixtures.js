@@ -56,6 +56,20 @@ module.exports = function() {
     },
     {
         "request": {
+            "method": "GET",
+            "url": "http://toilet.info/api/",
+            "params": {
+                "q": "MN31",
+                "format": "json"
+            }
+        },
+        "response": {
+            "code": 200,
+            "data": []
+        }
+    },
+    {
+        "request": {
             "method": "POST",
             "url": "http://besnappy.com/api/",
             "data": {
