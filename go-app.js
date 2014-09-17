@@ -69,7 +69,8 @@ go.app = function() {
                         'states:report-issue', resp.data[0]);
                 } else if (resp.data.length > 1) {
                     return self.states.create(
-                        'states:refine-response', resp.data);
+                        'states:refine-response', 
+                        {'data': resp.data, 'query': query});
                 } else {
                     return self.states.create(
                         'states:report-issue', {'code': query});
@@ -99,7 +100,7 @@ go.app = function() {
         self.states.add('states:refine-response', function(name, data) {
         // This state requests that the user refine their request, as it
         // didn't return an exact match.
-            choices = data.map(function(item, index) {
+            choices = data.data.map(function(item, index) {
                 return new Choice(index, item.code);
             });
 
@@ -114,11 +115,11 @@ go.app = function() {
                     return choice.value === 'none'
                         ? {
                             name: 'states:report-issue',
-                            creator_opts: {}
+                            creator_opts: {'code': data.query}
                         }
                         : {
                             name: 'states:report-issue',
-                            creator_opts: data[choice.value]
+                            creator_opts: data.data[choice.value]
                         };
                 }
             });

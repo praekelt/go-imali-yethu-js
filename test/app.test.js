@@ -206,12 +206,12 @@ describe("App", function() {
                 .run();
         });
 
-        it("should store an empty object for the toilet data", function() {
+        it("should store the user query for the toilet data", function() {
             return tester
                 .setup.user.lang('en')
                 .inputs('MN', '5')
                 .check.user.state({
-                    creator_opts: {},
+                    creator_opts: {'code': 'MN'},
                     metadata: {},
                     name: 'states:report-issue'
                 })
