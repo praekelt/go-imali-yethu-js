@@ -151,12 +151,12 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with zero results", function() {
-        it("should forward the user result", function() {
+        it("should forward the query and blank toilet data", function() {
             return tester
                 .setup.user.lang('en')
                 .input('MN31')
                 .check.user.state({
-                    creator_opts: {'code': 'MN31'},
+                    creator_opts: {'query': 'MN31', 'toilet':{}},
                     metadata: {},
                     name: 'states:report-issue'
                 })
@@ -208,12 +208,14 @@ describe("App", function() {
                 .run();
         });
 
-        it("should store the user query for the toilet data", function() {
+        it("should store the user query and blank toilet data", function() {
             return tester
                 .setup.user.lang('en')
                 .inputs('MN', '5')
                 .check.user.state({
-                    creator_opts: {'code': 'MN'},
+                    creator_opts: {
+                        'query': 'MN',
+                        'toilet': {}},
                     metadata: {},
                     name: 'states:report-issue'
                 })
@@ -303,14 +305,16 @@ describe("App", function() {
                 .run();
         });
 
-        it("should send the toilet data in creator_opts", function() {
+        it("should send the toilet and query data in creator_opts", function(){
             return tester
                 .check.user.state({
                     creator_opts: {
-                        "code": "MN34",
-                        "lat": "2.71828",
-                        "long": "3.14159"
-                    },
+                        toilet: {
+                            "code": "MN34",
+                            "lat": "2.71828",
+                            "long": "3.14159"
+                        },
+                        query: "MN34"},
                     metadata: {},
                     name: 'states:report-issue'
                 })
@@ -357,7 +361,8 @@ describe("App", function() {
                             "long": "3.14159",
                             "lat": "2.71828"
                         },
-                        "issue": "Broken toilet"
+                        "issue": "Broken toilet",
+                        "query": "MN34"
                     });
                 })
                 .run();
@@ -430,7 +435,8 @@ describe("App", function() {
                             "long": "3.14159",
                             "lat": "2.71828"
                         },
-                        "issue": "Custom issue"
+                        "issue": "Custom issue",
+                        "query": "MN34"
                     });
                 })
                 .run();

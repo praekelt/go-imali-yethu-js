@@ -54,7 +54,7 @@ go.app = function() {
                 next: function(content) {
                     return {
                         name: 'states:query-toilet-api',
-                        creator_opts: content
+                        creator_opts: {'query': content}
                     };
                 }
             });
@@ -66,14 +66,16 @@ go.app = function() {
             if(resp.data !== null) {
                 if(resp.data.length === 1) {
                     return self.states.create(
-                        'states:report-issue', resp.data[0]);
+                        'states:report-issue', 
+                        {'toilet': resp.data[0], 'query': query});
                 } else if (resp.data.length > 1) {
                     return self.states.create(
                         'states:refine-response', 
                         {'data': resp.data, 'query': query});
                 } else {
                     return self.states.create(
-                        'states:report-issue', {'code': query});
+                        'states:report-issue',
+                        {'toilet': {}, 'query': query});
                 }
             } else {
                 return self.states.create('states:error');
@@ -89,11 +91,11 @@ go.app = function() {
             var http = new JsonApi(self.im);
             return http.get(url, {
                 params: {
-                    q: opts,
+                    q: opts.query,
                     format: 'json'}
                 })
                 .then(function(resp){
-                    return process_response(resp, opts);
+                    return process_response(resp, opts.query);
                 });
         });
 
@@ -115,11 +117,12 @@ go.app = function() {
                     return choice.value === 'none'
                         ? {
                             name: 'states:report-issue',
-                            creator_opts: {'code': data.query}
+                            creator_opts: {'toilet': {}, 'query': data.query}
                         }
                         : {
                             name: 'states:report-issue',
-                            creator_opts: data.data[choice.value]
+                            creator_opts: {'toilet': data.data[choice.value],
+                                'query': data.query}
                         };
                 }
             });
@@ -148,7 +151,8 @@ go.app = function() {
                         : {
                             name: 'states:send-report',
                             creator_opts: {
-                                toilet: data,
+                                toilet: data.toilet,
+                                query: data.query,
                                 issue: issues[choice.value]}
                         };
                 }
@@ -165,7 +169,8 @@ go.app = function() {
                     return {
                         name: 'states:send-report',
                         creator_opts: {
-                            toilet: data,
+                            toilet: data.toilet,
+                            query: data.query,
                             issue: input }
                     };
                 }
@@ -194,6 +199,7 @@ go.app = function() {
                     msisdn: self.im.user.addr,
                     toilet: data.toilet,
                     issue: data.issue,
+                    query: data.query
                     //datetime: Date.now()
                     }
                 })

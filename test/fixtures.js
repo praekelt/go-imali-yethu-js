@@ -79,7 +79,8 @@ module.exports = function() {
                     "code": "MN34",
                     "lat": "2.71828",
                     "long": "3.14159"
-                }
+                },
+                "query": "MN34"
             }
         },
         "response": {
@@ -100,7 +101,8 @@ module.exports = function() {
                     "code": "MN34",
                     "lat": "2.71828",
                     "long": "3.14159"
-                }
+                },
+                "query": "MN34"
             }
         },
         "response": {
