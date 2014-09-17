@@ -31,7 +31,8 @@ describe("App", function() {
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
-            });
+            })
+            .setup.char_limit(139);
     });
 
     describe("when a new user starts a session", function() {
@@ -44,8 +45,8 @@ describe("App", function() {
                         'Welcome to Imali Yethu sanitation reporting ',
                         'service. Please choose your language:\n1. ',
                         'English\n2. isiXhosa'].join(''),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
     });
@@ -61,7 +62,7 @@ describe("App", function() {
             it("should limit the response length " + lang, function() {
                 return tester
                     .input(String(index + 1))
-                    .check.interaction({char_limit: 139})
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -74,8 +75,8 @@ describe("App", function() {
                     reply: ['Please input the code for the toilet. e.g. MN34',
                         ' (You will find this on a sticker in the toilet)'
                         ].join(''),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
     });
@@ -91,6 +92,7 @@ describe("App", function() {
                         ' (You will find this on a sticker in the toilet)'
                         ].join(''),
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -99,7 +101,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .start()
-                    .check.interaction({char_limit: 129})
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -116,8 +118,8 @@ describe("App", function() {
                         "database. Could it be one of these instead?",
                         "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. Not the code"
                         ].join(''),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -133,6 +135,7 @@ describe("App", function() {
                         "format": "json"
                     });
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -141,9 +144,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .input('MN')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -159,6 +160,7 @@ describe("App", function() {
                     metadata: {},
                     name: 'states:report-issue'
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -178,8 +180,8 @@ describe("App", function() {
                         '6. Category 6',
                         '7. Category 7',
                         '8. Other'].join('\n'),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
     });
@@ -201,8 +203,8 @@ describe("App", function() {
                         '6. Category 6',
                         '7. Category 7',
                         '8. Other'].join('\n'),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -223,7 +225,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .inputs('MN', '5')
-                    .check.reply.char_limit(139)
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -246,8 +248,8 @@ describe("App", function() {
                         '6. Category 6',
                         '7. Category 7',
                         '8. Other'].join('\n'),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -256,9 +258,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .inputs('MN', '1')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -298,8 +298,8 @@ describe("App", function() {
                         '6. Category 6',
                         '7. Category 7',
                         '8. Other'].join('\n'),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -320,9 +320,7 @@ describe("App", function() {
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -339,8 +337,8 @@ describe("App", function() {
                     reply: ["Thanks for your report. We will notify the City ",
                         "of Cape Town of your issue and inform you of any ",
                         "updates via SMS or Call. Imali Yethu"].join(''),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -371,9 +369,7 @@ describe("App", function() {
                     .setup.user.lang(lang)
                     .setup.user.addr('+12345')
                     .inputs('MN34', '1')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -387,8 +383,8 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:custom-issue',
                     reply: 'Please type the issue with the toilet.',
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -397,9 +393,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .inputs('MN34', '8')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
@@ -416,8 +410,8 @@ describe("App", function() {
                     reply: ["Thanks for your report. We will notify the City ",
                         "of Cape Town of your issue and inform you of any ",
                         "updates via SMS or Call. Imali Yethu"].join(''),
-                    char_limit: 139
                 })
+                .check.reply.char_limit()
                 .run();
         });
 
@@ -448,9 +442,7 @@ describe("App", function() {
                     .setup.user.lang(lang)
                     .setup.user.addr('+12345')
                     .inputs('MN34', '8', 'Custom issue')
-                    .check.interaction({
-                        char_limit: 139
-                    })
+                    .check.reply.char_limit()
                     .run();
             });
         });
