@@ -70,6 +70,53 @@ module.exports = function() {
     },
     {
         "request": {
+            "method": "GET",
+            "url": "http://toilet.info/api/issues/",
+            "params": {}
+        },
+        "response": {
+            "code": 200,
+            "data": [
+                {
+                    "en": "Broken toilet",
+                    "zh": "Aphukileyo indlu yangasese",
+                    "value": "broken_toilet"
+                },
+                {
+                    "en": "Broken sink",
+                    "zh": "Aphukileyo isitya",
+                    "value": "broken_sink"
+                },
+                {
+                    "en": "Category 3",
+                    "zh": "Ikhathegori 3",
+                    "value": "category_3"
+                },
+                {
+                    "en": "Category 4",
+                    "zh": "Ikhathegori 4",
+                    "value": "category_4"
+                },
+                {
+                    "en": "Category 5",
+                    "zh": "Ikhathegori 5",
+                    "value": "category_5"
+                },
+                {
+                    "en": "Category 6",
+                    "zh": "Ikhathegori 6",
+                    "value": "category_6"
+                },
+                {
+                    "en": "Category 7",
+                    "zh": "Ikhathegori 7",
+                    "value": "category_7"
+                },
+            ]
+        }
+    },
+    {
+        "request": {
             "method": "POST",
             "url": "http://besnappy.com/api/",
             "data": {
