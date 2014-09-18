@@ -149,14 +149,16 @@ describe("App", function() {
                 .input('MN31')
                 .check.user.state({
                     creator_opts: {'query': 'MN31', 'toilet':{}},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .check.reply.char_limit()
                 .run();
         });
 
-        it("should ask the user for the issue", function() {
+        it("should ask the user for the issue (en)", function() {
             return tester
                 .setup.user.lang('en')
                 .input('MN31')
@@ -166,12 +168,31 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
+                })
+                .check.reply.char_limit()
+                .run();
+        });
+
+        it("should ask the user for the issue (xh)", function() {
+            return tester
+                .setup.user.lang('xh')
+                .input('MN31')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Aphukileyo indlu yangasese',
+                        '2. Aphukileyo isitya',
+                        '3. Ikhathegori 3',
+                        '4. Ikhathegori 4',
+                        '5. Ikhathegori 5',
+                        '6. More'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -189,11 +210,11 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -208,7 +229,9 @@ describe("App", function() {
                     creator_opts: {
                         'query': 'MN',
                         'toilet': {}},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
@@ -236,11 +259,11 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -284,11 +307,11 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -307,7 +330,9 @@ describe("App", function() {
                             "long": "3.14159"
                         },
                         query: "MN34"},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
@@ -357,7 +382,7 @@ describe("App", function() {
                         },
                         "issue": {
                             "en": "Broken toilet",
-                            "zh": "Aphukileyo indlu yangasese",
+                            "xh": "Aphukileyo indlu yangasese",
                             "value": "broken_toilet"
                         },
                         "query": "MN34"

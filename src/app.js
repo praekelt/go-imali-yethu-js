@@ -7,6 +7,7 @@ go.app = function() {
     var FreeText = vumigo.states.FreeText;
     var JsonApi = vumigo.http.api.JsonApi;
     var ChoiceState = vumigo.states.ChoiceState;
+    var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
 
 
     var GoApp = App.extend(function(self) {
@@ -134,10 +135,13 @@ go.app = function() {
                     });
                     choices.push(new Choice('other', $('Other')));
 
-                    return new ChoiceState(name, {
+                    return new PaginatedChoiceState(name, {
                         question: $('What is the issue?'),
 
                         choices: choices,
+
+                        characters_per_page: 139,
+                        options_per_page: null,
 
                         next: function(choice) {
                             return choice.value === 'other'

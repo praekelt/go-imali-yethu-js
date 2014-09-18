@@ -79,38 +79,38 @@ module.exports = function() {
             "data": [
                 {
                     "en": "Broken toilet",
-                    "zh": "Aphukileyo indlu yangasese",
+                    "xh": "Aphukileyo indlu yangasese",
                     "value": "broken_toilet"
                 },
                 {
                     "en": "Broken basin",
-                    "zh": "Aphukileyo isitya",
+                    "xh": "Aphukileyo isitya",
                     "value": "broken_basin"
                 },
                 {
-                    "en": "Category 3",
-                    "zh": "Ikhathegori 3",
-                    "value": "category_3"
+                    "en": "Issue 3",
+                    "xh": "Ikhathegori 3",
+                    "value": "issue_3"
                 },
                 {
-                    "en": "Category 4",
-                    "zh": "Ikhathegori 4",
-                    "value": "category_4"
+                    "en": "Issue 4",
+                    "xh": "Ikhathegori 4",
+                    "value": "issue_4"
                 },
                 {
-                    "en": "Category 5",
-                    "zh": "Ikhathegori 5",
-                    "value": "category_5"
+                    "en": "Issue 5",
+                    "xh": "Ikhathegori 5",
+                    "value": "issue_5"
                 },
                 {
-                    "en": "Category 6",
-                    "zh": "Ikhathegori 6",
-                    "value": "category_6"
+                    "en": "Issue 6",
+                    "xh": "Ikhathegori 6",
+                    "value": "issue_6"
                 },
                 {
-                    "en": "Category 7",
-                    "zh": "Ikhathegori 7",
-                    "value": "category_7"
+                    "en": "Issue 7",
+                    "xh": "Ikhathegori 7",
+                    "value": "issue_7"
                 },
             ]
         },
@@ -124,7 +124,7 @@ module.exports = function() {
                 "msisdn": "+12345",
                 "issue": {
                     "en": "Broken toilet",
-                    "zh": "Aphukileyo indlu yangasese",
+                    "xh": "Aphukileyo indlu yangasese",
                     "value": "broken_toilet"
                 },
                 "toilet": {
