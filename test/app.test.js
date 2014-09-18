@@ -143,12 +143,52 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with zero results", function() {
-        it("should forward the query and blank toilet data", function() {
+        it("should forward the query and blank toilet data and get issues", 
+            function() {
             return tester
                 .setup.user.lang('en')
                 .input('MN31')
                 .check.user.state({
-                    creator_opts: {'query': 'MN31', 'toilet':{}},
+                    creator_opts: {
+                        "choices":  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                        ],
+                        'query': 'MN31', 
+                        'toilet':{}},
                     metadata: {
                         "page_start": 0
                     },
@@ -227,6 +267,43 @@ describe("App", function() {
                 .inputs('MN', '5')
                 .check.user.state({
                     creator_opts: {
+                        "choices":  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                          ],
                         'query': 'MN',
                         'toilet': {}},
                     metadata: {
@@ -324,6 +401,43 @@ describe("App", function() {
                 .input('MN34')
                 .check.user.state({
                     creator_opts: {
+                        choices:  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                        ],
                         toilet: {
                             "code": "MN34",
                             "lat": "2.71828",

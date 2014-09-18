@@ -60,7 +60,7 @@ go.app = function() {
             if(resp.data !== null) {
                 if(resp.data.length === 1) {
                     return self.states.create(
-                        'states:report-issue', 
+                        'states:get-issue', 
                         {'toilet': resp.data[0], 'query': query});
                 } else if (resp.data.length > 1) {
                     return self.states.create(
@@ -68,7 +68,7 @@ go.app = function() {
                         {'data': resp.data, 'query': query});
                 } else {
                     return self.states.create(
-                        'states:report-issue',
+                        'states:get-issue',
                         {'toilet': {}, 'query': query});
                 }
             } else {
@@ -110,11 +110,11 @@ go.app = function() {
                 next: function(choice) {
                     return choice.value === 'none'
                         ? {
-                            name: 'states:report-issue',
+                            name: 'states:get-issue',
                             creator_opts: {'toilet': {}, 'query': data.query}
                         }
                         : {
-                            name: 'states:report-issue',
+                            name: 'states:get-issue',
                             creator_opts: {'toilet': data.data[choice.value],
                                 'query': data.query}
                         };
@@ -122,43 +122,49 @@ go.app = function() {
             });
         });
 
+        self.states.add('states:get-issue', function(name, data) {
+        // Delegation state. This state handles the HTTP request to get the
+        // list of issues from the toilet API.
+            var url = self.im.config.toilet_api_issue_url;
+            var http = new JsonApi(self.im);
+            return http.get(url).then(function(resp) {
+                data.choices = resp.data;
+                return self.states.create('states:report-issue', data);
+            });
+        });
+
         self.states.add('states:report-issue', function(name, data) {
         // This state gives the user a list of choices, as well as `other`,
         // which allows the user to define a custom issue.
-            var url = self.im.config.toilet_api_issue_url;
-            var http = new JsonApi(self.im);
             var language = self.im.user.lang;
-            return http.get(url)
-                .then(function(resp){
-                    var choices = resp.data.map(function(issue, index) {
-                        return new Choice(index, issue[language]);
-                    });
-                    choices.push(new Choice('other', $('Other')));
+            var choices = data.choices.map(function(issue, index) {
+                return new Choice(index, issue[language]);
+            });
+            choices.push(new Choice('other', $('Other')));
 
-                    return new PaginatedChoiceState(name, {
-                        question: $('What is the issue?'),
+            return new PaginatedChoiceState(name, {
+                question: $('What is the issue?'),
 
-                        choices: choices,
+                choices: choices,
 
-                        characters_per_page: 139,
-                        options_per_page: null,
+                characters_per_page: 139,
+                options_per_page: null,
 
-                        next: function(choice) {
-                            return choice.value === 'other'
-                                ? {
-                                    name: 'states:custom-issue',
-                                    creator_opts: data
-                                }
-                                : {
-                                    name: 'states:send-report',
-                                    creator_opts: {
-                                        toilet: data.toilet,
-                                        query: data.query,
-                                        issue: resp.data[choice.value]}
-                                };
+                next: function(choice) {
+                    return choice.value === 'other'
+                        ? {
+                            name: 'states:custom-issue',
+                            creator_opts: data
                         }
-                    });
-                });
+                        : {
+                            name: 'states:send-report',
+                            creator_opts: {
+                                toilet: data.toilet,
+                                query: data.query,
+                                issue: data.choices[choice.value]}
+                        };
+                }
+            });
         });
 
         self.states.add('states:custom-issue', function(name, data) {
