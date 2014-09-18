@@ -19,15 +19,7 @@ describe("App", function() {
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
-                issues: [
-                    'Broken toilet',
-                    'Broken basin',
-                    'Category 3',
-                    'Category 4',
-                    'Category 5',
-                    'Category 6',
-                    'Category 7',
-                ]
+                toilet_api_issue_url: 'http://toilet.info/api/issues/'
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
@@ -151,20 +143,62 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with zero results", function() {
-        it("should forward the query and blank toilet data", function() {
+        it("should forward the query and blank toilet data and get issues", 
+            function() {
             return tester
                 .setup.user.lang('en')
                 .input('MN31')
                 .check.user.state({
-                    creator_opts: {'query': 'MN31', 'toilet':{}},
-                    metadata: {},
+                    creator_opts: {
+                        "choices":  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                        ],
+                        'query': 'MN31', 
+                        'toilet':{}},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .check.reply.char_limit()
                 .run();
         });
 
-        it("should ask the user for the issue", function() {
+        it("should ask the user for the issue (en)", function() {
             return tester
                 .setup.user.lang('en')
                 .input('MN31')
@@ -174,12 +208,56 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
+                })
+                .check.reply.char_limit()
+                .run();
+        });
+
+        it("should ask the user for the issue (xh)", function() {
+            return tester
+                .setup.user.lang('xh')
+                .input('MN31')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. Aphukileyo indlu yangasese',
+                        '2. Aphukileyo isitya',
+                        '3. Ikhathegori 3',
+                        '4. Ikhathegori 4',
+                        '5. Ikhathegori 5',
+                        '6. More'].join('\n'),
+                })
+                .check.reply.char_limit()
+                .run();
+        });
+    });
+
+    describe("If there isn't a translation for an issue", function() {
+        it("should use the translation value", function() {
+            return tester
+                .setup.user.lang('zu')
+                .setup.user.state('states:input-toilet-code')
+                .input('MN31')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. broken_toilet',
+                        '2. broken_basin',
+                        '3. issue_3',
+                        '4. issue_4',
+                        '5. issue_5',
+                        '6. issue_6',
+                        '7. issue_7',
+                        '8. Other',
+                    ].join('\n')
                 })
                 .check.reply.char_limit()
                 .run();
@@ -197,11 +275,11 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -214,9 +292,48 @@ describe("App", function() {
                 .inputs('MN', '5')
                 .check.user.state({
                     creator_opts: {
+                        "choices":  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                          ],
                         'query': 'MN',
                         'toilet': {}},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
@@ -244,11 +361,11 @@ describe("App", function() {
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -267,14 +384,10 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with one result", function() {
-        beforeEach(function() {
-            tester
-                .setup.user.lang('en')
-                .input('MN34');
-        });
-
         it("should send the request to toilet API", function() {
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check(function(api, im , app) {
                     http_sent = api.http.requests[0];
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
@@ -288,17 +401,19 @@ describe("App", function() {
 
         it("should request the issue", function() {
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
                         'What is the issue?',
                         '1. Broken toilet',
                         '2. Broken basin',
-                        '3. Category 3',
-                        '4. Category 4',
-                        '5. Category 5',
-                        '6. Category 6',
-                        '7. Category 7',
+                        '3. Issue 3',
+                        '4. Issue 4',
+                        '5. Issue 5',
+                        '6. Issue 6',
+                        '7. Issue 7',
                         '8. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
@@ -307,15 +422,56 @@ describe("App", function() {
 
         it("should send the toilet and query data in creator_opts", function(){
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check.user.state({
                     creator_opts: {
+                        choices:  [
+                            {
+                              "en": "Broken toilet",
+                              "value": "broken_toilet",
+                              "xh": "Aphukileyo indlu yangasese"
+                            },
+                            {
+                              "en": "Broken basin",
+                              "value": "broken_basin",
+                              "xh": "Aphukileyo isitya"
+                            },
+                            {
+                              "en": "Issue 3",
+                              "value": "issue_3",
+                              "xh": "Ikhathegori 3"
+                            },
+                            {
+                              "en": "Issue 4",
+                              "value": "issue_4",
+                              "xh": "Ikhathegori 4"
+                            },
+                            {
+                              "en": "Issue 5",
+                              "value": "issue_5",
+                              "xh": "Ikhathegori 5"
+                            },
+                            {
+                              "en": "Issue 6",
+                              "value": "issue_6",
+                              "xh": "Ikhathegori 6"
+                            },
+                            {
+                              "en": "Issue 7",
+                              "value": "issue_7",
+                              "xh": "Ikhathegori 7"
+                            }
+                        ],
                         toilet: {
                             "code": "MN34",
                             "lat": "2.71828",
                             "long": "3.14159"
                         },
                         query: "MN34"},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
@@ -324,6 +480,8 @@ describe("App", function() {
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
+                    .setup.user.lang(lang)
+                    .input('MN34')
                     .check.reply.char_limit()
                     .run();
             });
@@ -352,7 +510,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[1];
+                    http_sent = api.http.requests[api.http.requests.length-1];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
@@ -361,7 +519,11 @@ describe("App", function() {
                             "long": "3.14159",
                             "lat": "2.71828"
                         },
-                        "issue": "Broken toilet",
+                        "issue": {
+                            "en": "Broken toilet",
+                            "xh": "Aphukileyo indlu yangasese",
+                            "value": "broken_toilet"
+                        },
                         "query": "MN34"
                     });
                 })
@@ -426,7 +588,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "8", "Custom issue")
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[1];
+                    http_sent = api.http.requests[api.http.requests.length-1];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",

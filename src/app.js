@@ -7,6 +7,7 @@ go.app = function() {
     var FreeText = vumigo.states.FreeText;
     var JsonApi = vumigo.http.api.JsonApi;
     var ChoiceState = vumigo.states.ChoiceState;
+    var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
 
 
     var GoApp = App.extend(function(self) {
@@ -59,7 +60,7 @@ go.app = function() {
             if(resp.data !== null) {
                 if(resp.data.length === 1) {
                     return self.states.create(
-                        'states:report-issue', 
+                        'states:get-issue', 
                         {'toilet': resp.data[0], 'query': query});
                 } else if (resp.data.length > 1) {
                     return self.states.create(
@@ -67,7 +68,7 @@ go.app = function() {
                         {'data': resp.data, 'query': query});
                 } else {
                     return self.states.create(
-                        'states:report-issue',
+                        'states:get-issue',
                         {'toilet': {}, 'query': query});
                 }
             } else {
@@ -109,11 +110,11 @@ go.app = function() {
                 next: function(choice) {
                     return choice.value === 'none'
                         ? {
-                            name: 'states:report-issue',
+                            name: 'states:get-issue',
                             creator_opts: {'toilet': {}, 'query': data.query}
                         }
                         : {
-                            name: 'states:report-issue',
+                            name: 'states:get-issue',
                             creator_opts: {'toilet': data.data[choice.value],
                                 'query': data.query}
                         };
@@ -121,19 +122,37 @@ go.app = function() {
             });
         });
 
+        self.states.add('states:get-issue', function(name, data) {
+        // Delegation state. This state handles the HTTP request to get the
+        // list of issues from the toilet API.
+            var url = self.im.config.toilet_api_issue_url;
+            var http = new JsonApi(self.im);
+            return http.get(url).then(function(resp) {
+                data.choices = resp.data;
+                return self.states.create('states:report-issue', data);
+            });
+        });
+
         self.states.add('states:report-issue', function(name, data) {
         // This state gives the user a list of choices, as well as `other`,
         // which allows the user to define a custom issue.
-            var issues = self.im.config.issues;
-            var choices = issues.map(function(issue, index) {
-                return new Choice(index, $(issue));
+            var language = self.im.user.lang;
+            var choices = data.choices.map(function(issue, index) {
+                // Fallback for no translation for language
+                issue = issue[language] === undefined
+                    ? issue.value
+                    : issue[language];
+                return new Choice(index, issue);
             });
             choices.push(new Choice('other', $('Other')));
 
-            return new ChoiceState(name, {
+            return new PaginatedChoiceState(name, {
                 question: $('What is the issue?'),
 
                 choices: choices,
+
+                characters_per_page: 139,
+                options_per_page: null,
 
                 next: function(choice) {
                     return choice.value === 'other'
@@ -146,7 +165,7 @@ go.app = function() {
                             creator_opts: {
                                 toilet: data.toilet,
                                 query: data.query,
-                                issue: issues[choice.value]}
+                                issue: data.choices[choice.value]}
                         };
                 }
             });
