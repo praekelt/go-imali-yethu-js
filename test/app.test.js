@@ -239,6 +239,31 @@ describe("App", function() {
         });
     });
 
+    describe("If there isn't a translation for an issue", function() {
+        it("should use the translation value", function() {
+            return tester
+                .setup.user.lang('zu')
+                .setup.user.state('states:input-toilet-code')
+                .input('MN31')
+                .check.interaction({
+                    state: 'states:report-issue',
+                    reply: [
+                        'What is the issue?',
+                        '1. broken_toilet',
+                        '2. broken_basin',
+                        '3. issue_3',
+                        '4. issue_4',
+                        '5. issue_5',
+                        '6. issue_6',
+                        '7. issue_7',
+                        '8. Other',
+                    ].join('\n')
+                })
+                .check.reply.char_limit()
+                .run();
+        });
+    });
+
     describe("When the user selects Not the code from list", function() {
         it("should request the issue", function() {
             return tester

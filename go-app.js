@@ -145,7 +145,11 @@ go.app = function() {
         // which allows the user to define a custom issue.
             var language = self.im.user.lang;
             var choices = data.choices.map(function(issue, index) {
-                return new Choice(index, issue[language]);
+                // Fallback for no translation for language
+                issue = issue[language] === undefined
+                    ? issue.value
+                    : issue[language];
+                return new Choice(index, issue);
             });
             choices.push(new Choice('other', $('Other')));
 
