@@ -19,15 +19,7 @@ describe("App", function() {
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
-                issues: [
-                    'Broken toilet',
-                    'Broken basin',
-                    'Category 3',
-                    'Category 4',
-                    'Category 5',
-                    'Category 6',
-                    'Category 7',
-                ]
+                toilet_api_issue_url: 'http://toilet.info/api/issues/'
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
@@ -267,14 +259,10 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with one result", function() {
-        beforeEach(function() {
-            tester
-                .setup.user.lang('en')
-                .input('MN34');
-        });
-
         it("should send the request to toilet API", function() {
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check(function(api, im , app) {
                     http_sent = api.http.requests[0];
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
@@ -288,6 +276,8 @@ describe("App", function() {
 
         it("should request the issue", function() {
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
@@ -307,6 +297,8 @@ describe("App", function() {
 
         it("should send the toilet and query data in creator_opts", function(){
             return tester
+                .setup.user.lang('en')
+                .input('MN34')
                 .check.user.state({
                     creator_opts: {
                         toilet: {
@@ -324,6 +316,8 @@ describe("App", function() {
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
+                    .setup.user.lang(lang)
+                    .input('MN34')
                     .check.reply.char_limit()
                     .run();
             });
@@ -352,7 +346,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[1];
+                    http_sent = api.http.requests[api.http.requests.length-1];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
@@ -361,7 +355,11 @@ describe("App", function() {
                             "long": "3.14159",
                             "lat": "2.71828"
                         },
-                        "issue": "Broken toilet",
+                        "issue": {
+                            "en": "Broken toilet",
+                            "zh": "Aphukileyo indlu yangasese",
+                            "value": "broken_toilet"
+                        },
                         "query": "MN34"
                     });
                 })
@@ -426,7 +424,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "8", "Custom issue")
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[1];
+                    http_sent = api.http.requests[api.http.requests.length-1];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",

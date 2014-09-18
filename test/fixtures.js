@@ -83,9 +83,9 @@ module.exports = function() {
                     "value": "broken_toilet"
                 },
                 {
-                    "en": "Broken sink",
+                    "en": "Broken basin",
                     "zh": "Aphukileyo isitya",
-                    "value": "broken_sink"
+                    "value": "broken_basin"
                 },
                 {
                     "en": "Category 3",
@@ -113,7 +113,8 @@ module.exports = function() {
                     "value": "category_7"
                 },
             ]
-        }
+        },
+        "repeatable": "true"
     },
     {
         "request": {
@@ -121,7 +122,11 @@ module.exports = function() {
             "url": "http://besnappy.com/api/",
             "data": {
                 "msisdn": "+12345",
-                "issue": "Broken toilet",
+                "issue": {
+                    "en": "Broken toilet",
+                    "zh": "Aphukileyo indlu yangasese",
+                    "value": "broken_toilet"
+                },
                 "toilet": {
                     "code": "MN34",
                     "lat": "2.71828",
