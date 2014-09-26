@@ -5,7 +5,7 @@ go.app = function() {
     var EndState = vumigo.states.EndState;
     var LanguageChoice = vumigo.states.LanguageChoice;
     var FreeText = vumigo.states.FreeText;
-    var JsonApi = vumigo.http.api.JsonApi;
+    //var JsonApi = vumigo.http.api.JsonApi;
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
 
@@ -151,12 +151,50 @@ go.app = function() {
         self.states.add('states:get-issue', function(name, data) {
         // Delegation state. This state handles the HTTP request to get the
         // list of issues from the toilet API.
-            var url = self.im.config.toilet_api_issue_url;
+            /*var url = self.im.config.toilet_api_issue_url;
             var http = new JsonApi(self.im);
             return http.get(url).then(function(resp) {
                 data.choices = resp.data;
                 return self.states.create('states:report-issue', data);
-            });
+            });*/
+            data.choices = [
+                {
+                    "en": "Broken toilet",
+                    "xh": "Aphukileyo indlu yangasese",
+                    "value": "broken_toilet"
+                },
+                {
+                    "en": "Broken basin",
+                    "xh": "Aphukileyo isitya",
+                    "value": "broken_basin"
+                },
+                {
+                    "en": "Issue 3",
+                    "xh": "Ikhathegori 3",
+                    "value": "issue_3"
+                },
+                {
+                    "en": "Issue 4",
+                    "xh": "Ikhathegori 4",
+                    "value": "issue_4"
+                },
+                {
+                    "en": "Issue 5",
+                    "xh": "Ikhathegori 5",
+                    "value": "issue_5"
+                },
+                {
+                    "en": "Issue 6",
+                    "xh": "Ikhathegori 6",
+                    "value": "issue_6"
+                },
+                {
+                    "en": "Issue 7",
+                    "xh": "Ikhathegori 7",
+                    "value": "issue_7"
+                },
+            ];
+            return self.states.create('states:report-issue', data);
         });
 
         self.states.add('states:report-issue', function(name, data) {
@@ -229,7 +267,7 @@ go.app = function() {
         self.states.add('states:send-report', function(name, data) {
         // This state sends the collected information to the Snappy Bridge API,
         // and then reports the success back to the user.
-            var url = self.im.config.snappy_api_url;
+            /*var url = self.im.config.snappy_api_url;
             var http = new JsonApi(self.im);
 
             return http.post(url, {
@@ -243,7 +281,8 @@ go.app = function() {
                 })
                 .then(function(resp){
                     return notify_success(name);
-                });
+                });*/
+            return notify_success(name);
         });
     });
 

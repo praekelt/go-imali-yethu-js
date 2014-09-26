@@ -1,7 +1,7 @@
 var vumigo = require('vumigo_v02');
 var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
-var assert = require('assert');
+//var assert = require('assert');
 
 languages = ['en', 'xh'];
 
@@ -504,7 +504,7 @@ describe("App", function() {
                 .run();
         });
 
-        it("should send the information to snappy bridge", function() {
+        /*it("should send the information to snappy bridge", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
@@ -528,7 +528,7 @@ describe("App", function() {
                     });
                 })
                 .run();
-        });
+        });*/
 
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
@@ -582,7 +582,7 @@ describe("App", function() {
                 .run();
         });
 
-        it("should send the custom issue to snappy", function() {
+        /*it("should send the custom issue to snappy", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
@@ -602,7 +602,7 @@ describe("App", function() {
                     });
                 })
                 .run();
-        });
+        });*/
 
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
