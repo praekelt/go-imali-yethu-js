@@ -88,7 +88,7 @@ go.app = function() {
         // with the user's query. If there is more than one result, it will
         // ask the user to refine the selection. If there is just one result,
         // it will request the issue from the user.
-            var url = self.im.config.toilet_api_url;
+            /*var url = self.im.config.toilet_api_url;
             var http = new JsonApi(self.im);
             return http.get(url, {
                 params: {
@@ -97,7 +97,33 @@ go.app = function() {
                 })
                 .then(function(resp){
                     return process_response(resp, opts.query);
-                });
+                });*/
+            var resp = {
+                "code": 200,
+                "data": [
+                    {
+                        "code": "MN33",
+                        "long": "3.14159",
+                        "lat": "2.71828"
+                    },
+                    {
+                        "code": "MN34",
+                        "long": "3.14159",
+                        "lat": "2.71828"
+                    },
+                    {
+                        "code": "MN35",
+                        "long": "1.12358",
+                        "lat": "3.14159"
+                    },
+                    {
+                        "code": "MN36",
+                        "long": "2.71828",
+                        "lat": "1.12358"
+                    }
+                ]
+            };
+            return process_response(resp, opts.query);
         });
 
         self.states.add('states:refine-response', function(name, data) {
