@@ -34,8 +34,8 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:select-language',
                     reply: [
-                        'Welcome to Imali Yethu sanitation reporting ',
-                        'service. Please choose your language:\n1. ',
+                        'Welcome. Please choose your language.\nWamkelekile. ',
+                        'Nceda ukhethe ulwimi lwakho. \n1. ',
                         'English\n2. isiXhosa'].join(''),
                 })
                 .check.reply.char_limit()
@@ -64,8 +64,7 @@ describe("App", function() {
                 .input('1')
                 .check.interaction({
                     state: 'states:input-toilet-code',
-                    reply: ['Please input the code for the toilet. e.g. MN34',
-                        ' (You will find this on a sticker in the toilet)'
+                    reply: ['Enter the toilet number.'
                         ].join(''),
                 })
                 .check.reply.char_limit()
@@ -80,8 +79,7 @@ describe("App", function() {
                 .start()
                 .check.interaction({
                     state: 'states:input-toilet-code',
-                    reply: ['Please input the code for the toilet. e.g. MN34',
-                        ' (You will find this on a sticker in the toilet)'
+                    reply: ['Enter the toilet number.'
                         ].join(''),
                 })
                 .check.reply.char_limit()
@@ -248,7 +246,7 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
-                        'What is the issue?',
+                        'What is the problem?',
                         '1. broken_toilet',
                         '2. broken_basin',
                         '3. issue_3',
@@ -272,7 +270,7 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
-                        'What is the issue?',
+                        'What is the problem?',
                         '1. Broken toilet',
                         '2. Broken basin',
                         '3. Issue 3',
@@ -358,7 +356,7 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
-                        'What is the issue?',
+                        'What is the problem?',
                         '1. Broken toilet',
                         '2. Broken basin',
                         '3. Issue 3',
@@ -496,9 +494,9 @@ describe("App", function() {
                 .inputs('MN34', '2', '1')
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ["Thanks for your report. We will notify the City ",
-                        "of Cape Town of your issue and inform you of any ",
-                        "updates via SMS or Call. Imali Yethu"].join(''),
+                    reply: ["Thank you. We will forward your report to the ",
+                        "City of Cape Town and let you know if there is an",
+                        " update."].join(''),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -574,9 +572,9 @@ describe("App", function() {
                 .inputs("MN34", '2', "8", "Custom issue")
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ["Thanks for your report. We will notify the City ",
-                        "of Cape Town of your issue and inform you of any ",
-                        "updates via SMS or Call. Imali Yethu"].join(''),
+                    reply: ["Thank you. We will forward your report to the ",
+                        "City of Cape Town and let you know if there is an",
+                        " update."].join(''),
                 })
                 .check.reply.char_limit()
                 .run();
