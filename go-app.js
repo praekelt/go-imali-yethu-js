@@ -165,40 +165,30 @@ go.app = function() {
             });*/
             data.choices = [
                 {
-                    "en": "Broken toilet",
-                    "xh": "Aphukileyo indlu yangasese",
+                    "en": "Toilet blocked",
+                    "xh": "Toilet blocked",
                     "value": "broken_toilet"
                 },
                 {
-                    "en": "Broken basin",
-                    "xh": "Aphukileyo isitya",
+                    "en": "Flooded",
+                    "xh": "Flooded",
                     "value": "broken_basin"
                 },
                 {
-                    "en": "Issue 3",
-                    "xh": "Ikhathegori 3",
+                    "en": "Leak",
+                    "xh": "Leak",
                     "value": "issue_3"
                 },
                 {
-                    "en": "Issue 4",
-                    "xh": "Ikhathegori 4",
+                    "en": "Door blocked",
+                    "xh": "Door blocked",
                     "value": "issue_4"
                 },
                 {
-                    "en": "Issue 5",
-                    "xh": "Ikhathegori 5",
+                    "en": "Door locked",
+                    "xh": "Door locked",
                     "value": "issue_5"
-                },
-                {
-                    "en": "Issue 6",
-                    "xh": "Ikhathegori 6",
-                    "value": "issue_6"
-                },
-                {
-                    "en": "Issue 7",
-                    "xh": "Ikhathegori 7",
-                    "value": "issue_7"
-                },
+                }
             ];
             return self.states.create('states:report-issue', data);
         });
