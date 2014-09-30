@@ -227,12 +227,13 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
-                        'Yintoni ingxaki yetoileti?',
+                        'Yintoni ingxaki?',
                         '1. Aphukileyo indlu yangasese',
                         '2. Aphukileyo isitya',
                         '3. Ikhathegori 3',
                         '4. Ikhathegori 4',
-                        '5. More'].join('\n'),
+                        '5. Ikhathegori 5',
+                        '6. More'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
