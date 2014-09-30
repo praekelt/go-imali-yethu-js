@@ -159,28 +159,33 @@ go.app = function() {
             data.choices = [
                 {
                     "en": "Toilet blocked",
-                    "xh": "Toilet blocked",
-                    "value": "broken_toilet"
+                    "xh": "Toilet ibhlokile",
+                    "value": "blocked_toilet"
                 },
                 {
-                    "en": "Flooded",
-                    "xh": "Flooded",
-                    "value": "broken_basin"
+                    "en": "No water in toilet",
+                    "xh": "Akho manzi etoilet",
+                    "value": "no_water"
                 },
                 {
-                    "en": "Leak",
-                    "xh": "Leak",
-                    "value": "issue_3"
+                    "en": "Toilet leaking",
+                    "xh": "Toilet iyavuza",
+                    "value": "toilet_leaking"
                 },
                 {
-                    "en": "Door blocked",
-                    "xh": "Door blocked",
-                    "value": "issue_4"
+                    "en": "Tap leaking",
+                    "xh": "Itepu iyavuza",
+                    "value": "tap_leaking"
                 },
                 {
-                    "en": "Door locked",
-                    "xh": "Door locked",
-                    "value": "issue_5"
+                    "en": "No door",
+                    "xh": "Akho cango",
+                    "value": "no_door"
+                },
+                {
+                    "en": "Sewerage overflow",
+                    "xh": "Ilindle liyavuza",
+                    "value": "sewerage_overflow"
                 }
             ];
             return self.states.create('states:report-issue', data);

@@ -246,12 +246,13 @@ describe("App", function() {
                     state: 'states:report-issue',
                     reply: [
                         'What is the problem?',
-                        '1. broken_toilet',
-                        '2. broken_basin',
-                        '3. issue_3',
-                        '4. issue_4',
-                        '5. issue_5',
-                        '6. Other',
+                        '1. blocked_toilet',
+                        '2. no_water',
+                        '3. toilet_leaking',
+                        '4. tap_leaking',
+                        '5. no_door',
+                        '6. sewerage_overflow',
+                        '7. More'
                     ].join('\n')
                 })
                 .check.reply.char_limit()
@@ -269,11 +270,11 @@ describe("App", function() {
                     reply: [
                         'What is the problem?',
                         '1. Toilet blocked',
-                        '2. Flooded',
-                        '3. Leak',
-                        '4. Door blocked',
-                        '5. Door locked',
-                        '6. Other'].join('\n'),
+                        '2. No water in toilet',
+                        '3. Toilet leaking',
+                        '4. Tap leaking',
+                        '5. No door',
+                        '6. More'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -287,29 +288,34 @@ describe("App", function() {
                     creator_opts: {
                         "choices":  [
                             {
-                              "en": "Toilet blocked",
-                              "value": "broken_toilet",
-                              "xh": "Toilet blocked"
+                                "en": "Toilet blocked",
+                                "xh": "Toilet ibhlokile",
+                                "value": "blocked_toilet"
                             },
                             {
-                              "en": "Flooded",
-                              "value": "broken_basin",
-                              "xh": "Flooded"
+                                "en": "No water in toilet",
+                                "xh": "Akho manzi etoilet",
+                                "value": "no_water"
                             },
                             {
-                              "en": "Leak",
-                              "value": "issue_3",
-                              "xh": "Leak"
+                                "en": "Toilet leaking",
+                                "xh": "Toilet iyavuza",
+                                "value": "toilet_leaking"
                             },
                             {
-                              "en": "Door blocked",
-                              "value": "issue_4",
-                              "xh": "Door blocked"
+                                "en": "Tap leaking",
+                                "xh": "Itepu iyavuza",
+                                "value": "tap_leaking"
                             },
                             {
-                              "en": "Door locked",
-                              "value": "issue_5",
-                              "xh": "Door locked"
+                                "en": "No door",
+                                "xh": "Akho cango",
+                                "value": "no_door"
+                            },
+                            {
+                                "en": "Sewerage overflow",
+                                "xh": "Ilindle liyavuza",
+                                "value": "sewerage_overflow"
                             }
                           ],
                         'query': 'MN',
@@ -343,11 +349,11 @@ describe("App", function() {
                     reply: [
                         'What is the problem?',
                         '1. Toilet blocked',
-                        '2. Flooded',
-                        '3. Leak',
-                        '4. Door blocked',
-                        '5. Door locked',
-                        '6. Other'].join('\n'),
+                        '2. No water in toilet',
+                        '3. Toilet leaking',
+                        '4. Tap leaking',
+                        '5. No door',
+                        '6. More'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -528,7 +534,7 @@ describe("App", function() {
         it("should request the user for the issue", function() {
             return tester
                 .setup.user.lang('en')
-                .inputs('MN34', '2', '6')
+                .inputs('MN34', '2', '6', '2')
                 .check.interaction({
                     state: 'states:custom-issue',
                     reply: 'Please type your issue with the toilet.',
@@ -553,7 +559,7 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
-                .inputs("MN34", '2', "6", "Custom issue")
+                .inputs("MN34", '2', "6", "2", "Custom issue")
                 .check.interaction({
                     state: 'states:send-report',
                     reply: ['Thanks for your report. We will notify the CoCT ',
