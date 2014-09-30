@@ -2,6 +2,7 @@ var vumigo = require('vumigo_v02');
 var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
 var assert = require('assert');
+var xh_translation = require('../xh');
 
 languages = ['en', 'xh'];
 
@@ -19,7 +20,10 @@ describe("App", function() {
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
-                toilet_api_issue_url: 'http://toilet.info/api/issues/'
+                toilet_api_issue_url: 'http://toilet.info/api/issues/', 
+            })
+            .setup.config({
+                'translation.xh': xh_translation
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
@@ -223,13 +227,12 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:report-issue',
                     reply: [
-                        'What is the problem?',
+                        'Yintoni ingxaki yetoileti?',
                         '1. Aphukileyo indlu yangasese',
                         '2. Aphukileyo isitya',
                         '3. Ikhathegori 3',
                         '4. Ikhathegori 4',
-                        '5. Ikhathegori 5',
-                        '6. More'].join('\n'),
+                        '5. More'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
