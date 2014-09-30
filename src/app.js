@@ -28,8 +28,8 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome. Please choose your language.',
-                    'Wamkelekile. Nceda ukhethe ulwimi lwakho. '].join('\n'),
+                question: ['Welcome to Imali Yethu toilet reporting service. ',
+                'Please choose your language:'].join(''),
 
                 choices: [
                     new Choice('en', 'English'),
@@ -83,10 +83,10 @@ go.app = function() {
             /*var url = self.im.config.toilet_api_url;
             var http = new JsonApi(self.im);
             return http.get(url, {
-                params: {
-                    q: opts.query,
-                    format: 'json'}
-                })
+                    params: {
+                        q: opts.query,
+                        format: 'json'}
+                    })
                 .then(function(resp){
                     return process_response(resp, opts.query);
                 });*/
@@ -228,7 +228,7 @@ go.app = function() {
         // This state allows the user to define a custom issue using a text
         // input.
             return new FreeText(name, {
-                question: $("Please type the issue with the toilet."),
+                question: $("Please type your issue with the toilet."),
 
                 next: function(input) {
                     return {
@@ -246,9 +246,10 @@ go.app = function() {
         // This function will notify the user of a successfully transmitted
         // report.
             return new EndState(name, {
-                text: $(["Thank you. We will forward your report to the City ",
-                    "of Cape Town and let you know if there is an update."
-                    ].join('')),
+                text: $(['Thanks for your report. We will notify the CoCT of ',
+                         'your issue and inform you of any updates via SMS or',
+                         ' Call. Imali Yethu.'
+                            ].join('')),
                 next: 'states:detect-language'
             });
         };
