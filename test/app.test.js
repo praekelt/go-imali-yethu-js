@@ -38,10 +38,10 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:select-language',
                     reply: [
-                        'Welcome. Please choose your language.',
-                        'Wamkelekile. Nceda ukhethe ulwimi lwakho.',
-                        '1. English',
-                        '2. isiXhosa'].join('\n'),
+                        'Welcome to Imali Yethu toilet reporting service. ',
+                        'Please choose your language:',
+                        '\n1. English',
+                        '\n2. isiXhosa'].join(''),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -496,9 +496,9 @@ describe("App", function() {
                 .inputs('MN34', '1')
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ['Thank you. We will forward your report to the ',
-                            'City of Cape Town and let you know if there is ',
-                            'an update.'
+                    reply: ['Thanks for your report. We will notify the CoCT ',
+                            'of your issue and inform you of any updates via ',
+                            'SMS or Call. Imali Yethu.'
                             ].join(''),
                 })
                 .check.reply.char_limit()
@@ -550,7 +550,7 @@ describe("App", function() {
                 .inputs('MN34', '8')
                 .check.interaction({
                     state: 'states:custom-issue',
-                    reply: 'Please type the issue with the toilet.',
+                    reply: 'Please type your issue with the toilet.',
                 })
                 .check.reply.char_limit()
                 .run();
@@ -575,9 +575,9 @@ describe("App", function() {
                 .inputs("MN34", "8", "Custom issue")
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ['Thank you. We will forward your report to the ',
-                            'City of Cape Town and let you know if there is ',
-                            'an update.'
+                    reply: ['Thanks for your report. We will notify the CoCT ',
+                            'of your issue and inform you of any updates via ',
+                            'SMS or Call. Imali Yethu.'
                             ].join(''),
                 })
                 .check.reply.char_limit()
