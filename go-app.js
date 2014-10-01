@@ -15,11 +15,58 @@ go.app = function() {
     var JsonApi = vumigo.http.api.JsonApi;
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
+    var MetricsHelper = require('go-jsbox-metrics-helper');
 
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
+
+        self.init = function() {
+        // Uses the metrics helper to add the required metrics to the
+        // application
+            mh = new MetricsHelper(self.im);
+            mh
+                // Total unique users
+                .add.total_unique_users()
+                // Total and weekly USSD sessions
+                .add.total_sessions()
+                // Total and weekly completed reports
+                // Average sessions per complete report
+                .add.trigger({state: 'states:send-report',action: 'show'}, {
+                        total_state_action: 'total_completed_reports',
+                        sessions_until_state: 'average_sessions_per_report'})
+                // Average time to complete report
+                .add.time_between_states(
+                    {state: 'states:detect-language', action: 'enter'},
+                    {state: 'states:send-report', action:'show'},
+                    'time_per_report')
+                // Average time spent per screen 1, 2, 3a, 3b, 3c, 4
+                .add.time_between_states(
+                    {state: 'states:select-language', action: 'enter'},
+                    {state: 'states:select-language', action: 'exit'},
+                    'time_per_screen_1_select_language')
+                .add.time_between_states(
+                    {state: 'states:input-toilet-code', action: 'enter'},
+                    {state: 'states:input-toilet-code', action: 'exit'},
+                    'time_per_screen_2_input_toilet_code')
+                .add.time_between_states(
+                    {state: 'states:get-issue', action: 'enter'},
+                    {state: 'states:get-issue', action: 'exit'},
+                    'time_per_screen_3a_get_issue')
+                .add.time_between_states(
+                    {state: 'states:refine-response', action: 'enter'},
+                    {state: 'states:refine-response', action: 'exit'},
+                    'time_per_screen_3b_refine_response')
+                .add.time_between_states(
+                    {state: 'states:custom-issue', action: 'enter'},
+                    {state: 'states:custom-issue', action: 'exit'},
+                    'time_per_screen_3c_custom_issue')
+                .add.time_between_states(
+                    {state: 'states:send-report', action: 'enter'},
+                    {state: 'states:send-report', action: 'exit'},
+                    'time_per_screen_4_send_report');
+        };
 
         self.states.add('states:detect-language', function(name) {
         // Delegation state, checks if a language is registered for a contact.
@@ -32,6 +79,7 @@ go.app = function() {
         });
 
         self.states.add('states:select-language', function(name) {
+        // Screen 1
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
@@ -47,6 +95,7 @@ go.app = function() {
         });
 
         self.states.add('states:input-toilet-code', function(name) {
+        // Screen 2
         // This state allows the user to input the code for the toilet.
             return new FreeText(name, {
                 question: $(['Please input the code for the toilet. e.g. MN34',
@@ -101,6 +150,7 @@ go.app = function() {
         });
 
         self.states.add('states:refine-response', function(name, data) {
+        // Screen 3b
         // This state requests that the user refine their request, as it
         // didn't return an exact match.
             choices = data.data.map(function(item, index) {
@@ -141,6 +191,7 @@ go.app = function() {
         });
 
         self.states.add('states:report-issue', function(name, data) {
+        // Screen 3a
         // This state gives the user a list of choices, as well as `other`,
         // which allows the user to define a custom issue.
             var language = self.im.user.lang;
@@ -179,6 +230,7 @@ go.app = function() {
         });
 
         self.states.add('states:custom-issue', function(name, data) {
+        // Screen 3c
         // This state allows the user to define a custom issue using a text
         // input.
             return new FreeText(name, {
@@ -208,6 +260,7 @@ go.app = function() {
         };
 
         self.states.add('states:send-report', function(name, data) {
+        // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
         // and then reports the success back to the user.
             var url = self.im.config.snappy_api_url;
