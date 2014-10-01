@@ -41,6 +41,32 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
+
+        it('should trigger the unique user metrics', function() {
+            return tester
+                .start()
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app.unique_users;
+                    metrics_trans = api.metrics.stores.test_app
+                        ['unique_users.transient'];
+                    assert.deepEqual(metrics, {agg: 'last', values: [ 1 ]});
+                    assert.deepEqual(metrics_trans, {agg: 'sum', values: [1]});
+                })
+                .run();
+        });
+
+        it('should trigger the total sessions metrics', function() {
+            return tester
+                .start()
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app.total_sessions;
+                    metrics_trans = api.metrics.stores.test_app
+                        ['total_sessions.transient'];
+                    assert.deepEqual(metrics, {agg: 'last', values: [ 1 ]});
+                    assert.deepEqual(metrics_trans, {agg: 'sum', values: [1]});
+                })
+                .run();
+        });
     });
 
     describe("When a new user selects their language", function() {
@@ -539,6 +565,35 @@ describe("App", function() {
                     .check.reply.char_limit()
                     .run();
             });
+        });
+
+        it('should trigger the total completed reports metric', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .total_completed_reports;
+                    metrics_trans = api.metrics.stores.test_app
+                        ['total_completed_reports.transient'];
+                    assert.deepEqual(metrics, {agg: 'last', values: [ 1 ]});
+                    assert.deepEqual(metrics_trans, {agg: 'sum', values: [1]});
+                })
+                .run();
+        });
+
+        it('should trigger the average sessions per report metric', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs(null, 'MN34', '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .average_sessions_per_report;
+                    assert.deepEqual(metrics, {agg: 'avg', values: [ 1 ]});
+                })
+                .run();
         });
     });
 
