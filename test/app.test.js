@@ -685,4 +685,101 @@ describe("App", function() {
         });
     });
 
+    describe('Per screen timing metrics', function() {
+        it('should have a timing metric for screen 1', function() {
+            return tester
+                .inputs(null, '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_1_select_language;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+
+        it('should have a timing metric for screen 2', function() {
+            return tester
+                .inputs(null, '1', 'MN34')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_2_input_toilet_code;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+
+        it('should have a timing metric for screen 3a', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_3a_get_issue;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+
+        it('should have a timing metric for screen 3b', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN', '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_3b_refine_response;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+
+        it('should have a timing metric for screen 3c', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "8", "Custom issue")
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_3c_custom_issue;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+
+        it('should have a timing metric for screen 4', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .setup.user.state({
+                    name:'states:send-report',
+                    creator_opts: {
+                        toilet: {
+                            "code": "MN34",
+                            "long": "3.14159",
+                            "lat": "2.71828"
+                        },
+                        query: "MN34",
+                        issue: {
+                            "en": "Broken toilet",
+                            "xh": "Aphukileyo indlu yangasese",
+                            "value": "broken_toilet"
+                        }
+                    }})
+                .inputs(null)
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app
+                        .time_per_screen_4_send_report;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+    });
+
 });

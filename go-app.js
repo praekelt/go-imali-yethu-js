@@ -51,8 +51,8 @@ go.app = function() {
                     {state: 'states:input-toilet-code', action: 'exit'},
                     'time_per_screen_2_input_toilet_code')
                 .add.time_between_states(
-                    {state: 'states:get-issue', action: 'enter'},
-                    {state: 'states:get-issue', action: 'exit'},
+                    {state: 'states:report-issue', action: 'enter'},
+                    {state: 'states:report-issue', action: 'exit'},
                     'time_per_screen_3a_get_issue')
                 .add.time_between_states(
                     {state: 'states:refine-response', action: 'enter'},
