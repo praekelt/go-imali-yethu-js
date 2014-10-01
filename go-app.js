@@ -39,7 +39,7 @@ go.app = function() {
                 // Average time to complete report
                 .add.time_between_states(
                     {state: 'states:detect-language', action: 'enter'},
-                    {state: 'states:send-report', action:'show'},
+                    {state: 'states:send-report', action:'enter'},
                     'time_per_report')
                 // Average time spent per screen 1, 2, 3a, 3b, 3c, 4
                 .add.time_between_states(

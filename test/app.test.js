@@ -595,6 +595,20 @@ describe("App", function() {
                 })
                 .run();
         });
+
+        it('should trigger the time per report metrics', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .setup.user.state('states:detect-language')
+                .inputs(null, 'MN34', '1')
+                .check(function(api) {
+                    metrics = api.metrics.stores.test_app.time_per_report;
+                    assert.equal(metrics.agg, 'avg');
+                    assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
     });
 
     describe("When the user selects other as issue", function() {
