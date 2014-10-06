@@ -35,8 +35,8 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome to Imali Yethu sanitation reporting',
-                    ' service. Please choose your language:'].join(''),
+                question: ['Welcome to Imali Yethu toilet reporting service. ',
+                'Please choose your language:'].join(''),
 
                 choices: [
                     new Choice('en', 'English'),
@@ -49,8 +49,7 @@ go.app = function() {
         self.states.add('states:input-toilet-code', function(name) {
         // This state allows the user to input the code for the toilet.
             return new FreeText(name, {
-                question: $(['Please input the code for the toilet. e.g. MN34',
-                ' (You will find this on a sticker in the toilet)'].join('')),
+                question: $('Enter the toilet number.'),
 
                 next: function(content) {
                     return {
@@ -91,10 +90,10 @@ go.app = function() {
             var url = self.im.config.toilet_api_url;
             var http = new JsonApi(self.im);
             return http.get(url, {
-                params: {
-                    q: opts.query,
-                    format: 'json'}
-                })
+                    params: {
+                        q: opts.query,
+                        format: 'json'}
+                    })
                 .then(function(resp){
                     return process_response(resp, opts.query);
                 });
@@ -154,7 +153,7 @@ go.app = function() {
             choices.push(new Choice('other', $('Other')));
 
             return new PaginatedChoiceState(name, {
-                question: $('What is the issue?'),
+                question: $('What is the problem?'),
 
                 choices: choices,
 
@@ -182,7 +181,7 @@ go.app = function() {
         // This state allows the user to define a custom issue using a text
         // input.
             return new FreeText(name, {
-                question: $("Please type the issue with the toilet."),
+                question: $("Please type your issue with the toilet."),
 
                 next: function(input) {
                     return {
@@ -200,9 +199,10 @@ go.app = function() {
         // This function will notify the user of a successfully transmitted
         // report.
             return new EndState(name, {
-                text: $(["Thanks for your report. We will notify the City of ",
-                    "Cape Town of your issue and inform you of any updates ",
-                    "via SMS or Call. Imali Yethu"].join('')),
+                text: $(['Thanks for your report. We will notify the CoCT of ',
+                         'your issue and inform you of any updates via SMS or',
+                         ' Call. Imali Yethu.'
+                            ].join('')),
                 next: 'states:detect-language'
             });
         };
