@@ -26,7 +26,7 @@ go.app = function() {
                 .add.total_sessions()
                 // Total and weekly completed reports
                 // Average sessions per complete report
-                .add.trigger({state: 'states:send-report',action: 'enter'}, {
+                .add.trigger({state: 'states:send-report', action: 'enter'}, {
                         total_state_actions: 'total_completed_reports',
                         sessions_until_state: 'average_sessions_per_report'})
                 // Average time to complete report
