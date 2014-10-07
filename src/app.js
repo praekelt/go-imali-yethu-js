@@ -76,8 +76,8 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome to Imali Yethu toilet reporting service. ',
-                'Please choose your language:'].join(''),
+                question: ['Welcome to Imali Yethu toilet reporting service.',
+                           'Please choose your language:'].join(' '),
 
                 choices: [
                     new Choice('en', 'English'),
