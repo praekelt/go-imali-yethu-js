@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/praekelt/go-imali-yethu-js",
   "dependencies": {
-    "vumigo_v02": "~0.2",
-    "q": "~0.9",
+    "go-jsbox-metrics-helper": "~0.1.0",
+    "go-jsbox-ona": "praekelt/go-jsbox-ona#develop",
     "lodash": "~2.4.1",
     "moment": "~2.5.1",
-    "go-jsbox-metrics-helper": "~0.1.0"
+    "q": "~0.9",
+    "vumigo_v02": "~0.2"
   },
   "devDependencies": {
     "mocha": "~1.18",
