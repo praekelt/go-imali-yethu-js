@@ -1,8 +1,10 @@
+var _ = require('lodash');
 var vumigo = require('vumigo_v02');
 var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
 var assert = require('assert');
 var xh_translation = require('../translations/xh');
+var OnaFixtures = require('../node_modules/go-jsbox-ona/src').OnaFixtures;
 
 languages = ['en', 'xh'];
 
@@ -538,7 +540,10 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[api.http.requests.length-1];
+                    var index = _.findIndex(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    });
+                    http_sent = api.http.requests[index];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
@@ -660,7 +665,10 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "8", "Custom issue")
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[api.http.requests.length-1];
+                    var index = _.findIndex(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    });
+                    http_sent = api.http.requests[index];
                     assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
