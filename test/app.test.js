@@ -42,6 +42,7 @@ describe("App", function() {
                 "submission": {
                     "msisdn":"+12345",
                     "toilet_code":"MN34",
+                    "issue": "Custom issue",
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
                     "toilet_location":"2.71828 3.14159",

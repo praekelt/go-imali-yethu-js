@@ -282,7 +282,7 @@ go.app = function() {
                         submission: {
                             msisdn: self.im.user.addr,
                             toilet_code: data.toilet.code,
-                            issue: data.issue.value,
+                            issue: data.issue.value || data.issue,
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
