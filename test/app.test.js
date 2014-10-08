@@ -17,18 +17,53 @@ describe("App", function() {
 
         tester = new AppTester(app);
 
+        app.now = function() {
+            return 1337;
+        };
+
+        onafixtures = new OnaFixtures();
+        onafixtures.submit.add({
+            data: {
+                id: '1',
+                submission: {
+                    "msisdn":"+12345",
+                    "toilet_code":"MN34",
+                    "issue":"broken_toilet",
+                    "toilet_code_query":"MN34",
+                    "fault_status":"logged",
+                    "toilet_location":"2.71828 3.14159",
+                    "logged_date":1337
+                }
+            }
+        });
+        onafixtures.submit.add({
+            data: {
+                "id":"1",
+                "submission": {
+                    "msisdn":"+12345",
+                    "toilet_code":"MN34",
+                    "toilet_code_query":"MN34",
+                    "fault_status":"logged",
+                    "toilet_location":"2.71828 3.14159",
+                    "logged_date":1337
+                }
+            }
+        });
+
         tester
             .setup.config.app({
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
-                toilet_api_issue_url: 'http://toilet.info/api/issues/', 
+                toilet_api_issue_url: 'http://toilet.info/api/issues/',
+                ona_id: '1'
             })
             .setup.config({
                 'translation.xh': xh_translation
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
+                onafixtures.store.forEach(api.http.fixtures.add);
             })
             .setup.char_limit(139);
     });
