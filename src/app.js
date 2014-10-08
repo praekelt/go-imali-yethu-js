@@ -9,11 +9,13 @@ go.app = function() {
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
+    var Ona = require('../node_modules/go-jsbox-ona/src').Ona;
 
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
+        self.now = Date.now;
 
         self.init = function() {
         // Uses the metrics helper to add the required metrics to the
@@ -268,7 +270,28 @@ go.app = function() {
                     //datetime: Date.now()
                     }
                 })
-                .then(function(resp){
+                .then(function(resp) {
+                    var ona = new Ona(self.im, {
+                        auth: {
+                            username: 'root',
+                            password: 'toor'
+                        }
+                    });
+                    return ona.submit({
+                        id: self.im.config.ona_id,
+                        submission: {
+                            msisdn: self.im.user.addr,
+                            toilet_code: data.toilet.code,
+                            issue: data.issue.value,
+                            toilet_code_query: data.query,
+                            fault_status: 'logged',
+                            toilet_location: [
+                                data.toilet.lat, data.toilet.long].join(' '),
+                            logged_date: self.now()
+                        }
+                    });
+                })
+                .then(function(resp) {
                     return notify_success(name);
                 });
         });
