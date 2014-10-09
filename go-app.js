@@ -16,7 +16,8 @@ go.app = function() {
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
-    var Ona = require('go-jsbox-ona').Ona;
+    var ona = require('go-jsbox-ona');
+    var Ona = ona.Ona;
 
 
     var GoApp = App.extend(function(self) {

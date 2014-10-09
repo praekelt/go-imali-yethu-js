@@ -4,7 +4,7 @@ var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
 var assert = require('assert');
 var xh_translation = require('../translations/xh');
-var OnaFixtures = require('Ona').OnaFixtures;
+var OnaFixtures = require('go-jsbox-ona').OnaFixtures;
 
 languages = ['en', 'xh'];
 
