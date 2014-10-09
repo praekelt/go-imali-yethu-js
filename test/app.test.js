@@ -581,10 +581,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
-                    var index = _.findIndex(api.http.requests, {
+                    var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
-                    });
-                    http_sent = api.http.requests[index];
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -609,10 +608,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api) {
-                    var index = _.findIndex(api.http.requests, {
+                    var http_sent = _.where(api.http.requests, {
                         url: 'http://ona.io/api/v1/submission'
-                    });
-                    http_sent = api.http.requests[index];
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "id": "1",
                         "submission": {
@@ -731,10 +729,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "8", "Custom issue")
                 .check(function(api, im , app) {
-                    var index = _.findIndex(api.http.requests, {
+                    var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
-                    });
-                    http_sent = api.http.requests[index];
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -755,10 +752,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '8', "Custom issue")
                 .check(function(api) {
-                    var index = _.findIndex(api.http.requests, {
+                    var http_sent = _.where(api.http.requests, {
                         url: 'http://ona.io/api/v1/submission'
-                    });
-                    http_sent = api.http.requests[index];
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "id": "1",
                         "submission": {
