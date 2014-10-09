@@ -16,11 +16,14 @@ go.app = function() {
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
+    var ona = require('go-jsbox-ona');
+    var Ona = ona.Ona;
 
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
+        self.now = Date.now;
 
         self.init = function() {
         // Uses the metrics helper to add the required metrics to the
@@ -275,7 +278,29 @@ go.app = function() {
                     //datetime: Date.now()
                     }
                 })
-                .then(function(resp){
+                .then(function(resp) {
+                    var ona = new Ona(self.im, {
+                        auth: {
+                            username: self.im.config.ona.username,
+                            password: self.im.config.ona.password
+                        },
+                        url: self.im.config.ona.url
+                    });
+                    return ona.submit({
+                        id: self.im.config.ona.id,
+                        submission: {
+                            msisdn: self.im.user.addr,
+                            toilet_code: data.toilet.code,
+                            issue: data.issue.value || data.issue,
+                            toilet_code_query: data.query,
+                            fault_status: 'logged',
+                            toilet_location: [
+                                data.toilet.lat, data.toilet.long].join(' '),
+                            logged_date: self.now()
+                        }
+                    });
+                })
+                .then(function(resp) {
                     return notify_success(name);
                 });
         });

@@ -1,8 +1,10 @@
+var _ = require('lodash');
 var vumigo = require('vumigo_v02');
 var fixtures = require('./fixtures');
 var AppTester = vumigo.AppTester;
 var assert = require('assert');
 var xh_translation = require('../translations/xh');
+var OnaFixtures = require('go-jsbox-ona').OnaFixtures;
 
 languages = ['en', 'xh'];
 
@@ -15,18 +17,59 @@ describe("App", function() {
 
         tester = new AppTester(app);
 
+        app.now = function() {
+            return 1337;
+        };
+
+        onafixtures = new OnaFixtures({url: "http://ona.io/api/v1/"});
+        onafixtures.submit.add({
+            data: {
+                id: '1',
+                submission: {
+                    "msisdn":"+12345",
+                    "toilet_code":"MN34",
+                    "issue":"broken_toilet",
+                    "toilet_code_query":"MN34",
+                    "fault_status":"logged",
+                    "toilet_location":"2.71828 3.14159",
+                    "logged_date":1337
+                }
+            }
+        });
+        onafixtures.submit.add({
+            data: {
+                "id":"1",
+                "submission": {
+                    "msisdn":"+12345",
+                    "toilet_code":"MN34",
+                    "issue": "Custom issue",
+                    "toilet_code_query":"MN34",
+                    "fault_status":"logged",
+                    "toilet_location":"2.71828 3.14159",
+                    "logged_date":1337
+                }
+            }
+        });
+
         tester
             .setup.config.app({
                 name: 'test_app',
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
-                toilet_api_issue_url: 'http://toilet.info/api/issues/', 
+                toilet_api_issue_url: 'http://toilet.info/api/issues/',
+                ona: {
+                    id: '1',
+                    username: 'root',
+                    password: 'toor',
+                    url: 'http://ona.io/api/v1/'
+                }
             })
             .setup.config({
                 'translation.xh': xh_translation
             })
             .setup(function(api) {
                 fixtures().forEach(api.http.fixtures.add);
+                onafixtures.store.forEach(api.http.fixtures.add);
             })
             .setup.char_limit(139);
     });
@@ -538,8 +581,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[api.http.requests.length-1];
-                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -553,6 +597,31 @@ describe("App", function() {
                             "value": "broken_toilet"
                         },
                         "query": "MN34"
+                    });
+                })
+                .run();
+        });
+
+        it("should send the information to Ona", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    })[0];
+                    assert.deepEqual(http_sent.data, {
+                        "id": "1",
+                        "submission": {
+                            "msisdn": "+12345",
+                            "toilet_code": "MN34",
+                            "issue": "broken_toilet",
+                            "toilet_code_query": "MN34",
+                            "fault_status": "logged",
+                            "toilet_location": "2.71828 3.14159",
+                            "logged_date": "1337"
+                        }
                     });
                 })
                 .run();
@@ -660,8 +729,9 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "8", "Custom issue")
                 .check(function(api, im , app) {
-                    http_sent = api.http.requests[api.http.requests.length-1];
-                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    })[0];
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -671,6 +741,31 @@ describe("App", function() {
                         },
                         "issue": "Custom issue",
                         "query": "MN34"
+                    });
+                })
+                .run();
+        });
+
+        it("should send the custom issue to Ona", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '8', "Custom issue")
+                .check(function(api) {
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    })[0];
+                    assert.deepEqual(http_sent.data, {
+                        "id": "1",
+                        "submission": {
+                            "msisdn": "+12345",
+                            "toilet_code": "MN34",
+                            "issue": "Custom issue",
+                            "toilet_code_query": "MN34",
+                            "fault_status": "logged",
+                            "toilet_location": "2.71828 3.14159",
+                            "logged_date": "1337"
+                        }
                     });
                 })
                 .run();
