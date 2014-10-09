@@ -280,12 +280,13 @@ go.app = function() {
                 .then(function(resp) {
                     var ona = new Ona(self.im, {
                         auth: {
-                            username: 'root',
-                            password: 'toor'
-                        }
+                            username: self.im.config.ona.username,
+                            password: self.im.config.ona.password
+                        },
+                        url: self.im.config.ona.url
                     });
                     return ona.submit({
-                        id: self.im.config.ona_id,
+                        id: self.im.config.ona.id,
                         submission: {
                             msisdn: self.im.user.addr,
                             toilet_code: data.toilet.code,

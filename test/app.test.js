@@ -21,7 +21,7 @@ describe("App", function() {
             return 1337;
         };
 
-        onafixtures = new OnaFixtures();
+        onafixtures = new OnaFixtures({url: "http://ona.io/api/v1/"});
         onafixtures.submit.add({
             data: {
                 id: '1',
@@ -57,7 +57,12 @@ describe("App", function() {
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
                 toilet_api_issue_url: 'http://toilet.info/api/issues/',
-                ona_id: '1'
+                ona: {
+                    id: '1',
+                    username: 'root',
+                    password: 'toor',
+                    url: 'http://ona.io/api/v1/'
+                }
             })
             .setup.config({
                 'translation.xh': xh_translation
@@ -580,7 +585,6 @@ describe("App", function() {
                         url: 'http://besnappy.com/api/'
                     });
                     http_sent = api.http.requests[index];
-                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -594,6 +598,32 @@ describe("App", function() {
                             "value": "broken_toilet"
                         },
                         "query": "MN34"
+                    });
+                })
+                .run();
+        });
+
+        it("should send the information to Ona", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    var index = _.findIndex(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    });
+                    http_sent = api.http.requests[index];
+                    assert.deepEqual(http_sent.data, {
+                        "id": "1",
+                        "submission": {
+                            "msisdn": "+12345",
+                            "toilet_code": "MN34",
+                            "issue": "broken_toilet",
+                            "toilet_code_query": "MN34",
+                            "fault_status": "logged",
+                            "toilet_location": "2.71828 3.14159",
+                            "logged_date": "1337"
+                        }
                     });
                 })
                 .run();
@@ -705,7 +735,6 @@ describe("App", function() {
                         url: 'http://besnappy.com/api/'
                     });
                     http_sent = api.http.requests[index];
-                    assert.equal(http_sent.url, 'http://besnappy.com/api/');
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
@@ -715,6 +744,32 @@ describe("App", function() {
                         },
                         "issue": "Custom issue",
                         "query": "MN34"
+                    });
+                })
+                .run();
+        });
+
+        it("should send the custom issue to Ona", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '8', "Custom issue")
+                .check(function(api) {
+                    var index = _.findIndex(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    });
+                    http_sent = api.http.requests[index];
+                    assert.deepEqual(http_sent.data, {
+                        "id": "1",
+                        "submission": {
+                            "msisdn": "+12345",
+                            "toilet_code": "MN34",
+                            "issue": "Custom issue",
+                            "toilet_code_query": "MN34",
+                            "fault_status": "logged",
+                            "toilet_location": "2.71828 3.14159",
+                            "logged_date": "1337"
+                        }
                     });
                 })
                 .run();
