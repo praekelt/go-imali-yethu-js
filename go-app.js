@@ -16,14 +16,16 @@ go.app = function() {
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
-    var ona = require('go-jsbox-ona');
-    var Ona = ona.Ona;
+    var Ona = require('go-jsbox-ona').Ona;
 
 
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
-        self.now = Date.now;
+
+        self.now = function() {
+            return new Date().toISOString();
+        };
 
         self.init = function() {
         // Uses the metrics helper to add the required metrics to the
