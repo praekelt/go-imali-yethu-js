@@ -80,39 +80,81 @@ module.exports = function() {
             "code": 200,
             "data": [
                 {
-                    "en": "Broken toilet",
-                    "xh": "Aphukileyo indlu yangasese",
-                    "value": "broken_toilet"
+                    "id": 1,
+                    "value": "broken_toilet",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Broken toilet"
+                    }, {
+                        "language": "xh",
+                        "description": "Aphukileyo indlu yangasese",
+                    }]
                 },
                 {
-                    "en": "Broken basin",
-                    "xh": "Aphukileyo isitya",
-                    "value": "broken_basin"
+                    "id": 2,
+                    "value": "broken_basin",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Broken basin"
+                    }, {
+                        "language": "xh",
+                        "description": "Aphukileyo isitya"
+                    }]
                 },
                 {
-                    "en": "Issue 3",
-                    "xh": "Ikhathegori 3",
-                    "value": "issue_3"
+                    "id": 3,
+                    "value": "issue_3",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Issue 3"
+                    }, {
+                        "language": "xh",
+                        "description": "Ikhathegori 3"
+                    }]
                 },
                 {
-                    "en": "Issue 4",
-                    "xh": "Ikhathegori 4",
-                    "value": "issue_4"
+                    "id": 4,
+                    "value": "issue_4",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Issue 4"
+                    }, {
+                        "language": "xh",
+                        "description": "Ikhathegori 4"
+                    }]
                 },
                 {
-                    "en": "Issue 5",
-                    "xh": "Ikhathegori 5",
-                    "value": "issue_5"
+                    "id": 5,
+                    "value": "issue_5",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Issue 5"
+                    }, {
+                        "language": "xh",
+                        "description": "Ikhathegori 5"
+                    }]
                 },
                 {
-                    "en": "Issue 6",
-                    "xh": "Ikhathegori 6",
-                    "value": "issue_6"
+                    "id": 6,
+                    "value": "issue_6",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Issue 6"
+                    }, {
+                        "language": "xh",
+                        "description": "Ikhathegori 6"
+                    }]
                 },
                 {
-                    "en": "Issue 7",
-                    "xh": "Ikhathegori 7",
-                    "value": "issue_7"
+                    "id": 7,
+                    "value": "issue_7",
+                    "translations": [{
+                        "language": "en",
+                        "description": "Issue 7"
+                    }, {
+                        "language": "xh",
+                        "description": "Ikhathegori 7"
+                    }]
                 },
             ]
         },

@@ -1,5 +1,6 @@
 go.app = function() {
     var vumigo = require('vumigo_v02');
+    var _ = require('lodash');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
     var EndState = vumigo.states.EndState;
@@ -178,7 +179,14 @@ go.app = function() {
             var url = self.im.config.toilet_api_issue_url;
             var http = new JsonApi(self.im);
             return http.get(url).then(function(resp) {
-                data.choices = resp.data;
+                var issues = resp.data.map(function(datum) {
+                    var issue = {value: datum.value};
+                    _.forEach(datum.translations, function(trans) {
+                        issue[trans.language] = trans.description;
+                    });
+                    return issue;
+                });
+                data.choices = issues;
                 return self.states.create('states:report-issue', data);
             });
         });
