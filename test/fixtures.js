@@ -4,17 +4,17 @@ module.exports = function() {
             "method": "GET",
             "url": "http://toilet.info/api/",
             "params": {
-                "q": "MN34",
-                "format": "json"
+                "query": "MN34",
             }
         },
         "response": {
             "code": 200,
             "data": [
                 {
-                    "code": "MN34",
-                    "long": "3.14159",
-                    "lat": "2.71828"
+                    "code" : "MN34",
+                    "lon" : -18.66404,
+                    "id" : 1,
+                    "lat" : -34.01667
                 }
             ]
         }
@@ -24,32 +24,35 @@ module.exports = function() {
             "method": "GET",
             "url": "http://toilet.info/api/",
             "params": {
-                "q": "MN",
-                "format": "json"
+                "query": "MN",
             }
         },
         "response": {
             "code": 200,
             "data": [
                 {
-                    "code": "MN33",
-                    "long": "3.14159",
-                    "lat": "2.71828"
+                    "lat" : -34.01667,
+                    "code" : "MN33",
+                    "id" : 4,
+                    "lon" : -18.66404
                 },
                 {
-                    "code": "MN34",
-                    "long": "2.71828",
-                    "lat": "3.14159"
+                    "lon" : -18.66404,
+                    "code" : "MN34",
+                    "lat" : -34.01667,
+                    "id" : 3
                 },
                 {
-                    "code": "MN35",
-                    "long": "1.12358",
-                    "lat": "3.14159"
+                    "lat" : -34.01667,
+                    "id" : 2,
+                    "code" : "MN35",
+                    "lon" : -18.66404
                 },
                 {
-                    "code": "MN36",
-                    "long": "2.71828",
-                    "lat": "1.12358"
+                    "id" : 1,
+                    "lat" : -34.01667,
+                    "code" : "MN36",
+                    "lon" : -18.66404
                 }
             ]
         }
@@ -59,8 +62,7 @@ module.exports = function() {
             "method": "GET",
             "url": "http://toilet.info/api/",
             "params": {
-                "q": "MN31",
-                "format": "json"
+                "query": "MN31",
             }
         },
         "response": {
@@ -128,9 +130,10 @@ module.exports = function() {
                     "value": "broken_toilet"
                 },
                 "toilet": {
+                    "id": 1,
                     "code": "MN34",
-                    "lat": "2.71828",
-                    "long": "3.14159"
+                    "lat": -34.01667,
+                    "lon": -18.66404
                 },
                 "query": "MN34"
             }
@@ -150,9 +153,10 @@ module.exports = function() {
                 "msisdn": "+12345",
                 "issue": "Custom issue",
                 "toilet": {
+                    "id": 1,
                     "code": "MN34",
-                    "lat": "2.71828",
-                    "long": "3.14159"
+                    "lat": -34.01667,
+                    "lon": -18.66404
                 },
                 "query": "MN34"
             }

@@ -16,8 +16,7 @@ go.app = function() {
     var ChoiceState = vumigo.states.ChoiceState;
     var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
-    var ona = require('go-jsbox-ona');
-    var Ona = ona.Ona;
+    var Ona = require('go-jsbox-ona').Ona;
 
 
     var GoApp = App.extend(function(self) {
@@ -143,8 +142,7 @@ go.app = function() {
             var http = new JsonApi(self.im);
             return http.get(url, {
                     params: {
-                        q: opts.query,
-                        format: 'json'}
+                        query: opts.query}
                     })
                 .then(function(resp){
                     return process_response(resp, opts.query);
@@ -295,7 +293,7 @@ go.app = function() {
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
-                                data.toilet.lat, data.toilet.long].join(' '),
+                                data.toilet.lat, data.toilet.lon].join(' '),
                             logged_date: self.now()
                         }
                     });
