@@ -29,7 +29,7 @@ describe("App", function() {
                     "issue":"broken_toilet",
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
-                    "toilet_location":"2.71828 3.14159",
+                    "toilet_location":"-34.01667 -18.66404",
                     "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
@@ -43,7 +43,7 @@ describe("App", function() {
                     "issue": "Custom issue",
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
-                    "toilet_location":"2.71828 3.14159",
+                    "toilet_location":"-34.01667 -18.66404",
                     "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
@@ -52,6 +52,11 @@ describe("App", function() {
         tester
             .setup.config.app({
                 name: 'test_app',
+                toilet_code: {
+                    url: 'http://toilet.info/api/',
+                    threshold: 0,
+                    max_results: 5
+                },
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
                 toilet_api_issue_url: 'http://toilet.info/api/issues/',
@@ -210,8 +215,9 @@ describe("App", function() {
                     http_sent = api.http.requests[0];
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
                     assert.deepEqual(http_sent.params, {
-                        "q": "MN",
-                        "format": "json"
+                        "query": "MN",
+                        "threshold": "0",
+                        "max_results": "5"
                     });
                 })
                 .check.reply.char_limit()
@@ -479,8 +485,9 @@ describe("App", function() {
                     http_sent = api.http.requests[0];
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
                     assert.deepEqual(http_sent.params, {
-                        "q": "MN34",
-                        "format": "json"
+                        "query": "MN34",
+                        "threshold": "0",
+                        "max_results": "5"
                     });
                 })
                 .run();
@@ -551,9 +558,10 @@ describe("App", function() {
                             }
                         ],
                         toilet: {
+                            "id": 1,
                             "code": "MN34",
-                            "lat": "2.71828",
-                            "long": "3.14159"
+                            "lat": -34.01667,
+                            "lon": -18.66404
                         },
                         query: "MN34"},
                     metadata: {
@@ -604,9 +612,10 @@ describe("App", function() {
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
+                            "id": 1,
                             "code": "MN34",
-                            "long": "3.14159",
-                            "lat": "2.71828"
+                            "lon": -18.66404,
+                            "lat": -34.01667
                         },
                         "issue": {
                             "en": "Broken toilet",
@@ -656,7 +665,7 @@ describe("App", function() {
                             "issue": "broken_toilet",
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
-                            "toilet_location": "2.71828 3.14159",
+                            "toilet_location": "-34.01667 -18.66404",
                             "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
@@ -792,9 +801,10 @@ describe("App", function() {
                     assert.deepEqual(http_sent.data, {
                         "msisdn": "+12345",
                         "toilet": {
+                            "id": 1,
                             "code": "MN34",
-                            "long": "3.14159",
-                            "lat": "2.71828"
+                            "lon": "-18.66404",
+                            "lat": "-34.01667"
                         },
                         "issue": "Custom issue",
                         "query": "MN34"
@@ -820,7 +830,7 @@ describe("App", function() {
                             "issue": "Custom issue",
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
-                            "toilet_location": "2.71828 3.14159",
+                            "toilet_location": "-34.01667 -18.66404",
                             "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
@@ -915,9 +925,10 @@ describe("App", function() {
                     name:'states:send-report',
                     creator_opts: {
                         toilet: {
+                            "id": 1,
                             "code": "MN34",
-                            "long": "3.14159",
-                            "lat": "2.71828"
+                            "lon": -18.66404,
+                            "lat": -34.01667
                         },
                         query: "MN34",
                         issue: {

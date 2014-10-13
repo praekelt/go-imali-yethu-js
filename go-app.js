@@ -7,6 +7,7 @@ go;
 
 go.app = function() {
     var vumigo = require('vumigo_v02');
+    var _ = require('lodash');
     var Q = require('q');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
@@ -145,12 +146,13 @@ go.app = function() {
         // with the user's query. If there is more than one result, it will
         // ask the user to refine the selection. If there is just one result,
         // it will request the issue from the user.
-            var url = self.im.config.toilet_api_url;
+            var url = self.im.config.toilet_code.url;
             var http = new JsonApi(self.im);
             return http.get(url, {
                     params: {
-                        q: opts.query,
-                        format: 'json'}
+                        query: opts.query,
+                        threshold: self.im.config.toilet_code.threshold,
+                        max_results: self.im.config.toilet_code.max_results}
                     })
                 .then(function(resp){
                     return process_response(resp, opts.query);
@@ -193,7 +195,14 @@ go.app = function() {
             var url = self.im.config.toilet_api_issue_url;
             var http = new JsonApi(self.im);
             return http.get(url).then(function(resp) {
-                data.choices = resp.data;
+                var issues = resp.data.map(function(datum) {
+                    var issue = {value: datum.value};
+                    _.forEach(datum.translations, function(trans) {
+                        issue[trans.language] = trans.description;
+                    });
+                    return issue;
+                });
+                data.choices = issues;
                 return self.states.create('states:report-issue', data);
             });
         });
@@ -316,7 +325,7 @@ go.app = function() {
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
-                                data.toilet.lat, data.toilet.long].join(' '),
+                                data.toilet.lat, data.toilet.lon].join(' '),
                             logged_date: self.now()
                         }
                     });
