@@ -613,6 +613,11 @@ describe("App", function() {
                         _.where(api.http.requests, {
                             url: 'http://besnappy.com/api/'
                         }), []);
+                    assert.deepEqual(
+                        api.log.info.slice(-1), [[
+                            'No Snappy API URL configured.',
+                            'Not submitting data to Snappy.'
+                        ].join(' ')]);
                 })
                 .run();
         });
@@ -653,6 +658,11 @@ describe("App", function() {
                         _.where(api.http.requests, {
                             url: 'http://ona.io/api/v1/submission'
                         }), []);
+                    assert.deepEqual(
+                        api.log.info.slice(-1), [[
+                            'No Ona API configured.',
+                            'Not submitting data to Ona.'
+                        ].join(' ')]);
                 })
                 .run();
         });

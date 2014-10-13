@@ -263,7 +263,10 @@ go.app = function() {
                 .then(function() {
                     var url = self.im.config.snappy_api_url;
                     if (typeof url == 'undefined') {
-                        return null;
+                        return self.im.log.info([
+                            "No Snappy API URL configured.",
+                            "Not submitting data to Snappy."
+                        ].join(" "));
                     }
                     var http = new JsonApi(self.im);
                     return http.post(url, {
@@ -279,7 +282,10 @@ go.app = function() {
                 .then(function() {
                     var ona_conf = self.im.config.ona;
                     if (typeof ona_conf == 'undefined') {
-                        return null;
+                        return self.im.log.info([
+                            "No Ona API configured.",
+                            "Not submitting data to Ona."
+                        ].join(" "));
                     }
                     var ona = new Ona(self.im, {
                         auth: {
