@@ -602,6 +602,21 @@ describe("App", function() {
                 .run();
         });
 
+        it("should skip sending the information if there is no snappy url", function() {
+            return tester
+                .setup.config.app({snappy_api_url: undefined})
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    assert.deepEqual(
+                        _.where(api.http.requests, {
+                            url: 'http://besnappy.com/api/'
+                        }), []);
+                })
+                .run();
+        });
+
         it("should send the information to Ona", function() {
             return tester
                 .setup.user.lang('en')
@@ -623,6 +638,21 @@ describe("App", function() {
                             "logged_date": "1337"
                         }
                     });
+                })
+                .run();
+        });
+
+        it("should skip sending the information if there is Ona config", function() {
+            return tester
+                .setup.config.app({ona: undefined})
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    assert.deepEqual(
+                        _.where(api.http.requests, {
+                            url: 'http://ona.io/api/v1/submission'
+                        }), []);
                 })
                 .run();
         });
