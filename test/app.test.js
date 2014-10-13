@@ -311,7 +311,7 @@ describe("App", function() {
                         '3. Ikhathegori 3',
                         '4. Ikhathegori 4',
                         '5. Ikhathegori 5',
-                        '6. Other'].join('\n'),
+                        '6. Enye'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
