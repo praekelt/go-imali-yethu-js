@@ -139,11 +139,13 @@ go.app = function() {
         // with the user's query. If there is more than one result, it will
         // ask the user to refine the selection. If there is just one result,
         // it will request the issue from the user.
-            var url = self.im.config.toilet_api_url;
+            var url = self.im.config.toilet_code.url;
             var http = new JsonApi(self.im);
             return http.get(url, {
                     params: {
-                        query: opts.query}
+                        query: opts.query,
+                        threshold: self.im.config.toilet_code.threshold,
+                        max_results: self.im.config.toilet_code.max_results}
                     })
                 .then(function(resp){
                     return process_response(resp, opts.query);

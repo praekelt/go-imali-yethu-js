@@ -52,6 +52,11 @@ describe("App", function() {
         tester
             .setup.config.app({
                 name: 'test_app',
+                toilet_code: {
+                    url: 'http://toilet.info/api/',
+                    threshold: 0,
+                    max_results: 5
+                },
                 toilet_api_url: 'http://toilet.info/api/',
                 snappy_api_url: 'http://besnappy.com/api/',
                 toilet_api_issue_url: 'http://toilet.info/api/issues/',
@@ -211,6 +216,8 @@ describe("App", function() {
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
                     assert.deepEqual(http_sent.params, {
                         "query": "MN",
+                        "threshold": "0",
+                        "max_results": "5"
                     });
                 })
                 .check.reply.char_limit()
@@ -479,6 +486,8 @@ describe("App", function() {
                     assert.equal(http_sent.url, 'http://toilet.info/api/');
                     assert.deepEqual(http_sent.params, {
                         "query": "MN34",
+                        "threshold": "0",
+                        "max_results": "5"
                     });
                 })
                 .run();

@@ -5,6 +5,8 @@ module.exports = function() {
             "url": "http://toilet.info/api/",
             "params": {
                 "query": "MN34",
+                "threshold": "0",
+                "max_results": "5"
             }
         },
         "response": {
@@ -25,6 +27,8 @@ module.exports = function() {
             "url": "http://toilet.info/api/",
             "params": {
                 "query": "MN",
+                "threshold": "0",
+                "max_results": "5"
             }
         },
         "response": {
@@ -63,6 +67,8 @@ module.exports = function() {
             "url": "http://toilet.info/api/",
             "params": {
                 "query": "MN31",
+                "threshold": "0",
+                "max_results": "5"
             }
         },
         "response": {
