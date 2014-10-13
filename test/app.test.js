@@ -72,6 +72,25 @@ describe("App", function() {
             .setup.char_limit(139);
     });
 
+    describe("app.now", function() {
+        describe("when a fixed timestamp is set", function() {
+            it("should return the fixed time", function() {
+                app.now.timestamp = 1234;
+                assert.equal(app.now(), "1970-01-01T00:00:01.234Z");
+            });
+        });
+
+        describe("when a no timestamp is set", function() {
+            it("should return the current time", function() {
+                delete app.now.timestamp;
+                assert.equal(
+                    (new RegExp('^\\d{4}-\\d{2}-\\d{2}T\\d{2}' +
+                                ':\\d{2}:\\d{2}.\\d{3}Z$'))
+                    .test(app.now()), true);
+            });
+        });
+    });
+
     describe("when a new user starts a session", function() {
         it("should give them a language selection", function() {
             return tester
