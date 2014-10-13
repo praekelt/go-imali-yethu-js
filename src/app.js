@@ -18,7 +18,10 @@ go.app = function() {
         var $ = self.$;
 
         self.now = function() {
-            return new Date().toISOString();
+            var timestamp =
+                typeof self.now.timestamp == 'undefined' ?
+                    new Date() : new Date(self.now.timestamp);
+            return timestamp.toISOString();
         };
 
         self.init = function() {

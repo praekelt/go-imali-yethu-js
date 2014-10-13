@@ -17,9 +17,7 @@ describe("App", function() {
 
         tester = new AppTester(app);
 
-        app.now = function() {
-            return 1337;
-        };
+        app.now.timestamp = 1337;
 
         onafixtures = new OnaFixtures({url: "http://ona.io/api/v1/"});
         onafixtures.submit.add({
@@ -32,7 +30,7 @@ describe("App", function() {
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
                     "toilet_location":"2.71828 3.14159",
-                    "logged_date":1337
+                    "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
         });
@@ -46,7 +44,7 @@ describe("App", function() {
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
                     "toilet_location":"2.71828 3.14159",
-                    "logged_date":1337
+                    "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
         });
@@ -640,7 +638,7 @@ describe("App", function() {
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "2.71828 3.14159",
-                            "logged_date": "1337"
+                            "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
                 })
@@ -804,7 +802,7 @@ describe("App", function() {
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "2.71828 3.14159",
-                            "logged_date": "1337"
+                            "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
                 })
