@@ -1,16 +1,14 @@
 {
     "": {
-        "pot-creation-date": "2014-09-30 08:41:+0000",
-        "project-id-version": "",
+        "pot-creation-date": "2014-10-13 12:46:+0000",
+        "project-id-version": "PACKAGE VERSION",
         "language-team": "",
         "mime-version": "1.0",
         "content-type": "text/plain; charset=UTF-8",
         "content-transfer-encoding": "8bit",
-        "po-revision-date": "2014-09-30 16:54+0200",
+        "po-revision-date": "2014-10-13 14:53+0200",
         "last-translator": "",
-        "x-generator": "Poedit 1.6.9",
-        "plural-forms": "nplurals=2; plural=(n != 1);",
-        "language": "xh"
+        "x-generator": "Poedit 1.5.4"
     },
     "Enter the toilet number.": [
         null,
@@ -26,13 +24,13 @@
     ],
     "Other": [
         null,
-        ""
+        "Enye"
     ],
     "What is the problem?": [
         null,
         "Yintoni ingxaki?"
     ],
-    "Please type the issue with the toilet.": [
+    "Please type your issue with the toilet.": [
         null,
         "Yintoni ingxaki yetoileti?"
     ],
