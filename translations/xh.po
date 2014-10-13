@@ -1,44 +1,42 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2014-09-30 08:41:+0000\n"
-"Project-Id-Version: \n"
+"POT-Creation-Date: 2014-10-13 12:46:+0000\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-09-30 16:54+0200\n"
+"PO-Revision-Date: 2014-10-13 14:53+0200\n"
 "Last-Translator: \n"
-"X-Generator: Poedit 1.6.9\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: xh\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: go-app.js:52
+#: src/app.js:104
 msgid "Enter the toilet number."
 msgstr "Faka inombolo yetoileti."
 
-#: go-app.js:109
+#: src/app.js:162
 msgid "Not the code"
 msgstr ""
 
-#: go-app.js:111
+#: src/app.js:164
 msgid ""
 "Sorry your code doesn't match what is in our database. Could it be one of "
 "these instead?"
 msgstr ""
 
-#: go-app.js:153
+#: src/app.js:207
 msgid "Other"
-msgstr ""
+msgstr "Enye"
 
-#: go-app.js:156
+#: src/app.js:210
 msgid "What is the problem?"
 msgstr "Yintoni ingxaki?"
 
-#: go-app.js:184
-msgid "Please type the issue with the toilet."
+#: src/app.js:239
+msgid "Please type your issue with the toilet."
 msgstr "Yintoni ingxaki yetoileti?"
 
-#: go-app.js:202
+#: src/app.js:257
 msgid ""
 "Thank you. We will forward your report to the City of Cape Town and let you "
 "know if there is an update."

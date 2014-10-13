@@ -103,8 +103,8 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:select-language',
                     reply: [
-                        'Welcome to Imali Yethu toilet reporting service. ',
-                        'Please choose your language:',
+                        'Welcome to Imali Yethu. Please choose your language.',
+                        ' Wamkelekile. Nceda ukhethe ulwimi lwakho.',
                         '\n1. English',
                         '\n2. isiXhosa'].join(''),
                 })
@@ -545,9 +545,9 @@ describe("App", function() {
                 .inputs('MN34', '1')
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ['Thanks for your report. We will notify the CoCT ',
-                            'of your issue and inform you of any updates via ',
-                            'SMS or Call. Imali Yethu.'
+                    reply: ['Thank you. We will forward your report to the ',
+                            'City of Cape Town and let you know if there is ',
+                            'an update.'
                             ].join(''),
                 })
                 .check.reply.char_limit()
@@ -734,9 +734,9 @@ describe("App", function() {
                 .inputs("MN34", "6", "Custom issue")
                 .check.interaction({
                     state: 'states:send-report',
-                    reply: ['Thanks for your report. We will notify the CoCT ',
-                            'of your issue and inform you of any updates via ',
-                            'SMS or Call. Imali Yethu.'
+                    reply: ['Thank you. We will forward your report to the ',
+                            'City of Cape Town and let you know if there is ',
+                            'an update.'
                             ].join(''),
                 })
                 .check.reply.char_limit()
