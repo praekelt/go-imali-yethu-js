@@ -85,8 +85,9 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome to Imali Yethu toilet reporting service.',
-                           'Please choose your language:'].join(' '),
+                question: ['Welcome to Imali Yethu. Please choose your',
+                           'language. Wamkelekile. Nceda ukhethe ulwimi',
+                           'lwakho.'].join(' '),
 
                 choices: [
                     new Choice('en', 'English'),
@@ -253,9 +254,8 @@ go.app = function() {
         // This function will notify the user of a successfully transmitted
         // report.
             return new EndState(name, {
-                text: $(['Thanks for your report. We will notify the CoCT of ',
-                         'your issue and inform you of any updates via SMS or',
-                         ' Call. Imali Yethu.'
+                text: $(['Thank you. We will forward your report to the City ',
+                         'of Cape Town and let you know if there is an update.'
                             ].join('')),
                 next: 'states:detect-language'
             });
