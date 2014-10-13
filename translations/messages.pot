@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2014-09-30 08:41:+0000\n"
+"POT-Creation-Date: 2014-10-13 12:46:+0000\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -9,33 +9,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 
-#: go-app.js:52
+#: src/app.js:104
 msgid "Enter the toilet number."
 msgstr ""
 
-#: go-app.js:109
+#: src/app.js:162
 msgid "Not the code"
 msgstr ""
 
-#: go-app.js:111
+#: src/app.js:164
 msgid ""
 "Sorry your code doesn't match what is in our database. Could it be one of "
 "these instead?"
 msgstr ""
 
-#: go-app.js:153
+#: src/app.js:207
 msgid "Other"
 msgstr ""
 
-#: go-app.js:156
+#: src/app.js:210
 msgid "What is the problem?"
 msgstr ""
 
-#: go-app.js:184
-msgid "Please type the issue with the toilet."
+#: src/app.js:239
+msgid "Please type your issue with the toilet."
 msgstr ""
 
-#: go-app.js:202
+#: src/app.js:257
 msgid ""
 "Thank you. We will forward your report to the City of Cape Town and let you "
 "know if there is an update."
