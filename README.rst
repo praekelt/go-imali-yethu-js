@@ -15,10 +15,10 @@ Config parameters:
 ::
 
     name:                           Name of the app.
-    toilet_issues:                  Toilet issues information
-        toilet_issues.url           URL for the toilet issues API
-        toilet_issues.threshold     Threshold for search
-        toilet_issues.max_results   Max results for search
+    toilet_code:                    Toilet issues information
+        toilet_code.url             URL for the toilet codes API
+        toilet_code.threshold       Threshold for search
+        toilet_code.max_results     Max results for search
     snappy_api_url:                 URL of the snappy bridge API.
     toilet_api_issue_url:           URL of the issue data API
     ona:                            Ona information
