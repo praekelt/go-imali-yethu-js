@@ -1,5 +1,6 @@
 go.app = function() {
     var vumigo = require('vumigo_v02');
+    var Q = require('q');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
     var EndState = vumigo.states.EndState;
@@ -258,19 +259,34 @@ go.app = function() {
         // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
         // and then reports the success back to the user.
-            var url = self.im.config.snappy_api_url;
-            var http = new JsonApi(self.im);
-
-            return http.post(url, {
-                data: {
-                    msisdn: self.im.user.addr,
-                    toilet: data.toilet,
-                    issue: data.issue,
-                    query: data.query
-                    //datetime: Date.now()
+            return Q()
+                .then(function() {
+                    var url = self.im.config.snappy_api_url;
+                    if (typeof url == 'undefined') {
+                        return self.im.log.info([
+                            "No Snappy API URL configured.",
+                            "Not submitting data to Snappy."
+                        ].join(" "));
                     }
+                    var http = new JsonApi(self.im);
+                    return http.post(url, {
+                        data: {
+                            msisdn: self.im.user.addr,
+                            toilet: data.toilet,
+                            issue: data.issue,
+                            query: data.query
+                            //datetime: Date.now()
+                        }
+                    });
                 })
-                .then(function(resp) {
+                .then(function() {
+                    var ona_conf = self.im.config.ona;
+                    if (typeof ona_conf == 'undefined') {
+                        return self.im.log.info([
+                            "No Ona API configured.",
+                            "Not submitting data to Ona."
+                        ].join(" "));
+                    }
                     var ona = new Ona(self.im, {
                         auth: {
                             username: self.im.config.ona.username,
