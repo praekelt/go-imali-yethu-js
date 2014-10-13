@@ -139,29 +139,7 @@ module.exports = function() {
                         "language": "xh",
                         "description": "Ikhathegori 5"
                     }]
-                },
-                {
-                    "id": 6,
-                    "value": "issue_6",
-                    "translations": [{
-                        "language": "en",
-                        "description": "Issue 6"
-                    }, {
-                        "language": "xh",
-                        "description": "Ikhathegori 6"
-                    }]
-                },
-                {
-                    "id": 7,
-                    "value": "issue_7",
-                    "translations": [{
-                        "language": "en",
-                        "description": "Issue 7"
-                    }, {
-                        "language": "xh",
-                        "description": "Ikhathegori 7"
-                    }]
-                },
+                }
             ]
         },
         "repeatable": "true"

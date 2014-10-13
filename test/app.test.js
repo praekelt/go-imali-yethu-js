@@ -268,23 +268,11 @@ describe("App", function() {
                               "en": "Issue 5",
                               "value": "issue_5",
                               "xh": "Ikhathegori 5"
-                            },
-                            {
-                              "en": "Issue 6",
-                              "value": "issue_6",
-                              "xh": "Ikhathegori 6"
-                            },
-                            {
-                              "en": "Issue 7",
-                              "value": "issue_7",
-                              "xh": "Ikhathegori 7"
                             }
                         ],
                         'query': 'MN31', 
                         'toilet':{}},
-                    metadata: {
-                        "page_start": 0
-                    },
+                    metadata: {},
                     name: 'states:report-issue'
                 })
                 .check.reply.char_limit()
@@ -304,9 +292,7 @@ describe("App", function() {
                         '3. Issue 3',
                         '4. Issue 4',
                         '5. Issue 5',
-                        '6. Issue 6',
-                        '7. Issue 7',
-                        '8. Other'].join('\n'),
+                        '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -325,7 +311,7 @@ describe("App", function() {
                         '3. Ikhathegori 3',
                         '4. Ikhathegori 4',
                         '5. Ikhathegori 5',
-                        '6. More'].join('\n'),
+                        '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -347,9 +333,7 @@ describe("App", function() {
                         '3. issue_3',
                         '4. issue_4',
                         '5. issue_5',
-                        '6. issue_6',
-                        '7. issue_7',
-                        '8. Other',
+                        '6. Other',
                     ].join('\n')
                 })
                 .check.reply.char_limit()
@@ -371,9 +355,7 @@ describe("App", function() {
                         '3. Issue 3',
                         '4. Issue 4',
                         '5. Issue 5',
-                        '6. Issue 6',
-                        '7. Issue 7',
-                        '8. Other'].join('\n'),
+                        '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -410,23 +392,11 @@ describe("App", function() {
                               "en": "Issue 5",
                               "value": "issue_5",
                               "xh": "Ikhathegori 5"
-                            },
-                            {
-                              "en": "Issue 6",
-                              "value": "issue_6",
-                              "xh": "Ikhathegori 6"
-                            },
-                            {
-                              "en": "Issue 7",
-                              "value": "issue_7",
-                              "xh": "Ikhathegori 7"
                             }
                           ],
                         'query': 'MN',
                         'toilet': {}},
-                    metadata: {
-                        "page_start": 0
-                    },
+                    metadata: {},
                     name: 'states:report-issue'
                 })
                 .run();
@@ -457,9 +427,7 @@ describe("App", function() {
                         '3. Issue 3',
                         '4. Issue 4',
                         '5. Issue 5',
-                        '6. Issue 6',
-                        '7. Issue 7',
-                        '8. Other'].join('\n'),
+                        '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -506,9 +474,7 @@ describe("App", function() {
                         '3. Issue 3',
                         '4. Issue 4',
                         '5. Issue 5',
-                        '6. Issue 6',
-                        '7. Issue 7',
-                        '8. Other'].join('\n'),
+                        '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -545,16 +511,6 @@ describe("App", function() {
                               "en": "Issue 5",
                               "value": "issue_5",
                               "xh": "Ikhathegori 5"
-                            },
-                            {
-                              "en": "Issue 6",
-                              "value": "issue_6",
-                              "xh": "Ikhathegori 6"
-                            },
-                            {
-                              "en": "Issue 7",
-                              "value": "issue_7",
-                              "xh": "Ikhathegori 7"
                             }
                         ],
                         toilet: {
@@ -564,9 +520,7 @@ describe("App", function() {
                             "lon": -18.66404
                         },
                         query: "MN34"},
-                    metadata: {
-                        "page_start": 0
-                    },
+                    metadata: {},
                     name: 'states:report-issue'
                 })
                 .run();
@@ -752,7 +706,7 @@ describe("App", function() {
         it("should request the user for the issue", function() {
             return tester
                 .setup.user.lang('en')
-                .inputs('MN34', '8')
+                .inputs('MN34', '6')
                 .check.interaction({
                     state: 'states:custom-issue',
                     reply: 'Please type your issue with the toilet.',
@@ -765,7 +719,7 @@ describe("App", function() {
             it("should limit the length of the response " + lang, function() {
                 return tester
                     .setup.user.lang(lang)
-                    .inputs('MN34', '8')
+                    .inputs('MN34', '6')
                     .check.reply.char_limit()
                     .run();
             });
@@ -777,7 +731,7 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
-                .inputs("MN34", "8", "Custom issue")
+                .inputs("MN34", "6", "Custom issue")
                 .check.interaction({
                     state: 'states:send-report',
                     reply: ['Thanks for your report. We will notify the CoCT ',
@@ -793,7 +747,7 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
-                .inputs("MN34", "8", "Custom issue")
+                .inputs("MN34", "6", "Custom issue")
                 .check(function(api, im , app) {
                     var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
@@ -817,7 +771,7 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
-                .inputs('MN34', '8', "Custom issue")
+                .inputs('MN34', '6', "Custom issue")
                 .check(function(api) {
                     var http_sent = _.where(api.http.requests, {
                         url: 'http://ona.io/api/v1/submission'
@@ -843,7 +797,7 @@ describe("App", function() {
                 return tester
                     .setup.user.lang(lang)
                     .setup.user.addr('+12345')
-                    .inputs('MN34', '8', 'Custom issue')
+                    .inputs('MN34', '6', 'Custom issue')
                     .check.reply.char_limit()
                     .run();
             });
@@ -907,7 +861,7 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
-                .inputs("MN34", "8", "Custom issue")
+                .inputs("MN34", "6", "Custom issue")
                 .check(function(api) {
                     metrics = api.metrics.stores.test_app
                         .time_per_screen_3c_custom_issue;
