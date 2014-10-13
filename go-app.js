@@ -23,7 +23,13 @@ go.app = function() {
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
-        self.now = Date.now;
+
+        self.now = function() {
+            var timestamp =
+                typeof self.now.timestamp == 'undefined' ?
+                    new Date() : new Date(self.now.timestamp);
+            return timestamp.toISOString();
+        };
 
         self.init = function() {
         // Uses the metrics helper to add the required metrics to the

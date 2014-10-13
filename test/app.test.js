@@ -17,9 +17,7 @@ describe("App", function() {
 
         tester = new AppTester(app);
 
-        app.now = function() {
-            return 1337;
-        };
+        app.now.timestamp = 1337;
 
         onafixtures = new OnaFixtures({url: "http://ona.io/api/v1/"});
         onafixtures.submit.add({
@@ -32,7 +30,7 @@ describe("App", function() {
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
                     "toilet_location":"2.71828 3.14159",
-                    "logged_date":1337
+                    "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
         });
@@ -46,7 +44,7 @@ describe("App", function() {
                     "toilet_code_query":"MN34",
                     "fault_status":"logged",
                     "toilet_location":"2.71828 3.14159",
-                    "logged_date":1337
+                    "logged_date":"1970-01-01T00:00:01.337Z"
                 }
             }
         });
@@ -72,6 +70,25 @@ describe("App", function() {
                 onafixtures.store.forEach(api.http.fixtures.add);
             })
             .setup.char_limit(139);
+    });
+
+    describe("app.now", function() {
+        describe("when a fixed timestamp is set", function() {
+            it("should return the fixed time", function() {
+                app.now.timestamp = 1234;
+                assert.equal(app.now(), "1970-01-01T00:00:01.234Z");
+            });
+        });
+
+        describe("when a no timestamp is set", function() {
+            it("should return the current time", function() {
+                delete app.now.timestamp;
+                assert.equal(
+                    (new RegExp('^\\d{4}-\\d{2}-\\d{2}T\\d{2}' +
+                                ':\\d{2}:\\d{2}\\.\\d{3}Z$'))
+                    .test(app.now()), true);
+            });
+        });
     });
 
     describe("when a new user starts a session", function() {
@@ -640,7 +657,7 @@ describe("App", function() {
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "2.71828 3.14159",
-                            "logged_date": "1337"
+                            "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
                 })
@@ -804,7 +821,7 @@ describe("App", function() {
                             "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "2.71828 3.14159",
-                            "logged_date": "1337"
+                            "logged_date": "1970-01-01T00:00:01.337Z"
                         }
                     });
                 })
