@@ -164,13 +164,11 @@ go.app = function() {
                 return new Choice(index, item.code);
             });
 
-            choices.push(new Choice('none', $('Not the code')));
+            choices.push(new Choice('none', $('None of the above')));
             return new ChoiceState(name, {
-                question: $(["Sorry your code doesn't match what is in our ",
-                    "database. Could it be one of these instead?"].join("")),
-
+                question: $(["Toilet number not found.",
+                             " Could it be one of these:"].join("")),
                 choices: choices,
-
                 next: function(choice) {
                     return choice.value === 'none'
                         ? {

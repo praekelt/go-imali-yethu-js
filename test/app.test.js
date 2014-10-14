@@ -198,9 +198,10 @@ describe("App", function() {
                 .input("MN")
                 .check.interaction({
                     state: 'states:refine-response',
-                    reply: ["Sorry your code doesn't match what is in our ",
-                        "database. Could it be one of these instead?",
-                        "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. Not the code"
+                    reply: [
+                        "Toilet number not found.",
+                        " Could it be one of these:",
+                        "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. None of the above"
                         ].join(''),
                 })
                 .check.reply.char_limit()
