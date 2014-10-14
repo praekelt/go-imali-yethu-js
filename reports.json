@@ -1,0 +1,17 @@
+{
+    "layout": [
+
+        {
+            "type": "diamondash.widgets.lvalue.LValueWidget",
+            "time_range": "1d",
+            "name": "Total Unique Users",
+            "target": {
+                "metric_type": "account",
+                "store": "default",
+                "name": "unique_users",
+                "aggregator": "max"
+            }
+        }
+
+    ]
+}
