@@ -16,6 +16,7 @@ go.app = function() {
     var FreeText = vumigo.states.FreeText;
     var JsonApi = vumigo.http.api.JsonApi;
     var ChoiceState = vumigo.states.ChoiceState;
+    var PaginatedChoiceState = vumigo.states.PaginatedChoiceState;
     var MetricsHelper = require('go-jsbox-metrics-helper');
     var Ona = require('go-jsbox-ona').Ona;
 
@@ -23,6 +24,7 @@ go.app = function() {
     var GoApp = App.extend(function(self) {
         App.call(self, 'states:detect-language');
         var $ = self.$;
+        var characters_per_page = 139;
 
         self.now = function() {
             var timestamp =
@@ -223,8 +225,10 @@ go.app = function() {
             });
             choices.push(new Choice('other', $('Other')));
 
-            return new ChoiceState(name, {
+            return new PaginatedChoiceState(name, {
                 question: $('What is the problem?'),
+                options_per_page: 6,
+                characters_per_page: characters_per_page,
                 choices: choices,
                 next: function(choice) {
                     return choice.value === 'other'

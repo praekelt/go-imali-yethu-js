@@ -270,9 +270,11 @@ describe("App", function() {
                               "xh": "Ikhathegori 5"
                             }
                         ],
-                        'query': 'MN31', 
+                        'query': 'MN31',
                         'toilet':{}},
-                    metadata: {},
+                    metadata: {
+                        "page_start": 0,
+                    },
                     name: 'states:report-issue'
                 })
                 .check.reply.char_limit()
@@ -396,7 +398,9 @@ describe("App", function() {
                           ],
                         'query': 'MN',
                         'toilet': {}},
-                    metadata: {},
+                    metadata: {
+                        page_start: 0,
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
@@ -530,7 +534,9 @@ describe("App", function() {
                             "lon": -18.66404
                         },
                         query: "MN34"},
-                    metadata: {},
+                    metadata: {
+                        page_start: 0,
+                    },
                     name: 'states:report-issue'
                 })
                 .run();
