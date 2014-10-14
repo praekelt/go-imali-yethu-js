@@ -19,11 +19,10 @@
             "name": "Total USSD Sessions",
             "target": {
                 "metric_type": "account",
-                "store": "default",
+                "store": "imaliyethu",
                 "name": "total_sessions",
                 "aggregator": "max"
             }
-
         },
 
         {
@@ -32,11 +31,10 @@
             "name": "Total Completed Reports",
             "target": {
                 "metric_type": "account",
-                "store": "default",
+                "store": "imaliyethu",
                 "name": "total_completed_reports",
                 "aggregator": "max"
             }
-
         }
 
     ]
