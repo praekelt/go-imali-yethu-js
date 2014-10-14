@@ -4,12 +4,12 @@
         {
             "type": "diamondash.widgets.lvalue.LValueWidget",
             "time_range": "1d",
-            "name": "Total Unique Users",
+            "name": "Total Unique User Count",
             "target": {
                 "metric_type": "account",
-                "store": "default",
+                "store": "imaliyethu",
                 "name": "unique_users",
-                "aggregator": "max"
+                "aggregator": "last"
             }
         },
 
@@ -21,7 +21,7 @@
                 "metric_type": "account",
                 "store": "imaliyethu",
                 "name": "total_sessions",
-                "aggregator": "max"
+                "aggregator": "last"
             }
         },
 
@@ -33,7 +33,7 @@
                 "metric_type": "account",
                 "store": "imaliyethu",
                 "name": "total_completed_reports",
-                "aggregator": "max"
+                "aggregator": "last"
             }
         }
 
