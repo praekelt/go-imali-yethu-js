@@ -11,6 +11,19 @@
                 "name": "unique_users",
                 "aggregator": "max"
             }
+        },
+
+        {
+            "type": "diamondash.widgets.lvalue.LValueWidget",
+            "time_range": "1d",
+            "name": "Total USSD Sessions",
+            "target": {
+                "metric_type": "account",
+                "store": "default",
+                "name": "total_sessions",
+                "aggregator": "max"
+            }
+
         }
 
     ]
