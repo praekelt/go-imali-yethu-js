@@ -116,13 +116,15 @@ go.app = function() {
         // This function takes in the response from the toilet API and
         // determines what should be done next.
             if(resp.data !== null) {
-                if(resp.data.length === 1) {
+                if (resp.data.length >= 1) {
+                    var best = resp.data[0];
+                    if (best.code.toLowerCase() == query.toLowerCase()) {
+                        return self.states.create(
+                            'states:get-issue',
+                            {'toilet': best, 'query': query});
+                    }
                     return self.states.create(
-                        'states:get-issue', 
-                        {'toilet': resp.data[0], 'query': query});
-                } else if (resp.data.length > 1) {
-                    return self.states.create(
-                        'states:refine-response', 
+                        'states:refine-response',
                         {'data': resp.data, 'query': query});
                 } else {
                     return self.states.create(

@@ -444,7 +444,7 @@ describe("App", function() {
         });
     });
 
-    describe("When a user enters a query with one result", function() {
+    describe("When a user enters a query with an exact match", function() {
         it("should send the request to toilet API", function() {
             return tester
                 .setup.user.lang('en')
@@ -477,6 +477,16 @@ describe("App", function() {
                         '6. Other'].join('\n'),
                 })
                 .check.reply.char_limit()
+                .run();
+        });
+
+        it("should detect the match even if case differs", function() {
+            return tester
+                .setup.user.lang('en')
+                .input('mn34')
+                .check.interaction({
+                    state: 'states:report-issue',
+                })
                 .run();
         });
 
