@@ -220,7 +220,7 @@ go.app = function() {
 
             return new PaginatedChoiceState(name, {
                 question: $('What is the problem?'),
-                options_per_page: 6,
+                options_per_page: 7,
                 characters_per_page: characters_per_page,
                 choices: choices,
                 next: function(choice) {
