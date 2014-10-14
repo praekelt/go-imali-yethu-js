@@ -483,7 +483,7 @@ describe("App", function() {
         it("should detect the match even if case differs", function() {
             return tester
                 .setup.user.lang('en')
-                .input('MN34')
+                .input('mn34')
                 .check.interaction({
                     state: 'states:report-issue',
                 })

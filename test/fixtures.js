@@ -32,6 +32,28 @@ module.exports = function() {
             "method": "GET",
             "url": "http://toilet.info/api/",
             "params": {
+                "query": "mn34",
+                "threshold": "0",
+                "max_results": "5"
+            }
+        },
+        "response": {
+            "code": 200,
+            "data": [
+                {
+                    "code" : "MN34",
+                    "lon" : -18.66404,
+                    "id" : 1,
+                    "lat" : -34.01667
+                }
+            ]
+        }
+    },
+    {
+        "request": {
+            "method": "GET",
+            "url": "http://toilet.info/api/",
+            "params": {
                 "query": "MN",
                 "threshold": "0",
                 "max_results": "5"
