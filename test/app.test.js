@@ -65,7 +65,9 @@ describe("App", function() {
                     username: 'root',
                     password: 'toor',
                     url: 'http://ona.io/api/v1/'
-                }
+                },
+                cluster_var: '0',
+                issue_var: '0'
             })
             .setup.config({
                 'translation.xh': xh_translation

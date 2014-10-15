@@ -1,6 +1,7 @@
 go.app = function() {
     var vumigo = require('vumigo_v02');
     var _ = require('lodash');
+    var crypto = require('crypto');
     var Q = require('q');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
@@ -307,6 +308,19 @@ go.app = function() {
                         },
                         url: self.im.config.ona.url
                     });
+                    var cluster_var = self.im.config.cluster_var;
+                    var issue_var = self.im.config.issue_var;
+                    var lat_offset = crypto.createHash('md5')
+                        // Normalized to [-1, 1]
+                        .update('asdi').digest().readInt8(0)/128.0
+                        // 0.000001 is the resolution
+                        *cluster_var*0.000001 +
+                        (Math.random()*2 - 1)*issue_var*0.000001;
+                    var lon_offset = crypto.createHash('md5')
+                        .update('asdi').digest().readInt8(1)/128.0
+                        *cluster_var*0.000001 +
+                        (Math.random()*2 - 1)*issue_var*0.000001;
+
                     return ona.submit({
                         id: self.im.config.ona.id,
                         submission: {
@@ -316,7 +330,8 @@ go.app = function() {
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
-                                data.toilet.lat, data.toilet.lon].join(' '),
+                                data.toilet.lat + lat_offset,
+                                data.toilet.lon + lon_offset].join(' '),
                             logged_date: self.now()
                         }
                     });
