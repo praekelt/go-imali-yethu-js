@@ -276,6 +276,23 @@ go.app = function() {
             });
         };
 
+        var calculate_gps_offsets = function(toilet_code) {
+        // This function calculated the required GPS offsets given the
+        // toilet_code string
+            var cluster_len = self.im.config.cluster_len;
+            var issue_len = self.im.config.issue_len;
+            var cluster_angle =
+                crypto.createHash('md5').update(toilet_code).digest()
+                .readInt16LE() / 32768.0 * Math.PI;
+            var issue_angle = (Math.random() * 2 - 1) * Math.PI;
+            return {
+                lon: cluster_len * Math.cos(cluster_angle)
+                    + issue_len * Math.sin(issue_angle),
+                lat: cluster_len * Math.cos(cluster_angle)
+                    + issue_len * Math.sin(issue_angle)
+            };
+        };
+
         self.states.add('states:send-report', function(name, data) {
         // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
@@ -315,18 +332,8 @@ go.app = function() {
                         },
                         url: self.im.config.ona.url
                     });
-                    var cluster_var = self.im.config.cluster_var;
-                    var issue_var = self.im.config.issue_var;
-                    var lat_offset = crypto.createHash('md5')
-                        // Normalized to [-1, 1]
-                        .update(data.toilet.code).digest().readInt8(0)/128.0
-                        // 0.000001 is the resolution
-                        *cluster_var*0.000001 +
-                        (Math.random()*2 - 1)*issue_var*0.000001;
-                    var lon_offset = crypto.createHash('md5')
-                        .update(data.toilet.code).digest().readInt8(1)/128.0
-                        *cluster_var*0.000001 +
-                        (Math.random()*2 - 1)*issue_var*0.000001;
+
+                    offsets = calculate_gps_offsets(data.toilet.code);
 
                     return ona.submit({
                         id: self.im.config.ona.id,
@@ -337,8 +344,8 @@ go.app = function() {
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
-                                data.toilet.lat + lat_offset,
-                                data.toilet.lon + lon_offset].join(' '),
+                                data.toilet.lat + offsets.lat,
+                                data.toilet.lon + offsets.lon].join(' '),
                             logged_date: self.now()
                         }
                     });

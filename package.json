@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/praekelt/go-imali-yethu-js",
   "dependencies": {
-    "crypto": "0.0.3",
     "go-jsbox-metrics-helper": "~0.1.0",
     "go-jsbox-ona": "~0.0.2",
     "lodash": "~2.4.1",
