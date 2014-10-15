@@ -106,14 +106,14 @@ describe("App", function() {
                 var offsets = app.calculate_gps_offsets('foo');
                 // longitude
                 assert.equal(
-                    Math.abs(offsets.lon + 0.057109694655158014) < 1e-8, true);
+                    Math.abs(offsets.lon + 0.057109694655158014) < 1e-7, true);
                 // latitude
                 assert.equal(
-                    Math.abs(offsets.lat + 0.9983679195285438) < 1e-8, true);
+                    Math.abs(offsets.lat + 0.9983679195285438) < 1e-7, true);
                 // length
                 assert.equal(
                     Math.sqrt(Math.pow(offsets.lon,2) +
-                        Math.pow(offsets.lat,2)) - 1 < 1e-8, true);
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
             });
         });
 
@@ -129,7 +129,7 @@ describe("App", function() {
                 // length
                 assert.equal(
                     Math.sqrt(Math.pow(offsets.lon,2) +
-                        Math.pow(offsets.lat,2)) - 1 < 1e-8, true);
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
             });
         });
     });
