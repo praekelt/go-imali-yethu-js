@@ -6,7 +6,7 @@ var assert = require('assert');
 var xh_translation = require('../translations/xh');
 var OnaFixtures = require('go-jsbox-ona').OnaFixtures;
 
-languages = ['en', 'xh'];
+languages = ['xh', 'en'];
 
 describe("App", function() {
     var app;
@@ -105,8 +105,8 @@ describe("App", function() {
                     reply: [
                         'Wamkelekile ku Imali Yethu. Nceda ukhethe ulwimi',
                         ' lwakho. Welcome. Please choose your language.',
-                        '\n1. English',
-                        '\n2. isiXhosa'].join(''),
+                        '\n1. isiXhosa',
+                        '\n2. English'].join(''),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -157,7 +157,7 @@ describe("App", function() {
 
         it("should ask them for the toilet code", function() {
             return tester
-                .input('1')
+                .input('2')
                 .check.interaction({
                     state: 'states:input-toilet-code',
                     reply: 'Enter the toilet number.'

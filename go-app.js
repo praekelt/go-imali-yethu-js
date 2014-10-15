@@ -99,9 +99,9 @@ go.app = function() {
                     'Welcome. Please choose your language.',
                     ].join(" "),
                 choices: [
+                    new Choice('xh', 'isiXhosa'),
                     new Choice('en', 'English'),
-                    new Choice('xh', 'isiXhosa')],
-
+                ],
                 next: 'states:input-toilet-code'
             });
         });
