@@ -65,7 +65,9 @@ describe("App", function() {
                     username: 'root',
                     password: 'toor',
                     url: 'http://ona.io/api/v1/'
-                }
+                },
+                cluster_len: 0,
+                issue_len: 0
             })
             .setup.config({
                 'translation.xh': xh_translation
@@ -92,6 +94,42 @@ describe("App", function() {
                     (new RegExp('^\\d{4}-\\d{2}-\\d{2}T\\d{2}' +
                                 ':\\d{2}:\\d{2}\\.\\d{3}Z$'))
                     .test(app.now()), true);
+            });
+        });
+    });
+
+    describe("app.calculate_gps_offsets", function() {
+        describe("when cluster_len is set", function() {
+            it("should create deterministic offsets", function() {
+                app.im.config.cluster_len = 1;
+                app.im.config.issue_len = 0;
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(
+                    Math.abs(offsets.lon + 0.057109694655158014) < 1e-7, true);
+                // latitude
+                assert.equal(
+                    Math.abs(offsets.lat + 0.9983679195285438) < 1e-7, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
+            });
+        });
+
+        describe("when issue_len is set", function() {
+            it("should create random offsets within the limits", function() {
+                app.im.config.cluster_len = 0;
+                app.im.config.issue_len = 1;
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(Math.abs(offsets.lon) <= 1, true);
+                // latitude
+                assert.equal(Math.abs(offsets.lat) <= 1, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
             });
         });
     });
@@ -237,7 +275,7 @@ describe("App", function() {
     });
 
     describe("When a user enters a query with zero results", function() {
-        it("should forward the query and blank toilet data and get issues", 
+        it("should forward the query and blank toilet data and get issues",
             function() {
             return tester
                 .setup.user.lang('en')

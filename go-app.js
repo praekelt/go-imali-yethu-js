@@ -8,6 +8,7 @@ go;
 go.app = function() {
     var vumigo = require('vumigo_v02');
     var _ = require('lodash');
+    var crypto = require('crypto');
     var Q = require('q');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
@@ -275,6 +276,23 @@ go.app = function() {
             });
         };
 
+        self.calculate_gps_offsets = function(toilet_code) {
+        // This function calculated the required GPS offsets given the
+        // toilet_code string
+            var cluster_len = self.im.config.cluster_len | 0;
+            var issue_len = self.im.config.issue_len | 0;
+            var cluster_angle =
+                crypto.createHash('md5').update(toilet_code).digest()
+                .readInt16LE(0) / 32768.0 * Math.PI;
+            var issue_angle = (Math.random() * 2 - 1) * Math.PI;
+            return {
+                lon: cluster_len * Math.cos(cluster_angle)
+                    + issue_len * Math.cos(issue_angle),
+                lat: cluster_len * Math.sin(cluster_angle)
+                    + issue_len * Math.sin(issue_angle)
+            };
+        };
+
         self.states.add('states:send-report', function(name, data) {
         // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
@@ -314,6 +332,9 @@ go.app = function() {
                         },
                         url: self.im.config.ona.url
                     });
+
+                    offsets = self.calculate_gps_offsets(data.toilet.code);
+
                     return ona.submit({
                         id: self.im.config.ona.id,
                         submission: {
@@ -323,7 +344,8 @@ go.app = function() {
                             toilet_code_query: data.query,
                             fault_status: 'logged',
                             toilet_location: [
-                                data.toilet.lat, data.toilet.lon].join(' '),
+                                data.toilet.lat + offsets.lat,
+                                data.toilet.lon + offsets.lon].join(' '),
                             logged_date: self.now()
                         }
                     });
