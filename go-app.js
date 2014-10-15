@@ -277,7 +277,7 @@ go.app = function() {
         };
 
         self.calculate_gps_offsets = function(toilet_code) {
-        // This function calculated the required GPS offsets given the
+        // This function calculates the required GPS offsets given the
         // toilet_code string
             var cluster_len = self.im.config.cluster_len;
             var issue_len = self.im.config.issue_len;
