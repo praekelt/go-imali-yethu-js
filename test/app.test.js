@@ -66,8 +66,8 @@ describe("App", function() {
                     password: 'toor',
                     url: 'http://ona.io/api/v1/'
                 },
-                cluster_len: '0',
-                issue_len: '0'
+                cluster_len: 0,
+                issue_len: 0
             })
             .setup.config({
                 'translation.xh': xh_translation
@@ -101,8 +101,8 @@ describe("App", function() {
     describe("app.calculate_gps_offsets", function() {
         describe("when cluster_len is set", function() {
             it("should create deterministic offsets", function() {
-                app.im.config.cluster_len = '1';
-                app.im.config.issue_len = '0';
+                app.im.config.cluster_len = 1;
+                app.im.config.issue_len = 0;
                 var offsets = app.calculate_gps_offsets('foo');
                 // longitude
                 assert.equal(
@@ -119,8 +119,8 @@ describe("App", function() {
 
         describe("when issue_len is set", function() {
             it("should create random offsets within the limits", function() {
-                app.im.config.cluster_len = '0';
-                app.im.config.issue_len = '1';
+                app.im.config.cluster_len = 0;
+                app.im.config.issue_len = 1;
                 var offsets = app.calculate_gps_offsets('foo');
                 // longitude
                 assert.equal(Math.abs(offsets.lon) <= 1, true);
