@@ -5,20 +5,14 @@ var AppTester = vumigo.AppTester;
 var assert = require('assert');
 var xh_translation = require('../translations/xh');
 var OnaFixtures = require('go-jsbox-ona').OnaFixtures;
-
 languages = ['xh', 'en'];
-
 describe("App", function() {
     var app;
     var tester;
-
     beforeEach(function() {
         app = new go.app.GoApp();
-
         tester = new AppTester(app);
-
         app.now.timestamp = 1337;
-
         onafixtures = new OnaFixtures({url: "http://ona.io/api/v1/"});
         onafixtures.submit.add({
             data: {
@@ -48,7 +42,6 @@ describe("App", function() {
                 }
             }
         });
-
         tester
             .setup.config.app({
                 name: 'test_app',
@@ -78,7 +71,6 @@ describe("App", function() {
             })
             .setup.char_limit(139);
     });
-
     describe("app.now", function() {
         describe("when a fixed timestamp is set", function() {
             it("should return the fixed time", function() {
@@ -86,7 +78,6 @@ describe("App", function() {
                 assert.equal(app.now(), "1970-01-01T00:00:01.234Z");
             });
         });
-
         describe("when a no timestamp is set", function() {
             it("should return the current time", function() {
                 delete app.now.timestamp;
@@ -97,7 +88,40 @@ describe("App", function() {
             });
         });
     });
-
+    describe("app.calculate_gps_offsets", function() {
+        describe("when cluster_len is set", function() {
+            it("should create deterministic offsets", function() {
+                app.im.config.cluster_len = '1';
+                app.im.config.issue_len = '0';
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(
+                    Math.abs(offsets.lon + 0.057109694655158014) < 1e-8, true);
+                // latitude
+                assert.equal(
+                    Math.abs(offsets.lat + 0.9983679195285438) < 1e-8, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-8, true);
+            });
+        });
+        describe("when issue_len is set", function() {
+            it("should create random offsets within the limits", function() {
+                app.im.config.cluster_len = '0';
+                app.im.config.issue_len = '1';
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(Math.abs(offsets.lon) <= 1, true);
+                // latitude
+                assert.equal(Math.abs(offsets.lat) <= 1, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-8, true);
+            });
+        });
+    });
     describe("when a new user starts a session", function() {
         it("should give them a language selection", function() {
             return tester
@@ -113,7 +137,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it('should trigger the unique user metrics', function() {
             return tester
                 .start()
@@ -126,7 +149,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should trigger the total sessions metrics', function() {
             return tester
                 .start()
@@ -140,7 +162,6 @@ describe("App", function() {
                 .run();
         });
     });
-
     describe("When a new user selects their language", function() {
         languages.map(function(lang, index) {
             it("should store their language choice " + lang, function() {
@@ -156,7 +177,6 @@ describe("App", function() {
                     .run();
             });
         });
-
         it("should ask them for the toilet code", function() {
             return tester
                 .input('2')
@@ -168,7 +188,6 @@ describe("App", function() {
                 .run();
         });
     });
-
     describe("When an existing user starts a session", function() {
         it("should ask them for the toilet code", function() {
             return tester
@@ -181,7 +200,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -192,7 +210,6 @@ describe("App", function() {
             });
         });
     });
-
     describe("When a user enters a query with multiple results", function() {
         it("should ask to refine the selection", function() {
             return tester
@@ -209,7 +226,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should send the request to toilet API", function() {
             return tester
                 .setup.user.lang('en')
@@ -226,7 +242,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -237,9 +252,8 @@ describe("App", function() {
             });
         });
     });
-
     describe("When a user enters a query with zero results", function() {
-        it("should forward the query and blank toilet data and get issues", 
+        it("should forward the query and blank toilet data and get issues",
             function() {
             return tester
                 .setup.user.lang('en')
@@ -283,7 +297,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should ask the user for the issue (en)", function() {
             return tester
                 .setup.user.lang('en')
@@ -302,7 +315,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should ask the user for the issue (xh)", function() {
             return tester
                 .setup.user.lang('xh')
@@ -322,7 +334,6 @@ describe("App", function() {
                 .run();
         });
     });
-
     describe("If there isn't a translation for an issue", function() {
         it("should use the translation value", function() {
             return tester
@@ -345,7 +356,6 @@ describe("App", function() {
                 .run();
         });
     });
-
     describe("When the user selects Not the code from list", function() {
         it("should request the issue", function() {
             return tester
@@ -365,7 +375,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should store the user query and blank toilet data", function() {
             return tester
                 .setup.user.lang('en')
@@ -408,7 +417,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -419,7 +427,6 @@ describe("App", function() {
             });
         });
     });
-
     describe("When a user refines the selection", function() {
         it("should request the issue", function() {
             return tester
@@ -439,7 +446,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -450,7 +456,6 @@ describe("App", function() {
             });
         });
     });
-
     describe("When a user enters a query with an exact match", function() {
         it("should send the request to toilet API", function() {
             return tester
@@ -467,7 +472,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should request the issue", function() {
             return tester
                 .setup.user.lang('en')
@@ -486,7 +490,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should detect the match even if case differs", function() {
             return tester
                 .setup.user.lang('en')
@@ -496,7 +499,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should send the toilet and query data in creator_opts", function(){
             return tester
                 .setup.user.lang('en')
@@ -544,7 +546,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -555,7 +556,6 @@ describe("App", function() {
             });
         });
     });
-
     describe("When a user selects an issue", function() {
         it("should notify the user that the report has been sent", function() {
             return tester
@@ -572,7 +572,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should send the information to snappy bridge", function() {
             return tester
                 .setup.user.lang('en')
@@ -600,7 +599,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should skip sending the information if there is no snappy url", function() {
             return tester
                 .setup.config.app({snappy_api_url: undefined})
@@ -620,7 +618,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should send the information to Ona", function() {
             return tester
                 .setup.user.lang('en')
@@ -645,7 +642,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should skip sending the information if there is Ona config", function() {
             return tester
                 .setup.config.app({ona: undefined})
@@ -665,7 +661,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -676,7 +671,6 @@ describe("App", function() {
                     .run();
             });
         });
-
         it('should trigger the total completed reports metric', function() {
             return tester
                 .setup.user.lang('en')
@@ -692,7 +686,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should trigger the average sessions per report metric', function() {
             return tester
                 .setup.user.lang('en')
@@ -705,7 +698,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should trigger the time per report metrics', function() {
             return tester
                 .setup.user.lang('en')
@@ -720,7 +712,6 @@ describe("App", function() {
                 .run();
         });
     });
-
     describe("When the user selects other as issue", function() {
         it("should request the user for the issue", function() {
             return tester
@@ -733,7 +724,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -744,7 +734,6 @@ describe("App", function() {
             });
         });
     });
-
     describe("When the user types a custom issue", function() {
         it("should acknowledge the report as sent", function() {
             return tester
@@ -761,7 +750,6 @@ describe("App", function() {
                 .check.reply.char_limit()
                 .run();
         });
-
         it("should send the custom issue to snappy", function() {
             return tester
                 .setup.user.lang('en')
@@ -785,7 +773,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it("should send the custom issue to Ona", function() {
             return tester
                 .setup.user.lang('en')
@@ -810,7 +797,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         languages.map(function(lang) {
             it("should limit the length of the response " + lang, function() {
                 return tester
@@ -822,7 +808,6 @@ describe("App", function() {
             });
         });
     });
-
     describe('Per screen timing metrics', function() {
         it('should have a timing metric for screen 1', function() {
             return tester
@@ -835,7 +820,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should have a timing metric for screen 2', function() {
             return tester
                 .inputs(null, '1', 'MN34')
@@ -847,7 +831,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should have a timing metric for screen 3a', function() {
             return tester
                 .setup.user.lang('en')
@@ -861,7 +844,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should have a timing metric for screen 3b', function() {
             return tester
                 .setup.user.lang('en')
@@ -875,7 +857,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should have a timing metric for screen 3c', function() {
             return tester
                 .setup.user.lang('en')
@@ -889,7 +870,6 @@ describe("App", function() {
                 })
                 .run();
         });
-
         it('should have a timing metric for screen 4', function() {
             return tester
                 .setup.user.lang('en')
@@ -920,5 +900,4 @@ describe("App", function() {
                 .run();
         });
     });
-
 });
