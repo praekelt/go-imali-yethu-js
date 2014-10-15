@@ -292,6 +292,7 @@ go.app = function() {
         // and then reports the success back to the user.
             return Q()
                 .then(function() {
+                    // Send response to Snappy
                     var url = self.im.config.snappy_api_url;
                     if (typeof url == 'undefined') {
                         return self.im.log.info([
@@ -310,7 +311,14 @@ go.app = function() {
                         }
                     });
                 })
+                .fail(function(err) {
+                    // Check for Snappy error
+                    self.im.log.error([
+                        'Error when sending issue to Snappy:',
+                        JSON.stringify(err.response)].join(' '));
+                })
                 .then(function() {
+                    // Send response to Ona
                     var ona_conf = self.im.config.ona;
                     if (typeof ona_conf == 'undefined') {
                         return self.im.log.info([
@@ -343,15 +351,14 @@ go.app = function() {
                         }
                     });
                 })
-                .then(function(resp) {
-                    if(!(resp.data &&
-                         resp.data.message === "Successful submission.")) {
-                        return self.im.log.error([
-                            'Error when sending data to Ona:',
-                            JSON.stringify(resp)].join(' '));
-                    }
+                .fail(function(err) {
+                    // Check for Ona response error
+                    return self.im.log.error([
+                        'Error when sending data to Ona:',
+                        JSON.stringify(err.response)].join(' '));
                 })
                 .then(function() {
+                    // Return success to user
                     return notify_success(name);
                 });
         });

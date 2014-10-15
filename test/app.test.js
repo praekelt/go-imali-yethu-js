@@ -84,7 +84,8 @@ describe("App", function() {
             response: {
                 data: {
                     "error": "Error message."
-                }
+                },
+                code: 400
             }
         });
 
@@ -1004,8 +1005,29 @@ describe("App", function() {
                 .inputs("MN34", "6", "Error issue")
                 .check(function(api) {
                     var log = _.findLast(api.log.store, function(lg) {
-                        return lg[0] &&
-                            lg[0].indexOf('Error when sending data to Ona')>-1;
+                        return _.findLast(lg, function(item) {
+                            return item.indexOf(
+                                'Error when sending data to Ona')>-1;
+                        });
+                    });
+                    assert.equal(typeof log == 'undefined', false);
+                })
+                .run();
+        });
+    });
+
+    describe("When there is an error submitting to Snappy", function() {
+        it("Should log an error and continue", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "6", "Error issue")
+                .check(function(api) {
+                    var log = _.findLast(api.log.store, function(lg) {
+                        return _.findLast(lg, function(item) {
+                            return item.indexOf(
+                                'Error when sending issue to Snappy') > -1;
+                        });
                     });
                     assert.equal(typeof log == 'undefined', false);
                 })

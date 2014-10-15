@@ -239,7 +239,7 @@ module.exports = function() {
             }
         },
         "response": {
-            "code": 200,
+            "code": 400,
             "data": {
                 "status": "Error"
             }
