@@ -312,12 +312,12 @@ go.app = function() {
                     var issue_var = self.im.config.issue_var;
                     var lat_offset = crypto.createHash('md5')
                         // Normalized to [-1, 1]
-                        .update('asdi').digest().readInt8(0)/128.0
+                        .update(data.toilet.code).digest().readInt8(0)/128.0
                         // 0.000001 is the resolution
                         *cluster_var*0.000001 +
                         (Math.random()*2 - 1)*issue_var*0.000001;
                     var lon_offset = crypto.createHash('md5')
-                        .update('asdi').digest().readInt8(1)/128.0
+                        .update(data.toilet.code).digest().readInt8(1)/128.0
                         *cluster_var*0.000001 +
                         (Math.random()*2 - 1)*issue_var*0.000001;
 
