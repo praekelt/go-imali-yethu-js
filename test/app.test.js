@@ -6,7 +6,7 @@ var assert = require('assert');
 var xh_translation = require('../translations/xh');
 var OnaFixtures = require('go-jsbox-ona').OnaFixtures;
 
-languages = ['en', 'xh'];
+languages = ['xh', 'en'];
 
 describe("App", function() {
     var app;
@@ -103,10 +103,10 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:select-language',
                     reply: [
-                        'Welcome to Imali Yethu. Please choose your language.',
-                        ' Wamkelekile. Nceda ukhethe ulwimi lwakho.',
-                        '\n1. English',
-                        '\n2. isiXhosa'].join(''),
+                        'Wamkelekile ku Imali Yethu. Nceda ukhethe ulwimi',
+                        ' lwakho. Welcome. Please choose your language.',
+                        '\n1. isiXhosa',
+                        '\n2. English'].join(''),
                 })
                 .check.reply.char_limit()
                 .run();
@@ -157,7 +157,7 @@ describe("App", function() {
 
         it("should ask them for the toilet code", function() {
             return tester
-                .input('1')
+                .input('2')
                 .check.interaction({
                     state: 'states:input-toilet-code',
                     reply: 'Enter the toilet number.'
@@ -198,9 +198,10 @@ describe("App", function() {
                 .input("MN")
                 .check.interaction({
                     state: 'states:refine-response',
-                    reply: ["Sorry your code doesn't match what is in our ",
-                        "database. Could it be one of these instead?",
-                        "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. Not the code"
+                    reply: [
+                        "Toilet number not found.",
+                        " Could it be one of these:",
+                        "\n1. MN33\n2. MN34\n3. MN35\n4. MN36\n5. None of the above"
                         ].join(''),
                 })
                 .check.reply.char_limit()

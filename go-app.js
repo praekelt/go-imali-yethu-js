@@ -94,14 +94,14 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome to Imali Yethu. Please choose your',
-                           'language. Wamkelekile. Nceda ukhethe ulwimi',
-                           'lwakho.'].join(' '),
-
+                question: [
+                    'Wamkelekile ku Imali Yethu. Nceda ukhethe ulwimi lwakho.',
+                    'Welcome. Please choose your language.',
+                    ].join(" "),
                 choices: [
+                    new Choice('xh', 'isiXhosa'),
                     new Choice('en', 'English'),
-                    new Choice('xh', 'isiXhosa')],
-
+                ],
                 next: 'states:input-toilet-code'
             });
         });
@@ -171,13 +171,11 @@ go.app = function() {
                 return new Choice(index, item.code);
             });
 
-            choices.push(new Choice('none', $('Not the code')));
+            choices.push(new Choice('none', $('None of the above')));
             return new ChoiceState(name, {
-                question: $(["Sorry your code doesn't match what is in our ",
-                    "database. Could it be one of these instead?"].join("")),
-
+                question: $(["Toilet number not found.",
+                             " Could it be one of these:"].join("")),
                 choices: choices,
-
                 next: function(choice) {
                     return choice.value === 'none'
                         ? {
