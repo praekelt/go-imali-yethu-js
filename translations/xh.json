@@ -2,7 +2,7 @@
     "": {
         "project-id-version": "go-imali-yethu-js",
         "pot-creation-date": "2014-10-14 07:56:+0000",
-        "po-revision-date": "2014-10-14 22:05+0200",
+        "po-revision-date": "2014-10-15 10:06+0200",
         "last-translator": "Simon Cross <simon.cross@praekeltfoundation.org>",
         "language-team": "",
         "mime-version": "1.0",
@@ -21,7 +21,7 @@
     ],
     "Toilet number not found. Could it be one of these:": [
         null,
-        ""
+        "Inombolo yetoileti ayifumaneki. Ingaba yenye yezi?"
     ],
     "Other": [
         null,

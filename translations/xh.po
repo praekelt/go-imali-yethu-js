@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: go-imali-yethu-js\n"
 "POT-Creation-Date: 2014-10-14 07:56:+0000\n"
-"PO-Revision-Date: 2014-10-14 22:05+0200\n"
+"PO-Revision-Date: 2014-10-15 10:06+0200\n"
 "Last-Translator: Simon Cross <simon.cross@praekeltfoundation.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr "Ayikho kwezi zingentla"
 
 #: src/app.js:169
 msgid "Toilet number not found. Could it be one of these:"
-msgstr ""
+msgstr "Inombolo yetoileti ayifumaneki. Ingaba yenye yezi?"
 
 #: src/app.js:217
 msgid "Other"
