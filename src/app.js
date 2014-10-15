@@ -276,7 +276,7 @@ go.app = function() {
             var issue_len = self.im.config.issue_len;
             var cluster_angle =
                 crypto.createHash('md5').update(toilet_code).digest()
-                .readInt16LE() / 32768.0 * Math.PI;
+                .readInt16LE(0) / 32768.0 * Math.PI;
             var issue_angle = (Math.random() * 2 - 1) * Math.PI;
             return {
                 lon: cluster_len * Math.cos(cluster_angle)
