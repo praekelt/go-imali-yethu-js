@@ -87,10 +87,10 @@ go.app = function() {
         // Allows the user to select their language. This choice is displayed
         // only once and the selection is used for all future interactions.
             return new LanguageChoice(name, {
-                question: ['Welcome to Imali Yethu. Please choose your',
-                           'language. Wamkelekile. Nceda ukhethe ulwimi',
-                           'lwakho.'].join(' '),
-
+                question: [
+                    'Wamkelekile ku Imali Yethu. Nceda ukhethe ulwimi lwakho.',
+                    'Welcome. Please choose your language.',
+                    ].join(" "),
                 choices: [
                     new Choice('en', 'English'),
                     new Choice('xh', 'isiXhosa')],

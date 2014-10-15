@@ -103,8 +103,8 @@ describe("App", function() {
                 .check.interaction({
                     state: 'states:select-language',
                     reply: [
-                        'Welcome to Imali Yethu. Please choose your language.',
-                        ' Wamkelekile. Nceda ukhethe ulwimi lwakho.',
+                        'Wamkelekile ku Imali Yethu. Nceda ukhethe ulwimi',
+                        ' lwakho. Welcome. Please choose your language.',
                         '\n1. English',
                         '\n2. isiXhosa'].join(''),
                 })
