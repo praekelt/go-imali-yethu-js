@@ -320,10 +320,10 @@ go.app = function() {
                     }
                     var ona = new Ona(self.im, {
                         auth: {
-                            username: self.im.config.ona.username,
-                            password: self.im.config.ona.password
+                            username: ona_conf.username,
+                            password: ona_conf.password
                         },
-                        url: self.im.config.ona.url
+                        url: ona_conf.url
                     });
 
                     offsets = self.calculate_gps_offsets(data.toilet.code);
@@ -344,6 +344,14 @@ go.app = function() {
                     });
                 })
                 .then(function(resp) {
+                    if(!(resp.data &&
+                         resp.data.message === "Successful submission.")) {
+                        return self.im.log.error([
+                            'Error when sending data to Ona:',
+                            JSON.stringify(resp)].join(' '));
+                    }
+                })
+                .then(function() {
                     return notify_success(name);
                 });
         });
