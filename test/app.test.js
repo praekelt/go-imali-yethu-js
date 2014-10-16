@@ -609,9 +609,9 @@ describe("App", function() {
                 .run();
         });
 
-        it("should skip sending the information if there is no snappy url", function() {
+        it("should skip sending the information if there is no snappy config", function() {
             return tester
-                .setup.config.app({snappy: {url: undefined}})
+                .setup.config.app({snappy: undefined})
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
@@ -622,7 +622,7 @@ describe("App", function() {
                         }), []);
                     assert.deepEqual(
                         api.log.info.slice(-1), [[
-                            'No Snappy API URL configured.',
+                            'No Snappy API configured.',
                             'Not submitting data to Snappy.'
                         ].join(' ')]);
                 })

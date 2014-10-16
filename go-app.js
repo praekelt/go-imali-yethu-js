@@ -325,20 +325,20 @@ go.app = function() {
             return Q()
                 .then(function() {
                     // Send response to Snappy
-                    var url = self.im.config.snappy.url;
-                    if (typeof url == 'undefined') {
+                    var snappy_conf = self.im.config.snappy;
+                    if (typeof snappy_conf == 'undefined') {
                         return self.im.log.info([
-                            "No Snappy API URL configured.",
+                            "No Snappy API configured.",
                             "Not submitting data to Snappy."
                         ].join(" "));
                     }
                     var http = new JsonApi(self.im);
 
-                    return http.post(url, {
+                    return http.post(snappy_conf.url, {
                         data: {
                             contact_key: self.contact.key,
                             msisdn: self.im.user.addr,
-                            conversation: self.im.config.snappy.conversation,
+                            conversation: snappy_conf.conversation,
                             message: create_issue_message(data)
                         }
                     });
