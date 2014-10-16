@@ -19,13 +19,18 @@ Config parameters:
         toilet_code.url             URL for the toilet codes API
         toilet_code.threshold       Threshold for search
         toilet_code.max_results     Max results for search
-    snappy_api_url:                 URL of the snappy bridge API.
     toilet_api_issue_url:           URL of the issue data API
+    snappy:                         Snappy bouncer information
+        snappy.url                  Snappy bouncer URL
+        snappy.conversation         Snappy conversation to submit under
     ona:                            Ona information
         ona.id:                     Ona form identifier
         ona.username:               Ona auth username
         ona.password:               Ona auth password
         ona.url:                    URL for Ona API
+    clusten_len:                    Length of radius for cluster 
+                                    (deterministic) circles
+    issue_len:                      Length of radius for issue (random) circles
 
 .. |travis| image:: https://travis-ci.org/praekelt/go-imali-yethu-js.svg?branch=develop
 .. _travis: https://travis-ci.org/praekelt/go-imali-yethu-js

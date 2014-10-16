@@ -71,6 +71,12 @@ go.app = function() {
                     {state: 'states:send-report', action: 'enter'},
                     {state: 'states:send-report', action: 'exit'},
                     'time_per_screen_4_send_report');
+
+            return self.im.contacts
+                .for_user()
+                .then(function(user_contact) {
+                   self.contact = user_contact;
+                });
         };
 
         self.states.add('states:detect-language', function(name) {
@@ -293,7 +299,7 @@ go.app = function() {
             return Q()
                 .then(function() {
                     // Send response to Snappy
-                    var url = self.im.config.snappy_api_url;
+                    var url = self.im.config.snappy.url;
                     if (typeof url == 'undefined') {
                         return self.im.log.info([
                             "No Snappy API URL configured.",
@@ -303,7 +309,9 @@ go.app = function() {
                     var http = new JsonApi(self.im);
                     return http.post(url, {
                         data: {
+                            contact_key: self.contact.key,
                             msisdn: self.im.user.addr,
+                            conversation: self.im.config.snappy.conversation,
                             toilet: data.toilet,
                             issue: data.issue,
                             query: data.query

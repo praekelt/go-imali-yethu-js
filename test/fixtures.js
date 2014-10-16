@@ -177,7 +177,9 @@ module.exports = function() {
             "method": "POST",
             "url": "http://besnappy.com/api/",
             "data": {
+                "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
+                "conversation": "/api/v1/snappybouncer/conversation/1/",
                 "issue": {
                     "en": "Broken toilet",
                     "xh": "Aphukileyo indlu yangasese",
@@ -204,14 +206,16 @@ module.exports = function() {
             "method": "POST",
             "url": "http://besnappy.com/api/",
             "data": {
+                "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
-                "issue": "Custom issue",
+                "conversation": "/api/v1/snappybouncer/conversation/1/",
                 "toilet": {
                     "id": 1,
                     "code": "MN34",
                     "lat": -34.01667,
                     "lon": -18.66404
                 },
+                "issue": "Custom issue",
                 "query": "MN34"
             }
         },
@@ -227,14 +231,16 @@ module.exports = function() {
             "method": "POST",
             "url": "http://besnappy.com/api/",
             "data": {
+                "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
-                "issue": "Error issue",
+                "conversation": "/api/v1/snappybouncer/conversation/1/",
                 "toilet": {
                     "id": 1,
                     "code": "MN34",
                     "lat": -34.01667,
                     "lon": -18.66404
                 },
+                "issue": "Error issue",
                 "query": "MN34"
             }
         },
