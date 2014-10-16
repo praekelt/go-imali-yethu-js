@@ -315,6 +315,7 @@ go.app = function() {
                 "Toilet code: " + toilet.code,
                 "Toilet latitude: " + toilet.lat,
                 "Toilet longitude: " + toilet.lon,
+                // For custom issues, toilet.issue is just a string
                 "Issue: " + toilet.issue].join('\n');
         };
 
