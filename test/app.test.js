@@ -1004,13 +1004,17 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "6", "Error issue")
                 .check(function(api) {
-                    var log = _.findLast(api.log.store, function(lg) {
-                        return _.findLast(lg, function(item) {
-                            return item.indexOf(
-                                'Error when sending data to Ona')>-1;
-                        });
+                    var logs = _.flatten(_.values(api.log.store));
+                    var log = _.findLast(logs, function(item) {
+                        return item.indexOf(
+                            'Error when sending data to Ona') > -1;
                     });
                     assert.equal(typeof log == 'undefined', false);
+
+                    error = JSON.parse(log.substring(log.indexOf('{')));
+                    assert.equal(error.code, 400);
+                    body = JSON.parse(error.body);
+                    assert.equal(body.error, "Error message.");                    
                 })
                 .run();
         });
@@ -1023,13 +1027,17 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "6", "Error issue")
                 .check(function(api) {
-                    var log = _.findLast(api.log.store, function(lg) {
-                        return _.findLast(lg, function(item) {
-                            return item.indexOf(
-                                'Error when sending issue to Snappy') > -1;
-                        });
+                    var logs = _.flatten(_.values(api.log.store));
+                    var log = _.findLast(logs, function(item) {
+                        return item.indexOf(
+                            'Error when sending issue to Snappy') > -1;
                     });
                     assert.equal(typeof log == 'undefined', false);
+
+                    error = JSON.parse(log.substring(log.indexOf('{')));
+                    assert.equal(error.code, 400);
+                    body = JSON.parse(error.body);
+                    assert.equal(body.status, "Error");
                 })
                 .run();
         });
