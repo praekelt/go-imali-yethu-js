@@ -71,6 +71,12 @@ go.app = function() {
                     {state: 'states:send-report', action: 'enter'},
                     {state: 'states:send-report', action: 'exit'},
                     'time_per_screen_4_send_report');
+
+            return self.im.contacts
+                .for_user()
+                .then(function(user_contact) {
+                   self.contact = user_contact;
+                });
         };
 
         self.states.add('states:detect-language', function(name) {
@@ -286,6 +292,26 @@ go.app = function() {
             };
         };
 
+        var create_issue_message = function(data) {
+            toilet = _.defaults({
+                code: data.toilet.code,
+                lat: data.toilet.lat,
+                lon: data.toilet.lon,
+                issue: data.issue.value
+            }, {
+                code: data.query,
+                lat: "None",
+                lon: "None",
+                issue: data.issue
+            });
+            return [
+                "Toilet code: " + toilet.code,
+                "Toilet latitude: " + toilet.lat,
+                "Toilet longitude: " + toilet.lon,
+                // For custom issues, toilet.issue is just a string
+                "Issue: " + toilet.issue].join('\n');
+        };
+
         self.states.add('states:send-report', function(name, data) {
         // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
@@ -293,21 +319,21 @@ go.app = function() {
             return Q()
                 .then(function() {
                     // Send response to Snappy
-                    var url = self.im.config.snappy_api_url;
-                    if (typeof url == 'undefined') {
+                    var snappy_conf = self.im.config.snappy;
+                    if (typeof snappy_conf == 'undefined') {
                         return self.im.log.info([
-                            "No Snappy API URL configured.",
+                            "No Snappy API configured.",
                             "Not submitting data to Snappy."
                         ].join(" "));
                     }
                     var http = new JsonApi(self.im);
-                    return http.post(url, {
+
+                    return http.post(snappy_conf.url, {
                         data: {
+                            contact_key: self.contact.key,
                             msisdn: self.im.user.addr,
-                            toilet: data.toilet,
-                            issue: data.issue,
-                            query: data.query
-                            //datetime: Date.now()
+                            conversation: snappy_conf.conversation,
+                            message: create_issue_message(data)
                         }
                     });
                 })

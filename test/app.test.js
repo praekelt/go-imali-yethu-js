@@ -28,8 +28,11 @@ describe("App", function() {
                     max_results: 5
                 },
                 toilet_api_url: 'http://toilet.info/api/',
-                snappy_api_url: 'http://besnappy.com/api/',
                 toilet_api_issue_url: 'http://toilet.info/api/issues/',
+                snappy: {
+                    url: 'http://besnappy.com/api/',
+                    conversation: '/api/v1/snappybouncer/conversation/1/'
+                },
                 ona: {
                     id: '1',
                     username: 'root',
@@ -583,33 +586,32 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
                 .inputs('MN34', '1')
                 .check(function(api, im , app) {
                     var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
                     })[0];
                     assert.deepEqual(http_sent.data, {
+                        "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
-                        "toilet": {
-                            "id": 1,
-                            "code": "MN34",
-                            "lon": -18.66404,
-                            "lat": -34.01667
-                        },
-                        "issue": {
-                            "en": "Broken toilet",
-                            "xh": "Aphukileyo indlu yangasese",
-                            "value": "broken_toilet"
-                        },
-                        "query": "MN34"
+                        "conversation":"/api/v1/snappybouncer/conversation/1/",
+                        "message":
+                            "Toilet code: MN34\nToilet latitude: -34.01667\n" +
+                            "Toilet longitude: -18.66404\nIssue: broken_toilet"
                     });
                 })
                 .run();
         });
 
-        it("should skip sending the information if there is no snappy url", function() {
+        it("should skip sending the information if there is no snappy config", function() {
             return tester
-                .setup.config.app({snappy_api_url: undefined})
+                .setup.config.app({snappy: undefined})
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
@@ -620,7 +622,7 @@ describe("App", function() {
                         }), []);
                     assert.deepEqual(
                         api.log.info.slice(-1), [[
-                            'No Snappy API URL configured.',
+                            'No Snappy API configured.',
                             'Not submitting data to Snappy.'
                         ].join(' ')]);
                 })
@@ -772,21 +774,24 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
                 .inputs("MN34", "6", "Custom issue")
                 .check(function(api, im , app) {
                     var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
                     })[0];
                     assert.deepEqual(http_sent.data, {
+                        "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
-                        "toilet": {
-                            "id": 1,
-                            "code": "MN34",
-                            "lon": "-18.66404",
-                            "lat": "-34.01667"
-                        },
-                        "issue": "Custom issue",
-                        "query": "MN34"
+                        "conversation":"/api/v1/snappybouncer/conversation/1/",
+                        "message":"Toilet code: MN34\nToilet latitude:" +
+                            " -34.01667\nToilet longitude: -18.66404\n" +
+                            "Issue: Custom issue"
                     });
                 })
                 .run();
@@ -900,6 +905,12 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
                 .setup.user.state({
                     name:'states:send-report',
                     creator_opts: {
@@ -932,6 +943,12 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
                 .inputs("MN34", "6", "Error issue")
                 .check(function(api) {
                     var logs = _.flatten(_.values(api.log.store));
@@ -961,6 +978,12 @@ describe("App", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
                 .inputs("MN34", "6", "Error issue")
                 .check(function(api) {
                     var logs = _.flatten(_.values(api.log.store));
