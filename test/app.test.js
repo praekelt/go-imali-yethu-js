@@ -1009,12 +1009,18 @@ describe("App", function() {
                         return item.indexOf(
                             'Error when sending data to Ona') > -1;
                     });
+                    // Check that log exists
                     assert.equal(typeof log == 'undefined', false);
-
+                    // Assert contents of log
                     error = JSON.parse(log.substring(log.indexOf('{')));
                     assert.equal(error.code, 400);
                     body = JSON.parse(error.body);
-                    assert.equal(body.error, "Error message.");                    
+                    assert.equal(body.error, "Error message.");
+                    // Assert Snappy was still submitted
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    });
+                    assert.equal(http_sent.length > 0, true);
                 })
                 .run();
         });
@@ -1032,12 +1038,18 @@ describe("App", function() {
                         return item.indexOf(
                             'Error when sending issue to Snappy') > -1;
                     });
+                    // Check that log exists
                     assert.equal(typeof log == 'undefined', false);
-
+                    // Assert contents of log
                     error = JSON.parse(log.substring(log.indexOf('{')));
                     assert.equal(error.code, 400);
                     body = JSON.parse(error.body);
                     assert.equal(body.status, "Error");
+                    // Assert Ona was still submitted
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    });
+                    assert.equal(http_sent.length > 0, true);
                 })
                 .run();
         });
