@@ -292,6 +292,17 @@ go.app = function() {
             };
         };
 
+        var create_issue_message = function(data) {
+            var toilet_code = 'Toilet code: ' +
+                (data.toilet.code || data.query);
+            var toilet_lat = 'Toilet latitude: ' + (data.toilet.lat || "None");
+            var toilet_lon = 'Toilet longitude: ' +
+                (data.toilet.lon || "None");
+            var toilet_issue = 'Issue: ' + (data.issue.value || data.issue);
+            return [
+                toilet_code, toilet_lat, toilet_lon, toilet_issue].join('\n');
+        };
+
         self.states.add('states:send-report', function(name, data) {
         // Screen 4
         // This state sends the collected information to the Snappy Bridge API,
@@ -307,15 +318,13 @@ go.app = function() {
                         ].join(" "));
                     }
                     var http = new JsonApi(self.im);
+
                     return http.post(url, {
                         data: {
                             contact_key: self.contact.key,
                             msisdn: self.im.user.addr,
                             conversation: self.im.config.snappy.conversation,
-                            toilet: data.toilet,
-                            issue: data.issue,
-                            query: data.query
-                            //datetime: Date.now()
+                            message: create_issue_message(data)
                         }
                     });
                 })

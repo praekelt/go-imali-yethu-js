@@ -601,18 +601,9 @@ describe("App", function() {
                         "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
-                        "toilet": {
-                            "id": 1,
-                            "code": "MN34",
-                            "lon": -18.66404,
-                            "lat": -34.01667
-                        },
-                        "issue": {
-                            "en": "Broken toilet",
-                            "xh": "Aphukileyo indlu yangasese",
-                            "value": "broken_toilet"
-                        },
-                        "query": "MN34"
+                        "message":
+                            "Toilet code: MN34\nToilet latitude: -34.01667\n" +
+                            "Toilet longitude: -18.66404\nIssue: broken_toilet"
                     });
                 })
                 .run();
@@ -798,14 +789,9 @@ describe("App", function() {
                         "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
-                        "toilet": {
-                            "id": 1,
-                            "code": "MN34",
-                            "lon": "-18.66404",
-                            "lat": "-34.01667"
-                        },
-                        "issue": "Custom issue",
-                        "query": "MN34"
+                        "message":"Toilet code: MN34\nToilet latitude:" +
+                            " -34.01667\nToilet longitude: -18.66404\n" +
+                            "Issue: Custom issue"
                     });
                 })
                 .run();
