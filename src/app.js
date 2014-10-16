@@ -292,6 +292,7 @@ go.app = function() {
         // and then reports the success back to the user.
             return Q()
                 .then(function() {
+                    // Send response to Snappy
                     var url = self.im.config.snappy_api_url;
                     if (typeof url == 'undefined') {
                         return self.im.log.info([
@@ -310,7 +311,14 @@ go.app = function() {
                         }
                     });
                 })
+                .fail(function(err) {
+                    // Check for Snappy error
+                    self.im.log.error([
+                        'Error when sending issue to Snappy:',
+                        JSON.stringify(err.response)].join(' '));
+                })
                 .then(function() {
+                    // Send response to Ona
                     var ona_conf = self.im.config.ona;
                     if (typeof ona_conf == 'undefined') {
                         return self.im.log.info([
@@ -320,10 +328,10 @@ go.app = function() {
                     }
                     var ona = new Ona(self.im, {
                         auth: {
-                            username: self.im.config.ona.username,
-                            password: self.im.config.ona.password
+                            username: ona_conf.username,
+                            password: ona_conf.password
                         },
-                        url: self.im.config.ona.url
+                        url: ona_conf.url
                     });
 
                     offsets = self.calculate_gps_offsets(data.toilet.code);
@@ -343,7 +351,14 @@ go.app = function() {
                         }
                     });
                 })
-                .then(function(resp) {
+                .fail(function(err) {
+                    // Check for Ona response error
+                    return self.im.log.error([
+                        'Error when sending data to Ona:',
+                        JSON.stringify(err.response)].join(' '));
+                })
+                .then(function() {
+                    // Return success to user
                     return notify_success(name);
                 });
         });

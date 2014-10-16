@@ -32,6 +32,16 @@ describe("App", function() {
                     "toilet_location":"-34.01667 -18.66404",
                     "logged_date":"1970-01-01T00:00:01.337Z"
                 }
+            },
+            response: {
+                data: {
+                    "instanceID": "uuid:4a89f4f7cc044e45a5f887487406307e",
+                    "encrypted": false,
+                    "submissionDate": "1970-01-01T00:00:01.337Z",
+                    "formid": "1",
+                    "message": "Successful submission.",
+                    "markedAsCompleteDate": "1970-01-01T00:00:01.337Z"
+                }
             }
         });
         onafixtures.submit.add({
@@ -46,6 +56,36 @@ describe("App", function() {
                     "toilet_location":"-34.01667 -18.66404",
                     "logged_date":"1970-01-01T00:00:01.337Z"
                 }
+            },
+            response: {
+                data: {
+                    "instanceID": "uuid:4a89f4f7cc044e45a5f887487406307e",
+                    "encrypted": false,
+                    "submissionDate": "1970-01-01T00:00:01.337Z",
+                    "formid": "1",
+                    "message": "Successful submission.",
+                    "markedAsCompleteDate": "1970-01-01T00:00:01.337Z"
+                }
+            }
+        });
+        onafixtures.submit.add({
+            data: {
+                "id":"1",
+                "submission": {
+                    "msisdn":"+12345",
+                    "toilet_code":"MN34",
+                    "issue": "Error issue",
+                    "toilet_code_query":"MN34",
+                    "fault_status":"logged",
+                    "toilet_location":"-34.01667 -18.66404",
+                    "logged_date":"1970-01-01T00:00:01.337Z"
+                }
+            },
+            response: {
+                data: {
+                    "error": "Error message."
+                },
+                code: 400
             }
         });
 
@@ -952,6 +992,64 @@ describe("App", function() {
                         .time_per_screen_4_send_report;
                     assert.equal(metrics.agg, 'avg');
                     assert.equal(metrics.values.length, 1);
+                })
+                .run();
+        });
+    });
+
+    describe("When there is an error submitting to Ona", function() {
+        it("Should log an error and continue", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "6", "Error issue")
+                .check(function(api) {
+                    var logs = _.flatten(_.values(api.log.store));
+                    var log = _.findLast(logs, function(item) {
+                        return item.indexOf(
+                            'Error when sending data to Ona') > -1;
+                    });
+                    // Check that log exists
+                    assert.equal(typeof log == 'undefined', false);
+                    // Assert contents of log
+                    error = JSON.parse(log.substring(log.indexOf('{')));
+                    assert.equal(error.code, 400);
+                    body = JSON.parse(error.body);
+                    assert.equal(body.error, "Error message.");
+                    // Assert Snappy was still submitted
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    });
+                    assert.equal(http_sent.length > 0, true);
+                })
+                .run();
+        });
+    });
+
+    describe("When there is an error submitting to Snappy", function() {
+        it("Should log an error and continue", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN34", "6", "Error issue")
+                .check(function(api) {
+                    var logs = _.flatten(_.values(api.log.store));
+                    var log = _.findLast(logs, function(item) {
+                        return item.indexOf(
+                            'Error when sending issue to Snappy') > -1;
+                    });
+                    // Check that log exists
+                    assert.equal(typeof log == 'undefined', false);
+                    // Assert contents of log
+                    error = JSON.parse(log.substring(log.indexOf('{')));
+                    assert.equal(error.code, 400);
+                    body = JSON.parse(error.body);
+                    assert.equal(body.status, "Error");
+                    // Assert Ona was still submitted
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    });
+                    assert.equal(http_sent.length > 0, true);
                 })
                 .run();
         });

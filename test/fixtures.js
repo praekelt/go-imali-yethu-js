@@ -221,5 +221,28 @@ module.exports = function() {
                 "status": "OK"
             }
         }
+    },
+    {
+        "request": {
+            "method": "POST",
+            "url": "http://besnappy.com/api/",
+            "data": {
+                "msisdn": "+12345",
+                "issue": "Error issue",
+                "toilet": {
+                    "id": 1,
+                    "code": "MN34",
+                    "lat": -34.01667,
+                    "lon": -18.66404
+                },
+                "query": "MN34"
+            }
+        },
+        "response": {
+            "code": 400,
+            "data": {
+                "status": "Error"
+            }
+        }
     }];
 };
