@@ -300,14 +300,22 @@ go.app = function() {
         };
 
         var create_issue_message = function(data) {
-            var toilet_code = 'Toilet code: ' +
-                (data.toilet.code || data.query);
-            var toilet_lat = 'Toilet latitude: ' + (data.toilet.lat || "None");
-            var toilet_lon = 'Toilet longitude: ' +
-                (data.toilet.lon || "None");
-            var toilet_issue = 'Issue: ' + (data.issue.value || data.issue);
+            toilet = _.defaults({
+                code: data.toilet.code,
+                lat: data.toilet.lat,
+                lon: data.toilet.lon,
+                issue: data.issue.value
+            }, {
+                code: data.query,
+                lat: "None",
+                lon: "None",
+                issue: data.issue
+            });
             return [
-                toilet_code, toilet_lat, toilet_lon, toilet_issue].join('\n');
+                "Toilet code: " + toilet.code,
+                "Toilet latitude: " + toilet.lat,
+                "Toilet longitude: " + toilet.lon,
+                "Issue: " + toilet.issue].join('\n');
         };
 
         self.states.add('states:send-report', function(name, data) {
