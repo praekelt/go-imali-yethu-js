@@ -626,9 +626,9 @@ describe("App", function() {
                     var http_sent = _.where(api.http.requests, {
                         url: 'http://besnappy.com/api/'
                     })[0];
-                    assert.equal(
+                    assert.deepEqual(
                         http_sent.headers.Authorization,
-                        'ApiKey azurediamond:hunter2');
+                        ["ApiKey azurediamond:hunter2"]);
                 })
                 .run();
         });
