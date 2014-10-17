@@ -76,15 +76,15 @@ describe("App", function() {
     describe("app.calculate_gps_offsets", function() {
         describe("when cluster_len is set", function() {
             it("should create deterministic offsets", function() {
-                app.im.config.cluster_len = 1;
+                app.im.config.cluster_len = 0.5;
                 app.im.config.issue_len = 0;
                 var offsets = app.calculate_gps_offsets('foo');
                 // longitude
                 assert.equal(
-                    Math.abs(offsets.lon + 0.057109694655158014) < 1e-7, true);
+                    Math.abs(offsets.lon + 0.028554847327579007) < 1e-7, true);
                 // latitude
                 assert.equal(
-                    Math.abs(offsets.lat + 0.9983679195285438) < 1e-7, true);
+                    Math.abs(offsets.lat + 0.4991839547642719) < 1e-7, true);
                 // length
                 assert.equal(
                     Math.sqrt(Math.pow(offsets.lon,2) +
@@ -95,12 +95,12 @@ describe("App", function() {
         describe("when issue_len is set", function() {
             it("should create random offsets within the limits", function() {
                 app.im.config.cluster_len = 0;
-                app.im.config.issue_len = 1;
+                app.im.config.issue_len = 0.8;
                 var offsets = app.calculate_gps_offsets('foo');
                 // longitude
-                assert.equal(Math.abs(offsets.lon) <= 1, true);
+                assert.equal(Math.abs(offsets.lon) <= 0.8, true);
                 // latitude
-                assert.equal(Math.abs(offsets.lat) <= 1, true);
+                assert.equal(Math.abs(offsets.lat) <= 0.8, true);
                 // length
                 assert.equal(
                     Math.sqrt(Math.pow(offsets.lon,2) +
