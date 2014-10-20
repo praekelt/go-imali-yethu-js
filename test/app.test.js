@@ -31,7 +31,8 @@ describe("App", function() {
                 toilet_api_issue_url: 'http://toilet.info/api/issues/',
                 snappy: {
                     url: 'http://besnappy.com/api/',
-                    conversation: '/api/v1/snappybouncer/conversation/1/'
+                    conversation: '/api/v1/snappybouncer/conversation/1/',
+                    auth_token: 'azurediamond:hunter2'
                 },
                 ona: {
                     id: '1',
@@ -605,6 +606,28 @@ describe("App", function() {
                             "Toilet code: MN34\nToilet latitude: -34.01667\n" +
                             "Toilet longitude: -18.66404\nIssue: broken_toilet"
                     });
+                })
+                .run();
+        });
+
+        it("should authorize the snappy request", function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .setup(function(api) {
+                    api.contacts.add({
+                        msisdn: '+12345',
+                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
+                    });
+                })
+                .inputs('MN34', '1')
+                .check(function(api) {
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://besnappy.com/api/'
+                    })[0];
+                    assert.equal(
+                        http_sent.headers.Authorization,
+                        'ApiKey azurediamond:hunter2');
                 })
                 .run();
         });
