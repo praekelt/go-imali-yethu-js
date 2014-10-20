@@ -665,7 +665,6 @@ describe("App", function() {
                     assert.deepEqual(http_sent.data, {
                         "id": "1",
                         "submission": {
-                            "msisdn": "+12345",
                             "toilet_code": "MN34",
                             "issue": "broken_toilet",
                             "toilet_code_query": "MN34",
@@ -833,7 +832,6 @@ describe("App", function() {
                     assert.deepEqual(http_sent.data, {
                         "id": "1",
                         "submission": {
-                            "msisdn": "+12345",
                             "toilet_code": "MN34",
                             "issue": "Custom issue",
                             "toilet_code_query": "MN34",
