@@ -6,7 +6,6 @@ onafixtures.submit.add({
     data: {
         id: '1',
         submission: {
-            "msisdn":"+12345",
             "toilet_code":"MN34",
             "issue":"broken_toilet",
             "toilet_code_query":"MN34",
@@ -31,7 +30,6 @@ onafixtures.submit.add({
     data: {
         "id":"1",
         "submission": {
-            "msisdn":"+12345",
             "toilet_code":"MN34",
             "issue": "Custom issue",
             "toilet_code_query":"MN34",
@@ -56,7 +54,6 @@ onafixtures.submit.add({
     data: {
         "id":"1",
         "submission": {
-            "msisdn":"+12345",
             "toilet_code":"MN34",
             "issue": "Error issue",
             "toilet_code_query":"MN34",
