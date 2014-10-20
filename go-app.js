@@ -333,7 +333,11 @@ go.app = function() {
                             "Not submitting data to Snappy."
                         ].join(" "));
                     }
-                    var http = new JsonApi(self.im);
+                    var http = new JsonApi(self.im, {
+                        headers: {
+                            Authorization: 'ApiKey ' + snappy_conf.auth_token
+                        }
+                    });
 
                     return http.post(snappy_conf.url, {
                         data: {
