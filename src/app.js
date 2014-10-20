@@ -328,7 +328,8 @@ go.app = function() {
                     }
                     var http = new JsonApi(self.im, {
                         headers: {
-                            Authorization: 'ApiKey ' + snappy_conf.auth_token
+                            Authorization: ['ApiKey ', snappy_conf.auth_user,
+                                ':', snappy_conf.auth_token].join('')
                         }
                     });
 

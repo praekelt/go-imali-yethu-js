@@ -32,7 +32,8 @@ describe("App", function() {
                 snappy: {
                     url: 'http://besnappy.com/api/',
                     conversation: '/api/v1/snappybouncer/conversation/1/',
-                    auth_token: 'azurediamond:hunter2'
+                    auth_user: 'azurediamond',
+                    auth_token: 'hunter2'
                 },
                 ona: {
                     id: '1',
