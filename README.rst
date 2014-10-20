@@ -23,6 +23,8 @@ Config parameters:
     snappy:                         Snappy bouncer information
         snappy.url                  Snappy bouncer URL
         snappy.conversation         Snappy conversation to submit under
+        snappy.auth_user            Authentication user for Snappy bouncer
+        snappy.auth_token           Authentication token for Snappy bouncer
     ona:                            Ona information
         ona.id:                     Ona form identifier
         ona.username:               Ona auth username
