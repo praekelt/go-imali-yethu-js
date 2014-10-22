@@ -578,7 +578,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check.interaction({
-                    state: 'states:send-report',
+                    state: 'states:notify-success',
                     reply: ['Thank you. We will forward your report to the ',
                             'City of Cape Town and let you know if there is ',
                             'an update.'
@@ -817,7 +817,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "6", "Custom issue")
                 .check.interaction({
-                    state: 'states:send-report',
+                    state: 'states:notify-success',
                     reply: ['Thank you. We will forward your report to the ',
                             'City of Cape Town and let you know if there is ',
                             'an update.'
