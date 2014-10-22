@@ -274,12 +274,7 @@ go.app = function() {
         var notify_success = function(name) {
         // This function will notify the user of a successfully transmitted
         // report.
-            return new EndState(name, {
-                text: $(['Thank you. We will forward your report to the City ',
-                         'of Cape Town and let you know if there is an update.'
-                            ].join('')),
-                next: 'states:detect-language'
-            });
+            return self.states.create('states:notify-success');
         };
 
         self.calculate_gps_offsets = function(toilet_code) {
@@ -324,7 +319,7 @@ go.app = function() {
         };
 
         self.states.add('states:send-report', function(name, data) {
-        // Screen 4
+        // Delegation State
         // This state sends the collected information to the Snappy Bridge API,
         // and then reports the success back to the user.
             return Q()
@@ -412,6 +407,17 @@ go.app = function() {
                     return notify_success(name);
                 });
         });
+
+        self.states.add('states:notify-success', function(name) {
+            // Screen 4
+            return new EndState(name, {
+                text: $(['Thank you. We will forward your report to the City ',
+                         'of Cape Town and let you know if there is an update.'
+                            ].join('')),
+                next: 'states:detect-language'
+            });
+        });
+
     });
 
     return {
