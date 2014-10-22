@@ -25,12 +25,13 @@ Config parameters:
         snappy.conversation         Snappy conversation to submit under
         snappy.auth_user            Authentication user for Snappy bouncer
         snappy.auth_token           Authentication token for Snappy bouncer
+        snappy.tags                 Tags to send to Snappy.
     ona:                            Ona information
         ona.id:                     Ona form identifier
         ona.username:               Ona auth username
         ona.password:               Ona auth password
         ona.url:                    URL for Ona API
-    clusten_len:                    Length of radius for cluster 
+    clusten_len:                    Length of radius for cluster
                                     (deterministic) circles
     issue_len:                      Length of radius for issue (random) circles
 
