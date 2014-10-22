@@ -543,6 +543,10 @@ describe("App", function() {
                         ],
                         toilet: {
                             "id": 1,
+                            "cluster": 4,
+                            "section": "MN",
+                            "section_number": 3,
+                            "toilet_type": "FT",
                             "code": "MN34",
                             "lat": -34.01667,
                             "lon": -18.66404
@@ -695,8 +699,9 @@ describe("App", function() {
                         "id": "1",
                         "submission": {
                             "toilet_code": "MN34",
+                            "toilet_section": "MN",
+                            "toilet_cluster": 4,
                             "issue": "broken_toilet",
-                            "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
                             "logged_date": "1970-01-01T00:00:01.337Z"
@@ -862,8 +867,9 @@ describe("App", function() {
                         "id": "1",
                         "submission": {
                             "toilet_code": "MN34",
+                            "toilet_section": "MN",
+                            "toilet_cluster": 4,
                             "issue": "Custom issue",
-                            "toilet_code_query": "MN34",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
                             "logged_date": "1970-01-01T00:00:01.337Z"
