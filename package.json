@@ -1,0 +1,45 @@
+{
+  "name": "go-imali-yethu-js",
+  "version": "0.0.0a",
+  "description": "Vumi Go JS Sandbox App for the Imali Yethu Project",
+  "main": "go-app.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/praekelt/go-imali-yethu-js.git"
+  },
+  "keywords": [
+    "vumi",
+    "go",
+    "javascript",
+    "sandbox",
+    "imali",
+    "yethu"
+  ],
+  "author": "Praekelt Foundation",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/praekelt/go-imali-yethu-js/issues"
+  },
+  "homepage": "https://github.com/praekelt/go-imali-yethu-js",
+  "dependencies": {
+    "go-jsbox-metrics-helper": "~0.1.0",
+    "go-jsbox-ona": "~0.0.2",
+    "lodash": "~2.4.1",
+    "moment": "~2.5.1",
+    "q": "~0.9",
+    "vumigo_v02": "~0.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.18",
+    "jshint": "~2.4.4",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.6.0",
+    "grunt": "~0.4.4",
+    "grunt-mocha-test": "~0.10.0",
+    "grunt-contrib-jshint": "~0.9.2",
+    "grunt-cli": "~0.1.13"
+  }
+}

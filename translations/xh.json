@@ -1,0 +1,42 @@
+{
+    "": {
+        "project-id-version": "go-imali-yethu-js",
+        "pot-creation-date": "2014-10-14 07:56:+0000",
+        "po-revision-date": "2014-10-15 10:06+0200",
+        "last-translator": "Simon Cross <simon.cross@praekeltfoundation.org>",
+        "language-team": "",
+        "mime-version": "1.0",
+        "content-type": "text/plain; charset=UTF-8",
+        "content-transfer-encoding": "8bit",
+        "x-generator": "Poedit 1.5.4",
+        "language": "xh"
+    },
+    "Enter the toilet number.": [
+        null,
+        "Faka inombolo yetoileti."
+    ],
+    "None of the above": [
+        null,
+        "Ayikho kwezi zingentla"
+    ],
+    "Toilet number not found. Could it be one of these:": [
+        null,
+        "Inombolo yetoileti ayifumaneki. Ingaba yenye yezi?"
+    ],
+    "Other": [
+        null,
+        "Enye"
+    ],
+    "What is the problem?": [
+        null,
+        "Yintoni ingxaki?"
+    ],
+    "Please type your issue with the toilet.": [
+        null,
+        "Yintoni ingxaki yetoileti?"
+    ],
+    "Thank you. We will forward your report to the City of Cape Town and let you know if there is an update.": [
+        null,
+        "Enkosi. Sizakuyigqithisa ingxelo yakho kwiSixeko saseKapa size sikwazise ukuba ikhona inkqubela. "
+    ]
+}

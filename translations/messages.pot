@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2014-10-14 07:56:+0000\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+
+#: src/app.js:106
+msgid "Enter the toilet number."
+msgstr ""
+
+#: src/app.js:167
+msgid "None of the above"
+msgstr ""
+
+#: src/app.js:169
+msgid "Toilet number not found. Could it be one of these:"
+msgstr ""
+
+#: src/app.js:217
+msgid "Other"
+msgstr ""
+
+#: src/app.js:220
+msgid "What is the problem?"
+msgstr ""
+
+#: src/app.js:246
+msgid "Please type your issue with the toilet."
+msgstr ""
+
+#: src/app.js:264
+msgid ""
+"Thank you. We will forward your report to the City of Cape Town and let you "
+"know if there is an update."
+msgstr ""
