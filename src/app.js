@@ -371,18 +371,27 @@ go.app = function() {
 
                     offsets = self.calculate_gps_offsets(data.toilet.code);
 
+                    submission = _.defaults({
+                        toilet_code: data.toilet.code,
+                        toilet_section: data.toilet.section,
+                        toilet_cluster: data.toilet.cluster,
+                        issue: data.issue.value,
+                        fault_status: 'logged',
+                        toilet_location: [
+                            data.toilet.lat + offsets.lat,
+                            data.toilet.lon + offsets.lon].join(' '),
+                        logged_date: self.now(),
+                    }, {
+                        toilet_code: data.query,
+                        toilet_section: "None",
+                        toilet_cluster: "None",
+                        issue: data.issue,
+                        toilet_location: "None",
+                    });
+
                     return ona.submit({
                         id: self.im.config.ona.id,
-                        submission: {
-                            toilet_code: data.toilet.code,
-                            issue: data.issue.value || data.issue,
-                            toilet_code_query: data.query,
-                            fault_status: 'logged',
-                            toilet_location: [
-                                data.toilet.lat + offsets.lat,
-                                data.toilet.lon + offsets.lon].join(' '),
-                            logged_date: self.now()
-                        }
+                        submission: submission,
                     });
                 })
                 .fail(function(err) {
