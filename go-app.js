@@ -45,13 +45,13 @@ go.app = function() {
                 .add.total_sessions()
                 // Total and weekly completed reports
                 // Average sessions per complete report
-                .add.trigger({state: 'states:send-report', action: 'enter'}, {
-                        total_state_actions: 'total_completed_reports',
-                        sessions_until_state: 'average_sessions_per_report'})
+                .add.trigger({state: 'states:notify-success', action: 'enter'},
+                    {total_state_actions: 'total_completed_reports',
+                     sessions_until_state: 'average_sessions_per_report'})
                 // Average time to complete report
                 .add.time_between_states(
-                    {state: 'states:detect-language', action: 'enter'},
-                    {state: 'states:send-report', action:'enter'},
+                    {state: 'states:input-toilet-code', action: 'enter'},
+                    {state: 'states:notify-success', action:'enter'},
                     'time_per_report')
                 // Average time spent per screen 1, 2, 3a, 3b, 3c, 4
                 .add.time_between_states(
@@ -73,11 +73,7 @@ go.app = function() {
                 .add.time_between_states(
                     {state: 'states:custom-issue', action: 'enter'},
                     {state: 'states:custom-issue', action: 'exit'},
-                    'time_per_screen_3c_custom_issue')
-                .add.time_between_states(
-                    {state: 'states:send-report', action: 'enter'},
-                    {state: 'states:send-report', action: 'exit'},
-                    'time_per_screen_4_send_report');
+                    'time_per_screen_3c_custom_issue');
 
             return self.im.contacts
                 .for_user()
@@ -274,12 +270,7 @@ go.app = function() {
         var notify_success = function(name) {
         // This function will notify the user of a successfully transmitted
         // report.
-            return new EndState(name, {
-                text: $(['Thank you. We will forward your report to the City ',
-                         'of Cape Town and let you know if there is an update.'
-                            ].join('')),
-                next: 'states:detect-language'
-            });
+            return self.states.create('states:notify-success');
         };
 
         self.calculate_gps_offsets = function(toilet_code) {
@@ -324,7 +315,7 @@ go.app = function() {
         };
 
         self.states.add('states:send-report', function(name, data) {
-        // Screen 4
+        // Delegation State
         // This state sends the collected information to the Snappy Bridge API,
         // and then reports the success back to the user.
             return Q()
@@ -412,6 +403,17 @@ go.app = function() {
                     return notify_success(name);
                 });
         });
+
+        self.states.add('states:notify-success', function(name) {
+            // Screen 4
+            return new EndState(name, {
+                text: $(['Thank you. We will forward your report to the City ',
+                         'of Cape Town and let you know if there is an update.'
+                            ].join('')),
+                next: 'states:detect-language'
+            });
+        });
+
     });
 
     return {

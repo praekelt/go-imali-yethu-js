@@ -578,7 +578,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs('MN34', '1')
                 .check.interaction({
-                    state: 'states:send-report',
+                    state: 'states:notify-success',
                     reply: ['Thank you. We will forward your report to the ',
                             'City of Cape Town and let you know if there is ',
                             'an update.'
@@ -817,7 +817,7 @@ describe("App", function() {
                 .setup.user.addr('+12345')
                 .inputs("MN34", "6", "Custom issue")
                 .check.interaction({
-                    state: 'states:send-report',
+                    state: 'states:notify-success',
                     reply: ['Thank you. We will forward your report to the ',
                             'City of Cape Town and let you know if there is ',
                             'an update.'
@@ -952,42 +952,6 @@ describe("App", function() {
                 .check(function(api) {
                     metrics = api.metrics.stores.test_app
                         .time_per_screen_3c_custom_issue;
-                    assert.equal(metrics.agg, 'avg');
-                    assert.equal(metrics.values.length, 1);
-                })
-                .run();
-        });
-
-        it('should have a timing metric for screen 4', function() {
-            return tester
-                .setup.user.lang('en')
-                .setup.user.addr('+12345')
-                .setup(function(api) {
-                    api.contacts.add({
-                        msisdn: '+12345',
-                        key: '34f1343f-fb98-41a1-20b1-b7d9e45e99d2'
-                    });
-                })
-                .setup.user.state({
-                    name:'states:send-report',
-                    creator_opts: {
-                        toilet: {
-                            "id": 1,
-                            "code": "MN34",
-                            "lon": -18.66404,
-                            "lat": -34.01667
-                        },
-                        query: "MN34",
-                        issue: {
-                            "en": "Broken toilet",
-                            "xh": "Aphukileyo indlu yangasese",
-                            "value": "broken_toilet"
-                        }
-                    }})
-                .inputs(null)
-                .check(function(api) {
-                    metrics = api.metrics.stores.test_app
-                        .time_per_screen_4_send_report;
                     assert.equal(metrics.agg, 'avg');
                     assert.equal(metrics.values.length, 1);
                 })
