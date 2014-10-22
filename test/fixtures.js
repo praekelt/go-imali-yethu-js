@@ -16,13 +16,21 @@ module.exports = function() {
                     "code" : "MN34",
                     "lon" : -18.66404,
                     "id" : 1,
-                    "lat" : -34.01667
+                    "lat" : -34.01667,
+                    "section": "MN",
+                    "section_number": 3,
+                    "cluster": 4,
+                    "toilet_type": "FT"
                 },
                 {
                     "code" : "MN35",
                     "lon" : -18.66404,
                     "id" : 1,
-                    "lat" : -34.01667
+                    "lat" : -34.01667,
+                    "section": "MN",
+                    "section_number": 3,
+                    "cluster": 4,
+                    "toilet_type": "FT"
                 }
             ]
         }
