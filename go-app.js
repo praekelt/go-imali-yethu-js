@@ -45,13 +45,13 @@ go.app = function() {
                 .add.total_sessions()
                 // Total and weekly completed reports
                 // Average sessions per complete report
-                .add.trigger({state: 'states:send-report', action: 'enter'}, {
-                        total_state_actions: 'total_completed_reports',
-                        sessions_until_state: 'average_sessions_per_report'})
+                .add.trigger({state: 'states:notify-success', action: 'enter'},
+                    {total_state_actions: 'total_completed_reports',
+                     sessions_until_state: 'average_sessions_per_report'})
                 // Average time to complete report
                 .add.time_between_states(
-                    {state: 'states:detect-language', action: 'enter'},
-                    {state: 'states:send-report', action:'enter'},
+                    {state: 'states:input-toilet-code', action: 'enter'},
+                    {state: 'states:notify-success', action:'enter'},
                     'time_per_report')
                 // Average time spent per screen 1, 2, 3a, 3b, 3c, 4
                 .add.time_between_states(
