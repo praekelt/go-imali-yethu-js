@@ -198,6 +198,24 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
+                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nTags: @foo @bar"
+            }
+        },
+        "response": {
+            "code": 200,
+            "data": {
+                "status": "OK"
+            }
+        }
+    },
+    {
+        "request": {
+            "method": "POST",
+            "url": "http://besnappy.com/api/",
+            "data": {
+                "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
+                "msisdn": "+12345",
+                "conversation": "/api/v1/snappybouncer/conversation/1/",
                 "message":"Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: Custom issue\nTags: -"
             }
         },
