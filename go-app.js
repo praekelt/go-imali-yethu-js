@@ -299,7 +299,7 @@ go.app = function() {
             };
         };
 
-        var create_issue_message = function(data) {
+        var create_issue_message = function(snappy_conf, data) {
             toilet = _.defaults({
                 code: data.toilet.code,
                 lat: data.toilet.lat,
@@ -316,7 +316,9 @@ go.app = function() {
                 "Toilet latitude: " + toilet.lat,
                 "Toilet longitude: " + toilet.lon,
                 // For custom issues, toilet.issue is just a string
-                "Issue: " + toilet.issue].join('\n');
+                "Issue: " + toilet.issue,
+                "Tags: " + (snappy_conf.tags || "-"),
+            ].join('\n');
         };
 
         self.states.add('states:send-report', function(name, data) {
@@ -345,7 +347,7 @@ go.app = function() {
                             contact_key: self.contact.key,
                             msisdn: self.im.user.addr,
                             conversation: snappy_conf.conversation,
-                            message: create_issue_message(data)
+                            message: create_issue_message(snappy_conf, data)
                         }
                     });
                 })
