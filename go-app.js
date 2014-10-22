@@ -73,11 +73,7 @@ go.app = function() {
                 .add.time_between_states(
                     {state: 'states:custom-issue', action: 'enter'},
                     {state: 'states:custom-issue', action: 'exit'},
-                    'time_per_screen_3c_custom_issue')
-                .add.time_between_states(
-                    {state: 'states:send-report', action: 'enter'},
-                    {state: 'states:send-report', action: 'exit'},
-                    'time_per_screen_4_send_report');
+                    'time_per_screen_3c_custom_issue');
 
             return self.im.contacts
                 .for_user()
