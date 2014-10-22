@@ -26,7 +26,8 @@ module.exports = function (grunt) {
                 'test/setup.js',
                 '<%= paths.src.app %>',
                 'test/**/*.test.js',
-                'test/fixtures.js'
+                'test/fixtures.js',
+                'test/ona.fixtures.js'
             ]
         },
 
