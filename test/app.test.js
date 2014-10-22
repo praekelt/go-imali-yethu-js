@@ -605,7 +605,8 @@ describe("App", function() {
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
                         "message":
                             "Toilet code: MN34\nToilet latitude: -34.01667\n" +
-                            "Toilet longitude: -18.66404\nIssue: broken_toilet"
+                            "Toilet longitude: -18.66404\nIssue: broken_toilet\n" +
+                            "Tags: -"
                     });
                 })
                 .run();
@@ -814,7 +815,7 @@ describe("App", function() {
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
                         "message":"Toilet code: MN34\nToilet latitude:" +
                             " -34.01667\nToilet longitude: -18.66404\n" +
-                            "Issue: Custom issue"
+                            "Issue: Custom issue\nTags: -"
                     });
                 })
                 .run();
