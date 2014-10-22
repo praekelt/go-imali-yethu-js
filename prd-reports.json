@@ -150,15 +150,6 @@
                         "name": "time_per_screen_3c_custom_issue",
                         "aggregator": "avg"
                     }
-                },
-                {
-                    "name": "Average time screen 4",
-                    "target": {
-                        "metric_type": "account",
-                        "store": "prd_imali_yethu",
-                        "name": "time_per_screen_4_send_report",
-                        "aggregator": "avg"
-                    }
                 }
             ]
         }
