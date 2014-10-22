@@ -304,12 +304,14 @@ go.app = function() {
                 code: data.toilet.code,
                 lat: data.toilet.lat,
                 lon: data.toilet.lon,
-                issue: data.issue.value
+                issue: data.issue.value,
+                tags: snappy_conf.tags,
             }, {
                 code: data.query,
                 lat: "None",
                 lon: "None",
-                issue: data.issue
+                issue: data.issue,
+                tags: "-",
             });
             return [
                 "Toilet code: " + toilet.code,
@@ -317,7 +319,7 @@ go.app = function() {
                 "Toilet longitude: " + toilet.lon,
                 // For custom issues, toilet.issue is just a string
                 "Issue: " + toilet.issue,
-                "Tags: " + (snappy_conf.tags || "-"),
+                "Tags: " + toilet.tags,
             ].join('\n');
         };
 
