@@ -7,8 +7,9 @@ onafixtures.submit.add({
         id: '1',
         submission: {
             "toilet_code":"MN34",
+            "toilet_section": "MN",
+            "toilet_cluster": 4,
             "issue":"broken_toilet",
-            "toilet_code_query":"MN34",
             "fault_status":"logged",
             "toilet_location":"-34.01667 -18.66404",
             "logged_date":"1970-01-01T00:00:01.337Z"
@@ -31,8 +32,9 @@ onafixtures.submit.add({
         "id":"1",
         "submission": {
             "toilet_code":"MN34",
+            "toilet_section": "MN",
+            "toilet_cluster": 4,
             "issue": "Custom issue",
-            "toilet_code_query":"MN34",
             "fault_status":"logged",
             "toilet_location":"-34.01667 -18.66404",
             "logged_date":"1970-01-01T00:00:01.337Z"
@@ -55,8 +57,9 @@ onafixtures.submit.add({
         "id":"1",
         "submission": {
             "toilet_code":"MN34",
+            "toilet_section": "MN",
+            "toilet_cluster": 4,
             "issue": "Error issue",
-            "toilet_code_query":"MN34",
             "fault_status":"logged",
             "toilet_location":"-34.01667 -18.66404",
             "logged_date":"1970-01-01T00:00:01.337Z"
