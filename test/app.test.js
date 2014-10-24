@@ -891,6 +891,37 @@ describe("App", function() {
         });
     });
 
+    describe('When the toilet code could not be found', function() {
+        it('should submit data to Ona without location codes', function() {
+            return tester
+                .setup.user.lang('en')
+                .setup.user.addr('+12345')
+                .inputs("MN", "5", "1")
+                .check.reply([
+                    "Thank you. We will forward your report to the City of",
+                    "Cape Town and let you know if there is an update.",
+                ].join(" "))
+                .check(function(api) {
+                    var http_sent = _.where(api.http.requests, {
+                        url: 'http://ona.io/api/v1/submission'
+                    })[0];
+                    assert.deepEqual(http_sent.data, {
+                        "id": "1",
+                        "submission": {
+                            "toilet_code": "MN",
+                            "toilet_section": "None",
+                            "toilet_cluster": "None",
+                            "issue": "broken_toilet",
+                            "fault_status": "logged",
+                            "toilet_location": "None",
+                            "logged_date": "1970-01-01T00:00:01.337Z"
+                        }
+                    });
+                })
+                .run();
+        });
+    });
+
     describe('Per screen timing metrics', function() {
         it('should have a timing metric for screen 1', function() {
             return tester

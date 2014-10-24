@@ -283,6 +283,34 @@ go.app = function() {
             };
         };
 
+        self.create_ona_submission = function(data) {
+            var submission = {
+                toilet_code: data.toilet.code,
+                toilet_section: data.toilet.section,
+                toilet_cluster: data.toilet.cluster,
+                issue: data.issue.value,
+                fault_status: 'logged',
+                logged_date: self.now(),
+            };
+            if ((typeof data.toilet.code === 'string') &&
+                (typeof data.toilet.lat === 'number') &&
+                (typeof data.toilet.lon === 'number')) {
+                var offsets = self.calculate_gps_offsets(data.toilet.code);
+                submission.toilet_location = [
+                    data.toilet.lat + offsets.lat,
+                    data.toilet.lon + offsets.lon,
+                ].join(' ');
+            }
+            submission = _.defaults(submission, {
+                toilet_code: data.query,
+                toilet_section: "None",
+                toilet_cluster: "None",
+                issue: data.issue,
+                toilet_location: "None",
+            });
+            return submission;
+        };
+
         var create_issue_message = function(snappy_conf, data) {
             toilet = _.defaults({
                 code: data.toilet.code,
@@ -359,27 +387,7 @@ go.app = function() {
                         },
                         url: ona_conf.url
                     });
-
-                    offsets = self.calculate_gps_offsets(data.toilet.code);
-
-                    submission = _.defaults({
-                        toilet_code: data.toilet.code,
-                        toilet_section: data.toilet.section,
-                        toilet_cluster: data.toilet.cluster,
-                        issue: data.issue.value,
-                        fault_status: 'logged',
-                        toilet_location: [
-                            data.toilet.lat + offsets.lat,
-                            data.toilet.lon + offsets.lon].join(' '),
-                        logged_date: self.now(),
-                    }, {
-                        toilet_code: data.query,
-                        toilet_section: "None",
-                        toilet_cluster: "None",
-                        issue: data.issue,
-                        toilet_location: "None",
-                    });
-
+                    var submission = self.create_ona_submission(data);
                     return ona.submit({
                         id: self.im.config.ona.id,
                         submission: submission,
