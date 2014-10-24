@@ -81,9 +81,8 @@ onafixtures.submit.add({
             "toilet_section": "None",
             "toilet_cluster": "None",
             "issue": "broken_toilet",
-            "fault_status":"logged",
-            "toilet_location":"None",
-            "logged_date":"1970-01-01T00:00:01.337Z"
+            "fault_status": "logged",
+            "logged_date": "1970-01-01T00:00:01.337Z"
         }
     },
     response: {

@@ -306,7 +306,8 @@ go.app = function() {
                 toilet_section: "None",
                 toilet_cluster: "None",
                 issue: data.issue,
-                toilet_location: "None",
+                // toilet_location is omitted if there is no valid
+                // value.
             });
             return submission;
         };
