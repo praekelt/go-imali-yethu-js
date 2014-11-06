@@ -58,7 +58,7 @@ describe("App", function() {
         describe("when a fixed timestamp is set", function() {
             it("should return the fixed time", function() {
                 app.now.timestamp = 1234;
-                assert.equal(app.now(), "1970-01-01T00:00:01.234Z");
+                assert.equal(app.now(), "1970-01-01T02:00:01+02:00");
             });
         });
 
@@ -67,7 +67,7 @@ describe("App", function() {
                 delete app.now.timestamp;
                 assert.equal(
                     (new RegExp('^\\d{4}-\\d{2}-\\d{2}T\\d{2}' +
-                                ':\\d{2}:\\d{2}\\.\\d{3}Z$'))
+                                ':\\d{2}:\\d{2}\\+02:00$'))
                     .test(app.now()), true);
             });
         });
@@ -704,7 +704,7 @@ describe("App", function() {
                             "issue": "broken_toilet",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
-                            "logged_date": "1970-01-01T00:00:01.337Z"
+                            "logged_date": "1970-01-01T02:00:01+02:00"
                         }
                     });
                 })
@@ -872,7 +872,7 @@ describe("App", function() {
                             "issue": "Custom issue",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
-                            "logged_date": "1970-01-01T00:00:01.337Z"
+                            "logged_date": "1970-01-01T02:00:01+02:00"
                         }
                     });
                 })
@@ -913,7 +913,7 @@ describe("App", function() {
                             "toilet_cluster": "None",
                             "issue": "broken_toilet",
                             "fault_status": "logged",
-                            "logged_date": "1970-01-01T00:00:01.337Z"
+                            "logged_date": "1970-01-01T02:00:01+02:00"
                         }
                     });
                 })
