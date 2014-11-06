@@ -9,6 +9,7 @@ go.app = function() {
     var vumigo = require('vumigo_v02');
     var _ = require('lodash');
     var crypto = require('crypto');
+    var moment = require('moment');
     var Q = require('q');
     var App = vumigo.App;
     var Choice = vumigo.states.Choice;
@@ -30,8 +31,8 @@ go.app = function() {
         self.now = function() {
             var timestamp =
                 typeof self.now.timestamp == 'undefined' ?
-                    new Date() : new Date(self.now.timestamp);
-            return timestamp.toISOString();
+                    new moment() : new moment(self.now.timestamp);
+            return timestamp.zone('+02:00').format();
         };
 
         self.init = function() {
