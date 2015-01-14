@@ -8,7 +8,6 @@ go;
 go.app = function() {
     var vumigo = require('vumigo_v02');
     var _ = require('lodash');
-    var crypto = require('crypto');
     var moment = require('moment');
     var Q = require('q');
     var App = vumigo.App;
@@ -272,23 +271,6 @@ go.app = function() {
         // This function will notify the user of a successfully transmitted
         // report.
             return self.states.create('states:notify-success');
-        };
-
-        self.calculate_gps_offsets = function(toilet_code) {
-        // This function calculated the required GPS offsets given the
-        // toilet_code string
-            var cluster_len = self.im.config.cluster_len || 0.0;
-            var issue_len = self.im.config.issue_len || 0.0;
-            var cluster_angle =
-                crypto.createHash('md5').update(toilet_code).digest()
-                .readInt16LE(0) / 32768.0 * Math.PI;
-            var issue_angle = (Math.random() * 2 - 1) * Math.PI;
-            return {
-                lon: cluster_len * Math.cos(cluster_angle)
-                    + issue_len * Math.cos(issue_angle),
-                lat: cluster_len * Math.sin(cluster_angle)
-                    + issue_len * Math.sin(issue_angle)
-            };
         };
 
         self.create_ona_submission = function(data) {
