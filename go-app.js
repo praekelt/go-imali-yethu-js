@@ -299,16 +299,14 @@ go.app = function() {
                 issue: data.issue.value,
                 fault_status: 'logged',
                 logged_date: self.now(),
+                toilet_location: [data.toilet.lat, data.toilet.lon].join(' '),
+                msisdn: self.im.user.addr,
             };
-            if ((typeof data.toilet.code === 'string') &&
-                (typeof data.toilet.lat === 'number') &&
-                (typeof data.toilet.lon === 'number')) {
-                var offsets = self.calculate_gps_offsets(data.toilet.code);
-                submission.toilet_location = [
-                    data.toilet.lat + offsets.lat,
-                    data.toilet.lon + offsets.lon,
-                ].join(' ');
+
+            if(submission.toilet_location === ' ') {
+                delete submission.toilet_location;
             }
+
             submission = _.defaults(submission, {
                 toilet_code: data.query,
                 toilet_section: "None",
