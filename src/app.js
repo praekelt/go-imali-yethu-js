@@ -292,7 +292,9 @@ go.app = function() {
                 issue: data.issue.value,
                 fault_status: 'logged',
                 logged_date: self.now(),
+                msisdn: self.im.user.addr,
             };
+
             if ((typeof data.toilet.code === 'string') &&
                 (typeof data.toilet.lat === 'number') &&
                 (typeof data.toilet.lon === 'number')) {

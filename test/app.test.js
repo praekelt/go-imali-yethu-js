@@ -734,7 +734,8 @@ describe("App", function() {
                             "issue": "broken_toilet",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
-                            "logged_date": "1970-01-01T02:00:01+02:00"
+                            "logged_date": "1970-01-01T02:00:01+02:00",
+                            "msisdn": "+12345"
                         }
                     });
                 })
@@ -902,7 +903,8 @@ describe("App", function() {
                             "issue": "Custom issue",
                             "fault_status": "logged",
                             "toilet_location": "-34.01667 -18.66404",
-                            "logged_date": "1970-01-01T02:00:01+02:00"
+                            "logged_date": "1970-01-01T02:00:01+02:00",
+                            "msisdn": "+12345"
                         }
                     });
                 })
@@ -943,7 +945,8 @@ describe("App", function() {
                             "toilet_cluster": "None",
                             "issue": "broken_toilet",
                             "fault_status": "logged",
-                            "logged_date": "1970-01-01T02:00:01+02:00"
+                            "logged_date": "1970-01-01T02:00:01+02:00",
+                            "msisdn": "+12345"
                         }
                     });
                 })
