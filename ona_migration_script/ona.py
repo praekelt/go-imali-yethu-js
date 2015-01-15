@@ -6,7 +6,6 @@ class OnaApiClient(object):
     """
     Client for Ona's API
 
-    :param string form_id: The form ID.
     :param string username: The username to log into Ona with.
     :param string password: The password to log into Ona with.
     :param string url:
