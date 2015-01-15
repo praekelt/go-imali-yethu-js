@@ -1,5 +1,4 @@
 import argparse
-from getpass import getpass
 
 from ona import OnaApiClient
 
@@ -12,11 +11,13 @@ parser.add_argument(
 parser.add_argument(
     'to_id', type=str,
     help="The id (number) of the form to migrate submissions to")
+parser.add_argument(
+    'username', type=str, help='The Ona username used to log in')
+parser.add_argument(
+    'password', type=str, help='The Ona password used to log in')
 args = parser.parse_args()
 
-user = raw_input("Please enter your Ona username: ")
-password = getpass("Please enter your Ona password: ")
-client = OnaApiClient(user, password)
+client = OnaApiClient(args.username, args.password)
 
 
 def get_fields_from_form(formid):
