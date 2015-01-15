@@ -73,6 +73,42 @@ describe("App", function() {
         });
     });
 
+    describe("app.calculate_gps_offsets", function() {
+        describe("when cluster_len is set", function() {
+            it("should create deterministic offsets", function() {
+                app.im.config.cluster_len = 0.5;
+                app.im.config.issue_len = 0;
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(
+                    Math.abs(offsets.lon + 0.028554847327579007) < 1e-7, true);
+                // latitude
+                assert.equal(
+                    Math.abs(offsets.lat + 0.4991839547642719) < 1e-7, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
+            });
+        });
+
+        describe("when issue_len is set", function() {
+            it("should create random offsets within the limits", function() {
+                app.im.config.cluster_len = 0;
+                app.im.config.issue_len = 0.8;
+                var offsets = app.calculate_gps_offsets('foo');
+                // longitude
+                assert.equal(Math.abs(offsets.lon) <= 0.8, true);
+                // latitude
+                assert.equal(Math.abs(offsets.lat) <= 0.8, true);
+                // length
+                assert.equal(
+                    Math.sqrt(Math.pow(offsets.lon,2) +
+                        Math.pow(offsets.lat,2)) - 1 < 1e-7, true);
+            });
+        });
+    });
+
     describe("when a new user starts a session", function() {
         it("should give them a language selection", function() {
             return tester

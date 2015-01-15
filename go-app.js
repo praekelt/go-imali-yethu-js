@@ -8,6 +8,7 @@ go;
 go.app = function() {
     var vumigo = require('vumigo_v02');
     var _ = require('lodash');
+    var crypto = require('crypto');
     var moment = require('moment');
     var Q = require('q');
     var App = vumigo.App;
@@ -273,6 +274,23 @@ go.app = function() {
             return self.states.create('states:notify-success');
         };
 
+        self.calculate_gps_offsets = function(toilet_code) {
+        // This function calculated the required GPS offsets given the
+        // toilet_code string
+            var cluster_len = self.im.config.cluster_len || 0.0;
+            var issue_len = self.im.config.issue_len || 0.0;
+            var cluster_angle =
+                crypto.createHash('md5').update(toilet_code).digest()
+                .readInt16LE(0) / 32768.0 * Math.PI;
+            var issue_angle = (Math.random() * 2 - 1) * Math.PI;
+            return {
+                lon: cluster_len * Math.cos(cluster_angle)
+                    + issue_len * Math.cos(issue_angle),
+                lat: cluster_len * Math.sin(cluster_angle)
+                    + issue_len * Math.sin(issue_angle)
+            };
+        };
+
         self.create_ona_submission = function(data) {
             var submission = {
                 toilet_code: data.toilet.code,
@@ -281,14 +299,18 @@ go.app = function() {
                 issue: data.issue.value,
                 fault_status: 'logged',
                 logged_date: self.now(),
-                toilet_location: [data.toilet.lat, data.toilet.lon].join(' '),
                 msisdn: self.im.user.addr,
             };
 
-            if(submission.toilet_location === ' ') {
-                delete submission.toilet_location;
+            if ((typeof data.toilet.code === 'string') &&
+                (typeof data.toilet.lat === 'number') &&
+                (typeof data.toilet.lon === 'number')) {
+                var offsets = self.calculate_gps_offsets(data.toilet.code);
+                submission.toilet_location = [
+                    data.toilet.lat + offsets.lat,
+                    data.toilet.lon + offsets.lon,
+                ].join(' ');
             }
-
             submission = _.defaults(submission, {
                 toilet_code: data.query,
                 toilet_section: "None",
