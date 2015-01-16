@@ -5,28 +5,11 @@ import math
 from ona import OnaApiClient
 
 
-# self.calculate_gps_offsets = function(toilet_code) {
-# // This function calculated the required GPS offsets given the
-# // toilet_code string
-#     var cluster_len = self.im.config.cluster_len || 0.0;
-#     var issue_len = self.im.config.issue_len || 0.0;
-#     var cluster_angle =
-#         crypto.createHash('md5').update(toilet_code).digest()
-#         .readInt16LE(0) / 32768.0 * Math.PI;
-#     var issue_angle = (Math.random() * 2 - 1) * Math.PI;
-#     return {
-#         lon: cluster_len * Math.cos(cluster_angle)
-#             + issue_len * Math.cos(issue_angle),
-#         lat: cluster_len * Math.sin(cluster_angle)
-#             + issue_len * Math.sin(issue_angle)
-#     };
-# };
-
 def calculate_gps_offsets(toilet_code):
-    cluster_len = 0.00010
-    cluster_angle = int(hashlib.md5(toilet_code).hexdigest()[-4:], 16)
-    cluster_angle = (cluster_angle - 2 ** 15) / (2. ** 15) * math.pi
-
+    length = 0.00010
+    angle = int(hashlib.md5(toilet_code).hexdigest()[-4:], 16)
+    angle = (angle - 2 ** 15) / (2. ** 15) * math.pi
+    return length * math.cos(angle), length * math.sin(angle)
 
 
 def generate_location(lat, lon, toilet_code):
