@@ -1,16 +1,43 @@
 import argparse
+import hashlib
+import math
 
 from ona import OnaApiClient
 
 
-def generate_location(lat, lon):
+# self.calculate_gps_offsets = function(toilet_code) {
+# // This function calculated the required GPS offsets given the
+# // toilet_code string
+#     var cluster_len = self.im.config.cluster_len || 0.0;
+#     var issue_len = self.im.config.issue_len || 0.0;
+#     var cluster_angle =
+#         crypto.createHash('md5').update(toilet_code).digest()
+#         .readInt16LE(0) / 32768.0 * Math.PI;
+#     var issue_angle = (Math.random() * 2 - 1) * Math.PI;
+#     return {
+#         lon: cluster_len * Math.cos(cluster_angle)
+#             + issue_len * Math.cos(issue_angle),
+#         lat: cluster_len * Math.sin(cluster_angle)
+#             + issue_len * Math.sin(issue_angle)
+#     };
+# };
+
+def calculate_gps_offsets(toilet_code):
+    cluster_len = 0.00010
+    cluster_angle = int(hashlib.md5(toilet_code).hexdigest()[-4:], 16)
+    cluster_angle = (cluster_angle - 2 ** 15) / (2. ** 15) * math.pi
+
+
+
+def generate_location(lat, lon, toilet_code):
+    offset_lat, offset_lon = calculate_gps_offsets(toilet_code)
     return ' '.join([str(lat), str(lon)])
 
 CONVERSIONS = {
     'code': 'toilet_code', 'section': 'toilet_section',
     'cluster': 'toilet_cluster'}
 ADDITIONS = {
-    'toilet_location': (generate_location, ['lat', 'lon'])
+    'toilet_location': (generate_location, ['lat', 'lon', 'code'])
 }
 DEFAULTS = {
     'toilet_state': 'no_issue', 'toilet_issue': '', 'toilet_issue_date': ''}
