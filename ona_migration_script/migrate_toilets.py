@@ -14,7 +14,7 @@ def calculate_gps_offsets(toilet_code):
 
 def generate_location(lat, lon, toilet_code):
     offset_lat, offset_lon = calculate_gps_offsets(toilet_code)
-    return ' '.join([str(lat), str(lon)])
+    return ' '.join([str(lat + offset_lat), str(lon + offset_lon)])
 
 CONVERSIONS = {
     'code': 'toilet_code', 'section': 'toilet_section',
