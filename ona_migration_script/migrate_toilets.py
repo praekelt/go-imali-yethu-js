@@ -4,9 +4,25 @@ import math
 
 from ona import OnaApiClient
 
+parser = argparse.ArgumentParser(description='Migrate submissions')
+parser.add_argument(
+    'url', type=str,
+    help='The full URL to get the JSON toilet information from')
+parser.add_argument(
+    'to_id', type=str,
+    help="The id (number) of the form to migrate submissions to")
+parser.add_argument(
+    'length', type=float,
+    help="The radius of the circle for the GPS jitter.")
+parser.add_argument(
+    'username', type=str, help='The Ona username used to log in')
+parser.add_argument(
+    'password', type=str, help='The Ona password used to log in')
+args = parser.parse_args()
+
 
 def calculate_gps_offsets(toilet_code):
-    length = 0.00010
+    length = args.length
     angle = int(hashlib.md5(toilet_code).hexdigest()[-4:], 16)
     angle = (angle - 2 ** 15) / (2. ** 15) * math.pi
     return length * math.cos(angle), length * math.sin(angle)
@@ -24,19 +40,6 @@ ADDITIONS = {
 }
 DEFAULTS = {
     'toilet_state': 'no_issue', 'toilet_issue': '', 'toilet_issue_date': ''}
-
-parser = argparse.ArgumentParser(description='Migrate submissions')
-parser.add_argument(
-    'url', type=str,
-    help='The full URL to get the JSON toilet information from')
-parser.add_argument(
-    'to_id', type=str,
-    help="The id (number) of the form to migrate submissions to")
-parser.add_argument(
-    'username', type=str, help='The Ona username used to log in')
-parser.add_argument(
-    'password', type=str, help='The Ona password used to log in')
-args = parser.parse_args()
 
 client = OnaApiClient(args.username, args.password)
 
