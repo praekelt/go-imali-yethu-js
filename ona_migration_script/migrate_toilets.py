@@ -29,6 +29,8 @@ def calculate_gps_offsets(toilet_code):
 
 
 def generate_location(lat, lon, toilet_code):
+    if lat == 0.0 and lon == 0.0:
+        return '0.0 0.0'
     offset_lat, offset_lon = calculate_gps_offsets(toilet_code)
     return ' '.join([str(lat + offset_lat), str(lon + offset_lon)])
 
