@@ -1,19 +1,8 @@
 import argparse
+import hashlib
+import math
 
 from ona import OnaApiClient
-
-
-def generate_location(lat, lon):
-    return ' '.join([str(lat), str(lon)])
-
-CONVERSIONS = {
-    'code': 'toilet_code', 'section': 'toilet_section',
-    'cluster': 'toilet_cluster'}
-ADDITIONS = {
-    'toilet_location': (generate_location, ['lat', 'lon'])
-}
-DEFAULTS = {
-    'toilet_state': 'no_issue', 'toilet_issue': '', 'toilet_issue_date': ''}
 
 parser = argparse.ArgumentParser(description='Migrate submissions')
 parser.add_argument(
@@ -23,10 +12,36 @@ parser.add_argument(
     'to_id', type=str,
     help="The id (number) of the form to migrate submissions to")
 parser.add_argument(
+    'length', type=float,
+    help="The radius of the circle for the GPS jitter.")
+parser.add_argument(
     'username', type=str, help='The Ona username used to log in')
 parser.add_argument(
     'password', type=str, help='The Ona password used to log in')
 args = parser.parse_args()
+
+
+def calculate_gps_offsets(toilet_code):
+    length = args.length
+    angle = int(hashlib.md5(toilet_code).hexdigest()[-4:], 16)
+    angle = (angle - 2 ** 15) / (2. ** 15) * math.pi
+    return length * math.cos(angle), length * math.sin(angle)
+
+
+def generate_location(lat, lon, toilet_code):
+    if lat == 0.0 and lon == 0.0:
+        return '0.0 0.0'
+    offset_lat, offset_lon = calculate_gps_offsets(toilet_code)
+    return ' '.join([str(lat + offset_lat), str(lon + offset_lon)])
+
+CONVERSIONS = {
+    'code': 'toilet_code', 'section': 'toilet_section',
+    'cluster': 'toilet_cluster'}
+ADDITIONS = {
+    'toilet_location': (generate_location, ['lat', 'lon', 'code'])
+}
+DEFAULTS = {
+    'toilet_state': 'no_issue', 'toilet_issue': '', 'toilet_issue_date': ''}
 
 client = OnaApiClient(args.username, args.password)
 
