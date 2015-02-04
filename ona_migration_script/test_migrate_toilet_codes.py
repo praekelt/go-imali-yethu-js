@@ -1,4 +1,5 @@
 import json
+import re
 import requests
 from requests_testadapter import TestAdapter
 import unittest
@@ -54,3 +55,29 @@ class TestGetAllToilets(unittest.TestCase):
         with self.assertRaises(requests.HTTPError) as e:
             migrate_toilet_codes.get_all_toilets(s, url)
         self.assertEqual(e.exception.response.status_code, 404)
+
+
+class TestGetNewCode(unittest.TestCase):
+    def test_get_new_toilet_code(self):
+        source_regex = re.compile(r'^(\D+)(\d{3})(\d+)(\D+)$')
+        target_regex = r'\1\3'
+        toilet = {"code": "RR0007094FT"}
+        new_code = migrate_toilet_codes.get_new_code(
+            toilet, source_regex, target_regex)
+        self.assertEqual(new_code, 'RR7094')
+
+
+class TestChangeToiletCode(unittest.TestCase):
+    def test_change_toilet_code(self):
+        s = requests.Session()
+        url = 'http://www.example.org/toilet_codes/94'
+        toilet = {
+            "code": "RR007094FT",
+        }
+        return_data = {
+            "code": "RR094",
+        }
+        s.mount(url, TestAdapter(json.dumps(return_data)))
+        changed_toilet = migrate_toilet_codes.change_toilet_code(
+            s, url, toilet, 'RR094')
+        self.assertEqual(changed_toilet.json(), return_data)
