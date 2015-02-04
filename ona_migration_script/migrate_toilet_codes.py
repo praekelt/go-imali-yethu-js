@@ -8,3 +8,7 @@ parser.add_argument(
     'username', type=str, help='The username used to log in')
 parser.add_argument(
     'password', type=str, help='The password used to log in')
+parser.add_argument(
+    '--dryrun', '-d', action='store_true',
+    help='Print out changes instead of uploading them.')
+args = parser.parse_args()
