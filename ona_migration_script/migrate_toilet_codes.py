@@ -40,7 +40,7 @@ def get_new_code(toilet, source_regex, target_regex):
 
 def change_toilet_code(session, url, toilet, new_code):
     data = {'code': new_code}
-    url = urlparse.urljoin(url, str(toilet['id']))
+    url = '%s/' % urlparse.urljoin(url, str(toilet['id']))
     r = session.patch(url, json.dumps(data))
     r.raise_for_status()
     assert r.json()['code'] == new_code

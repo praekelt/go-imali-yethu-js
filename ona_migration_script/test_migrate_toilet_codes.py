@@ -70,11 +70,13 @@ class TestGetNewCode(unittest.TestCase):
 class TestChangeToiletCode(unittest.TestCase):
     def test_change_toilet_code(self):
         s = requests.Session()
-        url = 'http://www.example.org/toilet_codes/94'
+        url = 'http://www.example.org/toilet_codes/1/'
         toilet = {
+            "id": 1,
             "code": "RR007094FT",
         }
         return_data = {
+            "id": 1,
             "code": "RR094",
         }
         s.mount(url, TestAdapter(json.dumps(return_data)))
