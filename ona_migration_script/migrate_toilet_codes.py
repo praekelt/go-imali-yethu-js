@@ -53,6 +53,6 @@ if __name__ == '__main__':
     source_regex = re.compile(args.source_regex)
     for toilet in get_all_toilets(session, args.url):
         new_code = get_new_code(toilet, source_regex, args.target_regex)
+        print '%s %s' % (toilet['code'], new_code)
         if not args.dryrun:
             change_toilet_code(session, args.url, toilet, new_code)
-        print '%s %s' % (toilet['code'], new_code)
