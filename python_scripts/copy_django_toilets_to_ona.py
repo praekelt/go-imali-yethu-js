@@ -92,5 +92,5 @@ for toilet in toilet_data:
             "submission": new_toilet,
         })
     except:
-        print "Error sending form %s. Submission: " % form_id_string
-        print new_toilet
+        print("Error sending form %s. Submission: " % form_id_string)
+        print(new_toilet)

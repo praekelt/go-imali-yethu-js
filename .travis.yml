@@ -14,8 +14,7 @@ install:
   - "pip install -r python_scripts/requirements-dev.pip"
   - "npm install"
 script:
-  - "pep8 --repeat python_scripts"
-  - "pyflakes python_scripts"
+  - "flake8 python_scripts"
   - "py.test --cov=python_scripts python_scripts"
   - "npm test"
 after_success:

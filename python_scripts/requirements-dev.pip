@@ -1,3 +1,5 @@
 pytest
+pytest-cov
 requests-testadapter
 coverage
+flake8
