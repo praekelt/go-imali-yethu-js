@@ -4,7 +4,7 @@ import requests
 from requests_testadapter import TestAdapter
 import unittest
 
-import migrate_toilet_codes
+import django_change_toilet_code_field as migrate_toilet_codes
 
 
 class TestCreateSession(unittest.TestCase):
