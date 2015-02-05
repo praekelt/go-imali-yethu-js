@@ -8,7 +8,6 @@ python:
   - "3.2"
   - "3.3"
   - "3.4"
-  - "pypy"
 install:
   - "pip install -r python_scripts/requirements.pip"
   - "pip install -r python_scripts/requirements-dev.pip"
