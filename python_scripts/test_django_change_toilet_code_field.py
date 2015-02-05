@@ -52,9 +52,10 @@ class TestGetAllToilets(unittest.TestCase):
         s = requests.Session()
         url = 'http://www.example.org/toilet_codes/'
         s.mount(url, TestAdapter('', status=404))
-        with self.assertRaises(requests.HTTPError) as e:
+        try:
             migrate_toilet_codes.get_all_toilets(s, url)
-        self.assertEqual(e.exception.response.status_code, 404)
+        except requests.HTTPError as e:
+            self.assertEqual(e.response.status_code, 404)
 
 
 class TestGetNewCode(unittest.TestCase):
