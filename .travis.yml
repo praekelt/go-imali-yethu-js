@@ -18,6 +18,7 @@ install:
 script:
   - "flake8 python_scripts"
   - "py.test --cov=python_scripts python_scripts"
+  - "node --version"
   - "npm test"
 after_success:
   - coveralls
