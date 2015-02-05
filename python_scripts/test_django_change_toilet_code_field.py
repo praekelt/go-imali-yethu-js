@@ -44,14 +44,14 @@ class TestGetAllToilets(unittest.TestCase):
                 "toilet_type": "FT"
             }
         ]
-        s.mount(url, TestAdapter(json.dumps(return_data)))
+        s.mount(url, TestAdapter(json.dumps(return_data).encode()))
         toilets = migrate_toilet_codes.get_all_toilets(s, url)
         self.assertEqual(return_data, toilets)
 
     def test_http_errors_raised(self):
         s = requests.Session()
         url = 'http://www.example.org/toilet_codes/'
-        s.mount(url, TestAdapter('', status=404))
+        s.mount(url, TestAdapter(b'', status=404))
         try:
             migrate_toilet_codes.get_all_toilets(s, url)
         except requests.HTTPError as e:
@@ -80,7 +80,7 @@ class TestChangeToiletCode(unittest.TestCase):
             "id": 1,
             "code": "RR094",
         }
-        s.mount(url, TestAdapter(json.dumps(return_data)))
+        s.mount(url, TestAdapter(json.dumps(return_data).encode()))
         changed_toilet = migrate_toilet_codes.change_toilet_code(
             s, url, toilet, 'RR094')
         self.assertEqual(changed_toilet.json(), return_data)
