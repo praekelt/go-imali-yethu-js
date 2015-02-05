@@ -49,13 +49,13 @@ class OnaApiClient(object):
         """
         Retrieve a form with form ID ``formid``
         """
-        return self._api_request("GET", "forms", formid)
+        return self._api_request("GET", "forms", str(formid))
 
     def get_form_information(self, formid):
         """
         Retrieve all the form information (fields)
         """
-        return self._api_request("GET", "forms", formid + '/form.json')
+        return self._api_request("GET", "forms", str(formid) + '/form.json')
 
     def data_endpoints(self):
         """
@@ -67,10 +67,10 @@ class OnaApiClient(object):
         """
         Retrieve the data for a specific form
         """
-        return self._api_request("GET", "data", formid)
+        return self._api_request("GET", "data", str(formid))
 
     def submission(self, data):
         """
         Send a form submission with data ``data``.
         """
-        self._api_request("POST", "submissions", "", data=data)
+        return self._api_request("POST", "submissions", "", data=data)
