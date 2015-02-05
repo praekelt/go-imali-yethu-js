@@ -1,4 +1,4 @@
-language: node_js
+language: python
 node_js:
   - "0.11"
   - "0.10"
@@ -12,9 +12,11 @@ python:
 install:
   - "pip install -r python_scripts/requirements.pip"
   - "pip install -r python_scripts/requirements-dev.pip"
+  - "npm install"
 script:
   - "pep8 --repeat python_scripts"
   - "pyflakes python_scripts"
   - "py.test --cov=python_scripts python_scripts"
+  - "npm test"
 after_success:
   - coveralls
