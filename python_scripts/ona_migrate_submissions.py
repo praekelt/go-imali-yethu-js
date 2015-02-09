@@ -51,5 +51,5 @@ for submission in client.data_for_form(args.from_id):
             "submission": new_submission,
         })
     except:
-        print "Error sending form %s. Submission: " % form_id_string
-        print new_submission
+        print("Error sending form %s. Submission: " % form_id_string)
+        print(new_submission)

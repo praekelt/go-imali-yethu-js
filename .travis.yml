@@ -1,4 +1,12 @@
-language: node_js
-node_js:
-  - "0.11"
-  - "0.10"
+language: python
+matrix:
+  include:
+    - python: "2.6"
+    - python: "2.7"
+    - python: "3.2"
+    - python: "3.3"
+    - python: "3.4"
+    - env: NODE_VERSION=0.10
+    - env: NODE_VERSION=0.11
+script:
+  - ./run_tests.sh

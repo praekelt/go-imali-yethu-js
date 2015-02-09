@@ -2,7 +2,10 @@ import argparse
 import json
 import re
 import requests
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse as urlparse
 
 parser = argparse.ArgumentParser(description='Migrate toilet codes')
 parser.add_argument(
@@ -18,7 +21,7 @@ parser.add_argument(
     'target_regex', type=str, help='The regex construction of the new code')
 parser.add_argument(
     '--dryrun', '-d', action='store_true',
-    help='Print out changes instead of uploading them.')
+    help='Do not upload changes, just print them.')
 
 
 def create_session(user, password):
@@ -53,6 +56,6 @@ if __name__ == '__main__':
     source_regex = re.compile(args.source_regex)
     for toilet in get_all_toilets(session, args.url):
         new_code = get_new_code(toilet, source_regex, args.target_regex)
-        print '%s %s' % (toilet['code'], new_code)
+        print('%s %s' % (toilet['code'], new_code))
         if not args.dryrun:
             change_toilet_code(session, args.url, toilet, new_code)

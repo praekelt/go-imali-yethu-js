@@ -4,7 +4,7 @@ import requests
 from requests_testadapter import TestAdapter
 import unittest
 
-import migrate_toilet_codes
+import django_change_toilet_code_field as migrate_toilet_codes
 
 
 class TestCreateSession(unittest.TestCase):
@@ -44,17 +44,18 @@ class TestGetAllToilets(unittest.TestCase):
                 "toilet_type": "FT"
             }
         ]
-        s.mount(url, TestAdapter(json.dumps(return_data)))
+        s.mount(url, TestAdapter(json.dumps(return_data).encode()))
         toilets = migrate_toilet_codes.get_all_toilets(s, url)
         self.assertEqual(return_data, toilets)
 
     def test_http_errors_raised(self):
         s = requests.Session()
         url = 'http://www.example.org/toilet_codes/'
-        s.mount(url, TestAdapter('', status=404))
-        with self.assertRaises(requests.HTTPError) as e:
+        s.mount(url, TestAdapter(b'', status=404))
+        try:
             migrate_toilet_codes.get_all_toilets(s, url)
-        self.assertEqual(e.exception.response.status_code, 404)
+        except requests.HTTPError as e:
+            self.assertEqual(e.response.status_code, 404)
 
 
 class TestGetNewCode(unittest.TestCase):
@@ -79,7 +80,7 @@ class TestChangeToiletCode(unittest.TestCase):
             "id": 1,
             "code": "RR094",
         }
-        s.mount(url, TestAdapter(json.dumps(return_data)))
+        s.mount(url, TestAdapter(json.dumps(return_data).encode()))
         changed_toilet = migrate_toilet_codes.change_toilet_code(
             s, url, toilet, 'RR094')
         self.assertEqual(changed_toilet.json(), return_data)
