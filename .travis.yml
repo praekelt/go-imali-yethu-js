@@ -10,3 +10,5 @@ matrix:
     - env: NODE_VERSION=0.11
 script:
   - ./run_tests.sh
+after_success:
+  - converalls
