@@ -7,8 +7,9 @@ if [ -n "$NODE_VERSION" ]; then
     npm install
     npm test
 else
+    pip install coveralls
     pip install -r python_scripts/requirements.pip
     pip install -r python_scripts/requirements-dev.pip
     flake8 python_scripts
-    py.test --cov=python_scripts python_scripts
+    py.test --cov=python_scripts python_scripts && coveralls
 fi
