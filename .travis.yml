@@ -2,23 +2,11 @@ language: python
 matrix:
   include:
     - python: "2.6"
-      node_js: "0.10"
     - python: "2.7"
-      node_js: "0.11"
     - python: "3.2"
-      node_js: "0.10"
     - python: "3.3"
-      node_js: "0.10"
     - python: "3.4"
-      node_js: "0.11"
-install:
-  - "pip install -r python_scripts/requirements.pip"
-  - "pip install -r python_scripts/requirements-dev.pip"
-  - "npm install"
+    - env: NODE_VERSION=0.10
+    - env: NODE_VERSION=0.11
 script:
-  - "flake8 python_scripts"
-  - "py.test --cov=python_scripts python_scripts"
-  - "node --version"
-  - "npm test"
-after_success:
-  - coveralls
+  - ./run_tests.sh
