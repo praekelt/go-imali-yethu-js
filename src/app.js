@@ -323,7 +323,6 @@ go.app = function() {
                 issue: data.issue.value,
                 lang: self.im.user.lang,
                 tags: snappy_conf.tags,
-                timestamp: self.now(),
             }, {
                 code: data.query,
                 lat: "None",
@@ -340,7 +339,7 @@ go.app = function() {
                 "Issue: " + toilet.issue,
                 "Language: " + toilet.lang,
                 "Tags: " + toilet.tags,
-                "Timestamp: " + toilet.timestamp,
+                "Timestamp: " + self.now(),
             ].join('\n');
         };
 
