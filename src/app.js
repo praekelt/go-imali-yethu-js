@@ -339,6 +339,7 @@ go.app = function() {
                 "Issue: " + toilet.issue,
                 "Language: " + toilet.lang,
                 "Tags: " + toilet.tags,
+                "Timestamp: " + self.now(),
             ].join('\n');
         };
 

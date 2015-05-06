@@ -188,7 +188,7 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
-                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: en\nTags: -"
+                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: en\nTags: -\nTimestamp: 1970-01-01T02:00:01+02:00"
             }
         },
         "response": {
@@ -206,7 +206,7 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
-                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: xh\nTags: -"
+                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: xh\nTags: -\nTimestamp: 1970-01-01T02:00:01+02:00"
             }
         },
         "response": {
@@ -224,7 +224,7 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
-                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: en\nTags: @foo @bar"
+                "message": "Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: broken_toilet\nLanguage: en\nTags: @foo @bar\nTimestamp: 1970-01-01T02:00:01+02:00"
             }
         },
         "response": {
@@ -242,7 +242,7 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
-                "message":"Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: Custom issue\nLanguage: en\nTags: -"
+                "message":"Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: Custom issue\nLanguage: en\nTags: -\nTimestamp: 1970-01-01T02:00:01+02:00"
             }
         },
         "response": {
@@ -260,7 +260,7 @@ module.exports = function() {
                 "contact_key": "34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                 "msisdn": "+12345",
                 "conversation": "/api/v1/snappybouncer/conversation/1/",
-                "message":"Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: Error issue\nLanguage: en\nTags: -"
+                "message":"Toilet code: MN34\nToilet latitude: -34.01667\nToilet longitude: -18.66404\nIssue: Error issue\nLanguage: en\nTags: -\nTimestamp: 1970-01-01T02:00:01+02:00"
             }
         },
         "response": {

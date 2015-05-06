@@ -611,7 +611,8 @@ describe("App", function() {
                             "Toilet code: MN34\nToilet latitude: -34.01667\n" +
                             "Toilet longitude: -18.66404\nIssue: broken_toilet\n" +
                             "Language: en\n" +
-                            "Tags: -"
+                            "Tags: -\n" +
+                            "Timestamp: 1970-01-01T02:00:01+02:00"
                     });
                 })
                 .run();
@@ -640,7 +641,8 @@ describe("App", function() {
                             "Toilet code: MN34\nToilet latitude: -34.01667\n" +
                             "Toilet longitude: -18.66404\nIssue: broken_toilet\n" +
                             "Language: xh\n" +
-                            "Tags: -"
+                            "Tags: -\n" +
+                            "Timestamp: 1970-01-01T02:00:01+02:00"
                     });
                 })
                 .run();
@@ -688,7 +690,7 @@ describe("App", function() {
                 .run();
         });
 
-        it("should include the custom tags in the mesage to snappy", function() {
+        it("should include the custom tags in the message to snappy", function() {
             return tester
                 .setup.user.lang('en')
                 .setup.user.addr('+12345')
@@ -708,9 +710,14 @@ describe("App", function() {
                         "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
-                        "message":"Toilet code: MN34\nToilet latitude:" +
-                            " -34.01667\nToilet longitude: -18.66404\n" +
-                            "Issue: broken_toilet\nLanguage: en\nTags: @foo @bar"
+                        "message":
+                            "Toilet code: MN34\n" +
+                            "Toilet latitude: -34.01667\n" +
+                            "Toilet longitude: -18.66404\n" +
+                            "Issue: broken_toilet\n" +
+                            "Language: en\n" +
+                            "Tags: @foo @bar\n" +
+                            "Timestamp: 1970-01-01T02:00:01+02:00"
                     });
                 })
                 .run();
@@ -877,9 +884,14 @@ describe("App", function() {
                         "contact_key":"34f1343f-fb98-41a1-20b1-b7d9e45e99d2",
                         "msisdn": "+12345",
                         "conversation":"/api/v1/snappybouncer/conversation/1/",
-                        "message":"Toilet code: MN34\nToilet latitude:" +
-                            " -34.01667\nToilet longitude: -18.66404\n" +
-                            "Issue: Custom issue\nLanguage: en\nTags: -"
+                        "message":
+                            "Toilet code: MN34\n" +
+                            "Toilet latitude: -34.01667\n" +
+                            "Toilet longitude: -18.66404\n" +
+                            "Issue: Custom issue\n" +
+                            "Language: en\n" +
+                            "Tags: -\n" +
+                            "Timestamp: 1970-01-01T02:00:01+02:00"
                     });
                 })
                 .run();
